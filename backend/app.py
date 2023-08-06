@@ -58,6 +58,7 @@ class Company(db.Model):
     address = db.Column(db.String, nullable=False)
     website = db.Column(db.String)
     contact = db.Column(db.String, nullable=False, unique=True)
+    logo_url = db.Column(db.String)
     jobvacancy = db.relationship("JobVacancy", backref="company")
 
     def __repr__(self):
@@ -887,6 +888,7 @@ def searchJobs():
             "location": j.location,
             "position": j.position,
             "salary": j.salary,
+            "logo_url": j.company.logo_url,
         }
         for j in jobs
     ]

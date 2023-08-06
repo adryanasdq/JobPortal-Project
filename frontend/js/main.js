@@ -30,6 +30,12 @@ function createJobCard(dataItem) {
 	companyLogo.classList.add('company-logo');
 	logoCol.appendChild(companyLogo);
 
+	const logoImg = document.createElement('img');
+	logoImg.src = dataItem.logo_url;
+	logoImg.classList.add('img-responsive');
+	logoImg.alt = dataItem.company;
+	companyLogo.appendChild(logoImg);
+
 	const contentCol = document.createElement('div');
 	contentCol.classList.add('col-md-10', 'col-sm-10');
 	row.appendChild(contentCol);
