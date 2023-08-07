@@ -1,13 +1,18 @@
-$(document).ready(function () {
-	$("#testimonial-slider").owlCarousel({
-		items: 1,
-		itemsDesktop: [1000, 1],
-		itemsDesktopSmall: [979, 1],
-		itemsTablet: [768, 1],
-		pagination: true,
-		autoPlay: false
-	});
-});
+$(".card").on("click", function() {
+    $(".detail").addClass("active");
+})
+
+$(".close-detail").on("click", function() {
+    $(".detail").removeClass("active");
+})
+
+$(".menu-bar").on("click", function() {
+    $(".sidebar").addClass("active");
+})
+
+$(".logo").on("click", function() {
+    $(".sidebar").removeClass("active")
+})
 
 // Get all job
 const filterSearch = document.getElementById('job-filter');

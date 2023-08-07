@@ -8,7 +8,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config[
     "SQLALCHEMY_DATABASE_URI"
-] = "postgresql://postgres:admin@localhost:5433/portproject"
+] = "postgresql://postgres:admin@localhost:5432/postgres"
 db = SQLAlchemy(app)
 CORS(app)
 
@@ -96,16 +96,10 @@ class Application(db.Model):
         db.Integer,
         db.Sequence("application_id_seq", start=401, maxvalue=499, cycle=True),
         primary_key=True,
-    )
-    job_id = db.Column(
-        db.Integer, db.ForeignKey("portaljob.job_vacancy.id"), primary_key=True
-    )
-    jobseeker_id = db.Column(
-        db.Integer, db.ForeignKey("portaljob.job_seeker.id"), primary_key=True
-    )
-    status = db.Column(
-        db.String, db.CheckConstraint("status IN ('applied', 'accepted', 'rejected')")
-    )
+)
+    job_id = db.Column(db.Integer, db.ForeignKey("portaljob.job_vacancy.id"), primary_key=True)
+    jobseeker_id = db.Column(db.Integer, db.ForeignKey("portaljob.job_seeker.id"), primary_key=True)
+    status = db.Column(db.String, db.CheckConstraint("status IN ('applied', 'accepted', 'rejected')"))
     cover_letter = db.Column(db.Text)
     note = db.Column(db.String)
 
