@@ -6,5 +6,5 @@ function logout(event) {
 
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("username");
-    window.location.href = 'index.html'
+    window.location.href = 'landing.html'
 }
