@@ -15,11 +15,11 @@
         <h1 class="logo">Get a Life!</h1>
         <h4 class="sub-logo">A Portal to Your Future</h4>
         <div class="menus">
-            <a href="#"><ion-icon name="home-outline"></ion-icon>Home</a>
-            <a href="jobs.html"><ion-icon name="newspaper-outline"></ion-icon>Find Jobs</a>
-            <a href="#"><ion-icon name="stats-chart-outline"></ion-icon>Performance</a>
-            <a href="#"><ion-icon name="bookmarks-outline"></ion-icon>Bookmark</a>
-            <a href="#"><ion-icon name="mail-unread-outline"></ion-icon>Message</a>
+            <a href="home-jobseeker.html"><ion-icon name="home-outline"></ion-icon>Home</a>
+            <a href="jobs-jobseeker.html"><ion-icon name="newspaper-outline"></ion-icon>Find Jobs</a>
+            <a href="foryou-jobseeker.html"><ion-icon name="bookmarks-outline"></ion-icon>For You</a>
+            <a href="#"><ion-icon name="stats-chart-outline"></ion-icon>My Applications</a>
+            <a href="#"><ion-icon name="book-outline"></ion-icon>Profile</a>
             <a href="landing.html" id="logout"><ion-icon name="power-outline"></ion-icon>Logout</a>
         </div>
         <div class="profile">
@@ -35,10 +35,24 @@
     <div class="main">
         <div class="main-header">
             <ion-icon class="menu-bar" name="menu-outline"></ion-icon>
-            <div class="search">
-                <input type="text" placeholder="Type a job title here">
+            <form class="search">
+                <input class="job-position" type="text" placeholder="Job Title">
+                <input class="job-major" type="text" placeholder="Major">
+                <input class="job-salary" type="number" placeholder="Salary" min="1000000" step="10000">
+                <select class="job-location" name="location">
+                    <option value="" selected>Location</option>
+                    <option value="Bandung">Bandung</option>
+                    <option value="Surabaya">Surabaya</option>
+                    <option value="Jakarta">Jakarta</option>
+                    <option value="Bekasi">Bekasi</option>
+                    <option value="Banjar">Banjar</option>
+                    <option value="Jogjakarta">Jogjakarta</option>
+                    <option value="Tangerang">Tangerang</option>
+                    <option value="Madura">Madura</option>
+                    <option value="Depok">Depok</option>
+                </select>
                 <button class="btn-search"><ion-icon name="search-outline"></ion-icon></button>
-            </div>
+            </form>
         </div>
         
         <div class="filter-wrapper">
@@ -80,85 +94,6 @@
                     </div>
                 </div>
                 <div class="card-right">
-                    <div class="card-tag">
-                        <h5>Division</h5>
-                        <a href="#">Data Engineer</a>
-                    </div>
-                    <div class="card-salary">
-                        <p><b>$350k</b> <span>/ year</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-left">
-                    <img src="img/google.png" alt="">
-                </div>
-                <div class="card-center">
-                    <h3>Google</h3>
-                    <p class="card-detail">Data Science, Data Engineer</p>
-                    <p class="card-loc"><ion-icon name="location-outline"></ion-icon>ABCD street</p>
-                    <div class="card-sub">
-                        <p><ion-icon name="today-outline"></ion-icon>1 minutes ago</p>
-                        <p><ion-icon name="hourglass-outline"></ion-icon>Full-time</p>
-                        <p><ion-icon name="people-outline"></ion-icon>200 Applicants</p>
-                    </div>
-                </div>
-                <div class="card-right">
-                    <div class="card-tag">
-                        <h5>Division</h5>
-                        <a href="#">Data Engineer</a>
-                    </div>
-                    <div class="card-salary">
-                        <p><b>$350k</b> <span>/ year</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-left">
-                    <img src="img/google.png" alt="">
-                </div>
-                <div class="card-center">
-                    <h3>Google</h3>
-                    <p class="card-detail">Data Science, Data Engineer</p>
-                    <p class="card-loc"><ion-icon name="location-outline"></ion-icon>ABCD street</p>
-                    <div class="card-sub">
-                        <p><ion-icon name="today-outline"></ion-icon>1 minutes ago</p>
-                        <p><ion-icon name="hourglass-outline"></ion-icon>Full-time</p>
-                        <p><ion-icon name="people-outline"></ion-icon>200 Applicants</p>
-                    </div>
-                </div>
-                <div class="card-right">
-                    <div class="card-tag">
-                        <h5>Division</h5>
-                        <a href="#">Data Engineer</a>
-                    </div>
-                    <div class="card-salary">
-                        <p><b>$350k</b> <span>/ year</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-left">
-                    <img src="img/google.png" alt="">
-                </div>
-                <div class="card-center">
-                    <h3>Google</h3>
-                    <p class="card-detail">Data Science, Data Engineer</p>
-                    <p class="card-loc"><ion-icon name="location-outline"></ion-icon>ABCD street</p>
-                    <div class="card-sub">
-                        <p><ion-icon name="today-outline"></ion-icon>1 minutes ago</p>
-                        <p><ion-icon name="hourglass-outline"></ion-icon>Full-time</p>
-                        <p><ion-icon name="people-outline"></ion-icon>200 Applicants</p>
-                    </div>
-                </div>
-                <div class="card-right">
-                    <div class="card-tag">
-                        <h5>Division</h5>
-                        <a href="#">Data Engineer</a>
-                    </div>
                     <div class="card-salary">
                         <p><b>$350k</b> <span>/ year</span></p>
                     </div>
