@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login to Get a Life!</title>
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/landing.css">
 </head>
 
 <body>
@@ -25,13 +25,15 @@
             </div>
 
             <div class="form-inner">
-                <form action="#" class="login">
+                <form class="login">
                     <div class="field">
-                        <input type="text" placeholder="Email Address" required>
+                        <input class="username" type="text" placeholder="Username" required>
                     </div>
+
                     <div class="field">
-                        <input type="password" placeholder="Password" required>
+                        <input class="password" type="password" placeholder="Password" required>
                     </div>
+
                     <div class="field btn">
                         <div class="btn-layer"></div>
                         <input type="submit" value="Login">
@@ -39,42 +41,48 @@
                     <div class="signup-link">Don't have an account? <a href="">Signup now</a></div>
                 </form>
 
-                <form action="#" class="signup">
+                <form class="signup">
                     <div class="field">
-                        <select name="role" id="role" class="select-field" required>
+                        <select name="role" class="select-field role" required>
                             <option value="" selected disabled>Choose your role</option>
                             <option value="jobseeker">JobSeeker</option>
                             <option value="company">Company</option>
                         </select>
                     </div>
+
                     <div class="field">
-                        <input type="text" placeholder="Full Name" required>
+                        <input class="name" type="text" placeholder="Full Name" required>
                     </div>
+
                     <div class="field">
-                        <input type="email" placeholder="Email" required>
+                        <input class="email" type="email" placeholder="Email" required>
                     </div>
+
                     <div class="field">
-                        <input type="text" placeholder="Username" required>
+                        <input class="username" type="text" placeholder="Username" required>
                     </div>
+
                     <div class="field">
-                        <input type="password" placeholder="Password" required>
+                        <input class="password" type="password" placeholder="Password" required>
                     </div>
+
                     <div class="field">
-                        <input type="text" placeholder="Address">
+                        <input class="address" type="text" placeholder="Address">
                     </div>
+
                     <div class="field">
-                        <input type="text" placeholder="Contact">
+                        <input class="contact" type="text" placeholder="Contact">
                     </div>
+
                     <div class="field btn">
                         <div class="btn-layer"></div>
                         <input type="submit" value="Signup">
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
 </body>
-<script src="js/login.js"></script>
+<script src="js/landing.js"></script>
 
 </html>
