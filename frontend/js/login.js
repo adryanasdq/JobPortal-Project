@@ -1,7 +1,7 @@
 let formLogin = document.getElementById('login-form')
-formLogin.addEventListener('submit', signIn)
+formLogin.addEventListener('submit', login)
 
-function signIn(event) {
+function login(event) {
     event.preventDefault()
 
     let username = formLogin.querySelector('.username').value;
@@ -20,20 +20,24 @@ function signIn(event) {
 
     fetch('http://127.0.0.1:5000/login', requestOptions)
         .then((response) => {
-            if (response.ok === false) {
-                throw new Error('failed')
+            if (!response.ok) {
+                throw new Error('Login failed! check username or password')
             } else {
-                return response.text()
+                return response.json()
             }
         })
-        .then((txtResp) => {
-            if (txtResp[0] === '1') {
-                alert('Company')
+        .then((jsonResp) => {
+            if (jsonResp.id.toString()[0] === '1') {
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem("username", jsonResp.username)
+                window.location.href = 'home-company.html'
             } else {
-                alert('JobSeeker')
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem("username", jsonResp.username)
+                window.location.href = 'home-jobseeker.html'
             }
         })
         .catch((error) => {
-            console.error('Error:', error.message)
+            alert(error.message)
         })
 }

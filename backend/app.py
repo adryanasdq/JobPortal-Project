@@ -141,10 +141,18 @@ def login():
     loginFailed = False
 
     if jobseeker:
-        return str(jobseeker.id)
+        return {
+            "id": jobseeker.id,
+            "username": jobseeker.username,
+            "name": jobseeker.first_name
+        }
 
     elif company:
-        return str(company.id)
+        return {
+            "id": company.id,
+            "username": company.username,
+            "name": company.name
+        }
 
     else:
         loginFailed = True

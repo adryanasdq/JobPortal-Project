@@ -37,7 +37,7 @@ function signUp(event) {
             }
         })
         .then((jsonResp) => {
-            console.log(jsonResp)
+            alert(jsonResp.status + " " + jsonResp.message)
             window.location.href = 'login.html';
         })
         .catch((error) => {
