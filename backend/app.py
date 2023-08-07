@@ -890,6 +890,7 @@ def searchJobs():
             "location": j.location,
             "position": j.position,
             "salary": j.salary,
+            "posted": j.posted_on,
             "logo_url": j.company.logo_url,
         }
         for j in jobs
