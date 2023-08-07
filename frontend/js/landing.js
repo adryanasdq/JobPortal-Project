@@ -47,7 +47,7 @@ async function login(e) {
         if (userStringId[0] === '1') {
             localStorage.setItem("isLoggedIn", true);
             localStorage.setItem("username", result.username);
-            window.location.href = "";
+            window.location.href = "home-company.html";
         } else {
             localStorage.setItem("isLoggedIn", true);
             localStorage.setItem("username", result.username)

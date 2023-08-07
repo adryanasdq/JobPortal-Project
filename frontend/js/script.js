@@ -14,65 +14,36 @@ $(".logo").on("click", function() {
     $(".sidebar").removeClass("active")
 })
 
-// Get all job
-const filterSearch = document.getElementById('job-filter');
+
+function createJobCard(jobData) {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+        <div class="card-left">
+            <img src="${jobData.logo_url}" alt="">
+        </div>
+        <div class="card-center">
+            <h3>${jobData.company}</h3>
+            <p class="card-detail">${jobData.position}</p>
+            <p class="card-loc"><ion-icon name="location-outline"></ion-icon>${jobData.location}</p>
+            <div class="card-sub">
+                <p><ion-icon name="today-outline"></ion-icon>${jobData.posted_on}</p>
+                <p><ion-icon name="hourglass-outline"></ion-icon>Full Time</p>
+                <p><ion-icon name="people-outline"></ion-icon>200 applicants</p>
+            </div>
+        </div>
+        <div class="card-right">
+            <div class="card-salary">
+                <p><b>Rp. ${jobData.salary}</b> <span>/ month</span></p>
+            </div>
+        </div>
+    `;
+    return card;
+}
+
+const filterSearch = document.querySelector("form.search");
 filterSearch.addEventListener('submit', getJobs)
 
-// create card for every jobs
-function createJobCard(dataItem) {
-	const companyList = document.createElement('div');
-	companyList.classList.add('company-list');
-
-	const row = document.createElement('div');
-	row.classList.add('row');
-	companyList.appendChild(row);
-
-	const logoCol = document.createElement('div');
-	logoCol.classList.add('col-md-2', 'col-sm-2');
-	row.appendChild(logoCol);
-
-	const companyLogo = document.createElement('div');
-	companyLogo.classList.add('company-logo');
-	logoCol.appendChild(companyLogo);
-
-	const logoImg = document.createElement('img');
-	logoImg.src = dataItem.logo_url;
-	logoImg.classList.add('img-responsive');
-	logoImg.alt = dataItem.company;
-	companyLogo.appendChild(logoImg);
-
-	const contentCol = document.createElement('div');
-	contentCol.classList.add('col-md-10', 'col-sm-10');
-	row.appendChild(contentCol);
-
-	const companyContent = document.createElement('div');
-	companyContent.classList.add('company-content');
-	contentCol.appendChild(companyContent);
-
-	const jobTitle = document.createElement('h3');
-	jobTitle.textContent = dataItem.position;
-	companyContent.appendChild(jobTitle);
-
-	const jobInfo = document.createElement('p');
-	companyContent.appendChild(jobInfo);
-
-	const companyName = document.createElement('span');
-	companyName.classList.add('company-name');
-	companyName.innerHTML = `<i class="fa fa-briefcase"></i> ${dataItem.company}`;
-	jobInfo.appendChild(companyName);
-
-	const companyLocation = document.createElement('span');
-	companyLocation.classList.add('company-location');
-	companyLocation.innerHTML = `<i class="fa fa-map-marker"></i> ${dataItem.location}`;
-	jobInfo.appendChild(companyLocation);
-
-	const salaryRange = document.createElement('span');
-	salaryRange.classList.add('package');
-	salaryRange.innerHTML = `<i class="fa fa-money"></i> ${dataItem.salary}`;
-	jobInfo.appendChild(salaryRange);
-
-	return companyList;
-}
 
 function getJobs(e) {
 	e.preventDefault()
@@ -94,7 +65,7 @@ function getJobs(e) {
 		url += `&location=${location}`
 	};
 
-	const jobContainer = document.querySelector('.jobs-container');
+	const jobContainer = document.querySelector('.wrapper');
 	jobContainer.innerHTML = '';
 
 	fetch(url, {
