@@ -150,7 +150,7 @@ def login():
 
     else:
         loginFailed = True
-        return {"message": "Login Failed!"}, 400
+        return {"message": "Username does not exist or password is not matched"}, 400
 
 
 # _________________________________________Jobseeker and Company Register_________________________________________
