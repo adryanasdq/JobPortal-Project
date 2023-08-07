@@ -123,7 +123,7 @@ body {
     background-color: var(--whiteColor);
 }
 
-.search input {
+.search input, select {
     width: 90%;
     border: none;
 }
@@ -179,6 +179,7 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    /* margin-top: 0.1rem; */
     gap: 0.5rem;
 }
 
@@ -211,14 +212,10 @@ body {
     margin: 0 1%;
     background-color: var(--whiteColor);
     line-height: 1.5;
-    gap: 1.5rem;
+    gap: 0.5rem;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px;
     cursor: pointer;
-}
-
-.card:hover {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .card-left {
@@ -239,39 +236,8 @@ body {
     width: 50%;
 }
 
-.card-loc, .card-sub {
-    font-size: 13px;
-    color: var(--darkGreyColor);
-}
-
-.card-sub {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.card-sub p {
-    display: flex;
-    padding: 0 0.5rem 0 0;
-    align-items: center;
-}
-
-.card-right {
-    width: 15%;
-}
-
-.card-tag {
-    color: var(--fontColor);
-    font-size: 13px;
-}
-
-.card-salary {
-    padding: 0.5rem 0;
-    color: var(--primaryColor);
-}
-
-.card-salary span {
-    color: var(--fontColor);
-    font-size: 13px;
+.card:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .detail {
@@ -363,6 +329,7 @@ body {
     width: 220px;
     z-index: 100;
 }
+
 
 
 /* For screen with max width 880px */
