@@ -42,15 +42,19 @@ async function login(e) {
     const response = await fetch('http://127.0.0.1:5000/login', requestOptions);
     const result = await response.json();
 
+    const encodedUsername = btoa(result.username);
+    const encodedPassword = btoa(result.password);
+
     try {
         const userStringId = result.id.toString();
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("id", result.id);
+        localStorage.setItem("name", result.name);
+        localStorage.setItem("username", encodedUsername);
+        localStorage.setItem("password", encodedPassword);
         if (userStringId[0] === '1') {
-            localStorage.setItem("isLoggedIn", true);
-            localStorage.setItem("username", result.username);
             window.location.href = "home-company.html";
         } else {
-            localStorage.setItem("isLoggedIn", true);
-            localStorage.setItem("username", result.username)
             window.location.href = "home-jobseeker.html"
         };
     } catch {

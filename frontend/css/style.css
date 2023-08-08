@@ -236,6 +236,11 @@ body {
     width: 50%;
 }
 
+.card-salary p {
+    display: flex;
+    flex-direction: row;
+}
+
 .card:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
