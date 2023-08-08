@@ -35,6 +35,7 @@ class JobSeeker(db.Model):
     contact = db.Column(db.String, nullable=False, unique=True)
     address = db.Column(db.String, nullable=False)
     summary = db.Column(db.Text)
+    url_pict = db.Column(db.Text)
     application = db.relationship("Application", backref="jobseeker")
 
     def __repr__(self):
@@ -138,6 +139,7 @@ def login():
         return {
             "id": jobseeker.id,
             "username": jobseeker.username,
+            "password": jobseeker.password,
             "name": jobseeker.first_name
         }
 
@@ -145,6 +147,7 @@ def login():
         return {
             "id": company.id,
             "username": company.username,
+            "password": company.password,
             "name": company.name
         }
 
@@ -231,7 +234,7 @@ def getJobseekerDetail(id):
         }, 401
 
     # Only the owner and the company to which the owner applied have access
-    elif user.id == id or user.id in [
+    elif user.get("id") == id or user.get("id") in [
         company.company_id for company in company_applied
     ]:
         response = {
@@ -272,7 +275,7 @@ def updateJobseeker(id):
         }, 401
 
     seeker = db.session.query(JobSeeker).filter(JobSeeker.id == id).first()
-    if user.id == id:
+    if user.get("id") == id:
         data = request.get_json()
 
         seeker.password = data.get("password", seeker.password)
@@ -320,7 +323,7 @@ def updateCompany(id):
         }, 401
 
     company = db.session.query(Company).filter(Company.id == id).first()
-    if user.id == id:
+    if user.get("id") == id:
         data = request.get_json()
 
         company.password = data.get("password", company.password)
@@ -394,10 +397,10 @@ def postJob():
             "message": "Please check username and password!",
         }, 401
 
-    elif str(user.id).startswith("1"):
+    elif str(user.get("id")).startswith("1"):
         data = request.get_json()
         new_job = JobVacancy(
-            company_id=user.id,
+            company_id=user.get("id"),
             position=data.get("position"),
             location=data.get("location"),
             posted_on=datetime.today(),
@@ -442,9 +445,9 @@ def getCompanyJobs():
             "message": "Please check username and password!",
         }, 401
 
-    elif str(user.id).startswith("1"):
+    elif str(user.get("id")).startswith("1"):
         jobs = (
-            db.session.query(JobVacancy).filter(JobVacancy.company_id == user.id).all()
+            db.session.query(JobVacancy).filter(JobVacancy.company_id == user.get("id")).all()
         )
         response = [
             {
@@ -473,11 +476,11 @@ def getCompanyJobDetails(id):
             "message": "Please check username and password!",
         }, 401
 
-    elif str(user.id).startswith("1"):
+    elif str(user.get("id")).startswith("1"):
         job = (
             db.session.query(JobVacancy)
             .filter(JobVacancy.id == id)
-            .filter(JobVacancy.company_id == user.id)
+            .filter(JobVacancy.company_id == user.get("id"))
             .first()
         )
         if job:
@@ -517,11 +520,11 @@ def updateCompanyJob(id):
             "message": "Please check username and password!",
         }, 401
 
-    elif str(user.id).startswith("1"):
+    elif str(user.get("id")).startswith("1"):
         job = (
             db.session.query(JobVacancy)
             .filter(JobVacancy.id == id)
-            .filter(JobVacancy.company_id == user.id)
+            .filter(JobVacancy.company_id == user.get("id"))
             .first()
         )
         data = request.get_json()
@@ -533,7 +536,7 @@ def updateCompanyJob(id):
             duration = data.get("available_for")
             salary = data.get("salary")
             if duration:
-                job.expired_on = job.posted_on + timedelta(int(duration))
+                job.expired_on = datetime.today() + timedelta(int(duration))
 
             if salary:
                 job.salary = (int(data.get("salary")), job.salary)
@@ -567,11 +570,11 @@ def getUnappliedJobs():
             "message": "Please check username and password!",
         }, 401
 
-    elif str(user.id).startswith("3"):
+    elif str(user.get("id")).startswith("3"):
         subquery = (
             db.session.query(Application)
             .filter(Application.job_id == JobVacancy.id)
-            .filter(Application.jobseeker_id == user.id)
+            .filter(Application.jobseeker_id == user.get("id"))
             .exists()
         )
         jobs = (
@@ -582,11 +585,12 @@ def getUnappliedJobs():
         )
         response = [
             {
-                "id": j.id,
                 "company": j.company.name,
+                "location": j.location,
                 "position": j.position,
-                "expired_on": j.expired_on,
                 "salary": j.salary,
+                "expired_on": j.expired_on,
+                "logo_url": j.company.logo_url,
             }
             for j in jobs
         ]
@@ -610,10 +614,10 @@ def applyJob():
             "message": "Please check username and password!",
         }, 401
 
-    elif str(user.id).startswith("3"):
+    elif str(user.get("id")).startswith("3"):
         new_app = Application(
             job_id=data.get("job_id"),
-            jobseeker_id=user.id,
+            jobseeker_id=user.get("id"),
             status="applied",
             cover_letter=data.get("cover_letter"),
         )
@@ -661,7 +665,7 @@ def appResponse(id):
             "message": "No application found with this id",
         }, 404
 
-    elif application.jobvacancy.company_id == user.id:
+    elif application.jobvacancy.company_id == user.get("id"):
         application.status = response.get("status", application.status)
         application.note = response.get("note", application.note)
 
@@ -685,17 +689,20 @@ def getApps():
             "message": "Please check username and password!",
         }, 401
 
-    elif str(user.id).startswith("3"):
+    elif str(user.get("id")).startswith("3"):
         # List of jobseeker's applied jobs and their status
         applications = (
             db.session.query(Application)
-            .filter(Application.jobseeker_id == user.id)
+            .filter(Application.jobseeker_id == user.get("id"))
             .all()
         )
         response = [
             {
                 "id": apps.id,
+                "company": apps.jobvacancy.company.name,
+                "location": apps.jobvacancy.location,
                 "position": apps.jobvacancy.position,
+                "logo_url": apps.jobvacancy.company.logo_url,
                 "status": apps.status,
                 "note": apps.note,
             }
@@ -708,7 +715,7 @@ def getApps():
         subquery = (
             db.session.query(JobVacancy)
             .filter(JobVacancy.id == Application.job_id)
-            .filter(JobVacancy.company_id == user.id)
+            .filter(JobVacancy.company_id == user.get("id"))
             .exists()
         )
         applications = (
@@ -742,8 +749,8 @@ def getDetailApps(id):
     application = db.session.query(Application).filter(Application.id == id).first()
     # Accessible only to the owner of application and owner of a job
     if (
-        application.jobseeker_id == user.id
-        or application.jobvacancy.company_id == user.id
+        application.jobseeker_id == user.get("id")
+        or application.jobvacancy.company_id == user.get("id")
     ):
         response = {
             "id": application.id,
@@ -779,7 +786,7 @@ def getJobApplicants(id):
         }, 401
 
     applications = db.session.query(Application).filter(Application.job_id == id).all()
-    if applications[0].jobvacancy.company_id == user.id:
+    if applications[0].jobvacancy.company_id == user.get("id"):
         response = {
             "job_id": applications[0].job_id,
             "job_position": applications[0].jobvacancy.position,
@@ -816,7 +823,7 @@ def searchJobseeker():
             "message": "Please check username and password!",
         }, 401
 
-    elif str(user.id).startswith("1"):
+    elif str(user.get("id")).startswith("1"):
         filters = {}
 
         if "first_name" in request.args:
