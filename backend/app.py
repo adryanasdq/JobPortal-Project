@@ -32,7 +32,7 @@ class JobSeeker(db.Model):
     gender = db.Column(db.String, db.CheckConstraint("gender IN ('L', 'P')"))
     education = db.Column(db.String)
     major = db.Column(db.String)
-    contact = db.Column(db.String, nullable=False, unique=True)
+    contact = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
     summary = db.Column(db.Text)
     url_pict = db.Column(db.Text)
@@ -58,7 +58,7 @@ class Company(db.Model):
     industry = db.Column(db.String)
     address = db.Column(db.String, nullable=False)
     website = db.Column(db.String)
-    contact = db.Column(db.String, nullable=False, unique=True)
+    contact = db.Column(db.String, nullable=False)
     logo_url = db.Column(db.String)
     jobvacancy = db.relationship("JobVacancy", backref="company")
 
@@ -121,40 +121,45 @@ def login():
     jobseeker = (
         db.session.query(JobSeeker)
         .filter(JobSeeker.username == username)
-        .filter(JobSeeker.password == password)
         .first()
     )
 
     company = (
         db.session.query(Company)
         .filter(Company.username == username)
-        .filter(Company.password == password)
         .first()
     )
 
     global loginFailed
     loginFailed = False
-
+    
     if jobseeker:
-        return {
-            "id": jobseeker.id,
-            "username": jobseeker.username,
-            "password": jobseeker.password,
-            "name": jobseeker.first_name
-        }
+        if jobseeker.password == password:
+            return {
+                "id": jobseeker.id,
+                "username": jobseeker.username,
+                "password": jobseeker.password,
+                "name": jobseeker.first_name
+            }
+        else:
+            loginFailed = True
+            return {"message": "Password is not matched!"}, 400
 
     elif company:
-        return {
-            "id": company.id,
-            "username": company.username,
-            "password": company.password,
-            "name": company.name
-        }
+        if company.password == password:
+            return {
+                "id": company.id,
+                "username": company.username,
+                "password": company.password,
+                "name": company.name
+            }
+        else:
+            loginFailed = True
+            return {"message": "Password is not matched!"}, 400
 
     else:
         loginFailed = True
-        return {"message": "Username does not exist or password is not matched"}, 400
-
+        return {"message": "No such account exist!"}, 400
 
 # _________________________________________Jobseeker and Company Register_________________________________________
 @app.post("/register")
