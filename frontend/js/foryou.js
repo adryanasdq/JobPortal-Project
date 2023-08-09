@@ -24,14 +24,11 @@ function createJobCard(jobData) {
     return card;
 }
 
-document.addEventListener('DOMContentLoaded', getJobs)
 
-
-function getJobs(e) {
+async function getJobs(e) {
     e.preventDefault()
 
-    let url = 'http://127.0.0.1:5000/jobseeker/jobs';
-
+    const url = 'http://127.0.0.1:5000/jobseeker/jobs';
     const username = atob(localStorage.getItem("username"));
     const password = atob(localStorage.getItem("password"));
     const token = btoa(username + ":" + password);
@@ -44,23 +41,23 @@ function getJobs(e) {
         method: "GET",
         headers: myHeaders,
     };
-    
+
     const jobContainer = document.querySelector('.wrapper');
     jobContainer.innerHTML = '';
 
-    fetch(url, requestOptions)
-        .then((response) => response.json())
-        .then((jsonResp) => {
-            if (jsonResp.data && jsonResp.data.length > 0) {
-                for (let job of jsonResp.data) {
-                    const jobCard = createJobCard(job);
-                    jobContainer.appendChild(jobCard)
-                }
-            } else {
-                noFoundMessage = document.createElement('p');
-                noFoundMessage.innerHTML = jsonResp.message;
-                jobContainer.appendChild(noFoundMessage);
-            }
-        })
-        .catch((error) => { console.error(error) });
+    const response = await fetch(url, requestOptions);
+    const result = await response.json();
+
+    if (result.data && result.data.length > 0) {
+        for (let job of result.data) {
+            const jobCard = createJobCard(job);
+            jobContainer.appendChild(jobCard)
+        };
+    } else {
+        noFoundMessage = document.createElement('p');
+        noFoundMessage.innerHTML = jsonResp.message;
+        jobContainer.appendChild(noFoundMessage);
+    }
 }
+
+document.addEventListener('DOMContentLoaded', getJobs)
