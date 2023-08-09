@@ -58,7 +58,11 @@ async function login(e) {
             window.location.href = "home-jobseeker.html"
         };
     } catch {
-        alert(result.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: result.message,
+          });
     }
 }
 
@@ -97,9 +101,17 @@ async function signup(e) {
 
     if (result.status === "Success!") {
         signupForm.reset();
-        alert(result.status + " " + result.message);
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: result.message,
+          });
     } else {
-        alert(result.status + " " + result.message);
+        Swal.fire({
+            icon: 'error',
+            title: result.status,
+            text: result.message,
+          })
     } 
 }
 
