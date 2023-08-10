@@ -14,7 +14,7 @@ function createJobCard(jobData) {
             <p class="card-detail">${jobData.position}</p>
             <p class="card-loc"><ion-icon name="location-outline"></ion-icon>${jobData.location}</p>
             <div class="card-sub">
-                <p><ion-icon name="today-outline"></ion-icon>${countDays} days ago</p>
+                <p><ion-icon name="today-outline"></ion-icon>${countDays} day(s) ago</p>
                 <p><ion-icon name="hourglass-outline"></ion-icon>Full Time</p>
                 <p><ion-icon name="people-outline"></ion-icon>200 applicants</p>
             </div>
@@ -25,7 +25,6 @@ function createJobCard(jobData) {
             </div>
         </div>
     `;
-	card.onclick = function () {getJobDetails(jobData.id)}
 	card.onclick = () => getJobDetails(jobData.id);
 	return card;
 }

@@ -593,11 +593,12 @@ def getUnappliedJobs():
         )
         response = [
             {
+                "id": j.id,
                 "company": j.company.name,
                 "location": j.location,
                 "position": j.position,
                 "salary": j.salary,
-                "expired_on": j.expired_on,
+                "posted_on": j.posted_on,
                 "logo_url": j.company.logo_url,
             }
             for j in jobs
