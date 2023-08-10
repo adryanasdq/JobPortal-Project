@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from flask_cors import CORS
 
 
@@ -902,7 +902,7 @@ def searchJobs():
             "location": j.location,
             "position": j.position,
             "salary": j.salary,
-            "posted": j.posted_on,
+            "posted_on": j.posted_on,
             "logo_url": j.company.logo_url,
         }
         for j in jobs

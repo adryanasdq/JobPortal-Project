@@ -1,4 +1,8 @@
 function createJobCard(jobData) {
+	const postedDate = new Date(jobData.posted_on);
+	const oneDay = 1000 * 60 * 60 * 24;
+	const countDays = Math.round((new Date().getTime() - postedDate.getTime()) / oneDay);
+
 	const card = document.createElement("div");
 	card.className = "card";
 	card.innerHTML = `
@@ -10,7 +14,7 @@ function createJobCard(jobData) {
             <p class="card-detail">${jobData.position}</p>
             <p class="card-loc"><ion-icon name="location-outline"></ion-icon>${jobData.location}</p>
             <div class="card-sub">
-                <p><ion-icon name="today-outline"></ion-icon>${jobData.posted_on}</p>
+                <p><ion-icon name="today-outline"></ion-icon>${countDays} days ago</p>
                 <p><ion-icon name="hourglass-outline"></ion-icon>Full Time</p>
                 <p><ion-icon name="people-outline"></ion-icon>200 applicants</p>
             </div>
@@ -59,12 +63,13 @@ async function getJobs(e) {
 	const result = await response.json();
 	if (result.response && result.response.length > 0) {
 		for (let job of result.response) {
+			console.log(new Date(result.response[0].posted_on).toDateString())
 			const jobCard = createJobCard(job);
 			jobContainer.appendChild(jobCard)
 		}
 	} else {
 		noFoundMessage = document.createElement('p');
-		noFoundMessage.innerHTML = jsonResp.message;
+		noFoundMessage.innerHTML = result.message;
 		jobContainer.appendChild(noFoundMessage);
 	};
 };
