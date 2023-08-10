@@ -60,6 +60,7 @@ class Company(db.Model):
     website = db.Column(db.String)
     contact = db.Column(db.String, nullable=False)
     logo_url = db.Column(db.String)
+    about = db.Column(db.Text)
     jobvacancy = db.relationship("JobVacancy", backref="company")
 
     def __repr__(self):
@@ -379,7 +380,9 @@ def getJobDetails(id):
         response = {
             "id": job.id,
             "company_id": job.company_id,
-            "company": job.company.name,
+            "company_logo": job.company.logo_url,
+            "company_name": job.company.name,
+            "company_about": job.company.about,
             "position": job.position,
             "location": job.location,
             "posted_on": job.posted_on,
@@ -898,6 +901,7 @@ def searchJobs():
 
     result = [
         {
+            "id": j.id,
             "company": j.company.name,
             "location": j.location,
             "position": j.position,

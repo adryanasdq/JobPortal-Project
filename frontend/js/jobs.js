@@ -21,10 +21,12 @@ function createJobCard(jobData) {
         </div>
         <div class="card-right">
             <div class="card-salary">
-                <p><b>Rp. ${jobData.salary}</b> <span>/ month</span></p>
+                <p><b>Rp. ${jobData.salary.toLocaleString('id')}</b> <span>/ month</span></p>
             </div>
         </div>
     `;
+	card.onclick = function () {getJobDetails(jobData.id)}
+	card.onclick = () => getJobDetails(jobData.id);
 	return card;
 }
 
@@ -63,7 +65,6 @@ async function getJobs(e) {
 	const result = await response.json();
 	if (result.response && result.response.length > 0) {
 		for (let job of result.response) {
-			console.log(new Date(result.response[0].posted_on).toDateString())
 			const jobCard = createJobCard(job);
 			jobContainer.appendChild(jobCard)
 		}
@@ -78,3 +79,27 @@ const filterSearch = document.querySelector("form.search");
 
 filterSearch.addEventListener("submit", getJobs)
 document.addEventListener("DOMContentLoaded", getJobs)
+
+
+async function getJobDetails(id) {
+	const logo = document.querySelector('.detail-header > img');
+	const company = document.querySelector('.detail-header > h2');
+	const position = document.querySelector('.detail-header > p');
+	const about_company = document.querySelector('.about > p');
+	const job_desc = document.querySelector('.description > p');
+	const qualification = document.querySelector('.qualification > ul > li');
+
+	const response = await fetch(`http://127.0.0.1:5000/jobs/${id}`);
+	const result = await response.json();
+	const data = result.data;
+
+	const detail = document.querySelector('.detail');
+	detail.removeAttribute('hidden')
+
+	logo.src = data.company_logo;
+	company.innerHTML = data.company_name;
+	position.innerHTML = data.position;
+	about_company.innerHTML = data.company_about;
+	job_desc.innerHTML = data.description;
+	qualification.innerHTML = data.requirements;
+}
