@@ -55,6 +55,7 @@ async function getJobs(e) {
 
     if (result.data && result.data.length > 0) {
         for (let job of result.data) {
+            // condition for saved jobs
             const jobCard = createJobCard(job);
             jobContainer.appendChild(jobCard)
         };

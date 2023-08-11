@@ -35,7 +35,7 @@ class JobSeeker(db.Model):
     contact = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
     summary = db.Column(db.Text)
-    url_pict = db.Column(db.Text)
+    url_pict = db.Column(db.String)
     application = db.relationship("Application", backref="jobseeker")
 
     def __repr__(self):
@@ -245,6 +245,8 @@ def getJobseekerDetail(id):
     ]:
         response = {
             "id": seeker.id,
+            "username": seeker.username,
+            "url_pict": seeker.url_pict,
             "email": seeker.email,
             "first_name": seeker.first_name,
             "last_name": seeker.last_name,
@@ -711,6 +713,7 @@ def getApps():
                 "company": apps.jobvacancy.company.name,
                 "location": apps.jobvacancy.location,
                 "position": apps.jobvacancy.position,
+                "salary": apps.jobvacancy.salary,
                 "logo_url": apps.jobvacancy.company.logo_url,
                 "status": apps.status,
                 "note": apps.note,
@@ -747,7 +750,7 @@ def getApps():
 
 
 @app.get("/application/<int:id>")
-def getDetailApps(id):
+def getAppDetails(id):
     user = login()
     if loginFailed:
         return {
@@ -763,6 +766,9 @@ def getDetailApps(id):
     ):
         response = {
             "id": application.id,
+            "logo_url": application.jobvacancy.company.logo_url,
+            "company_name": application.jobvacancy.company.name,
+            "salary": application.jobvacancy.salary,
             "job_id": application.job_id,
             "job_position": application.jobvacancy.position,
             "job_applicant": application.jobseeker.first_name,
