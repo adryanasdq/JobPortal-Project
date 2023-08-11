@@ -122,19 +122,19 @@ async function getJobDetails(id) {
 		coverLetterModal.style.display = "none";
 	});
 
-	submitCoverLetterBtn.addEventListener("click", applyJob(id));
+	submitCoverLetterBtn.onclick = () => applyJob(id);
 }
 
 async function applyJob(id) {
 	const username = atob(localStorage.getItem("username"));
-    const password = atob(localStorage.getItem("password"));
-    const token = btoa(username + ":" + password);
+	const password = atob(localStorage.getItem("password"));
+	const token = btoa(username + ":" + password);
 	const coverLetterText = document.getElementById("coverLetterText").value;
 	const coverLetterModal = document.getElementById("coverLetterModal");
 	const myHeaders = {
-        "Authorization": "Basic" + " " + token,
-        "Content-type": "application/json; charset=UTF-8"
-    };
+		"Authorization": "Basic" + " " + token,
+		"Content-type": "application/json; charset=UTF-8"
+	};
 
 	const data = {
 		"job_id": id,
@@ -149,13 +149,20 @@ async function applyJob(id) {
 
 	const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
 	const result = await response.json();
+	console.log(result)
+
 	if (result.status === "Success!") {
-		signupForm.reset();
 		Swal.fire({
 			icon: 'success',
 			title: 'Success!',
 			text: result.message,
 		});
 		coverLetterModal.style.display = "none";
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: result.status,
+			text: result.message,
+		})
 	};
 };
