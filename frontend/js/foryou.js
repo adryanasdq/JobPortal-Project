@@ -89,5 +89,67 @@ async function getJobDetails(id) {
 	position.innerHTML = data.position;
 	about_company.innerHTML = data.company_about;
 	job_desc.innerHTML = data.description;
-	qualification.innerHTML = data.requirements;
+	qualification.innerHTML = data.requirements;// Modal
+	const openModalBtn = document.querySelectorAll(".btn-apply");
+	const closeModalBtn = document.getElementById("closeModalBtn");
+	const coverLetterModal = document.getElementById("coverLetterModal");
+	const submitCoverLetterBtn = document.getElementById("submitCoverLetterBtn");
+	const toCompany = document.getElementById("to-company");
+	const toPosition = document.getElementById("to-position");
+
+	openModalBtn.forEach(button => {
+		button.addEventListener("click", () => {
+			coverLetterModal.style.display = "block";
+			toCompany.innerHTML = data.company_name;
+			toPosition.innerHTML = data.position;
+		});
+	});
+
+	closeModalBtn.addEventListener("click", () => {
+		coverLetterModal.style.display = "none";
+	});
+
+	submitCoverLetterBtn.onclick = () => applyJob(id);
 }
+
+async function applyJob(id) {
+	const username = atob(localStorage.getItem("username"));
+	const password = atob(localStorage.getItem("password"));
+	const token = btoa(username + ":" + password);
+	const coverLetterText = document.getElementById("coverLetterText").value;
+	const coverLetterModal = document.getElementById("coverLetterModal");
+	const myHeaders = {
+		"Authorization": "Basic" + " " + token,
+		"Content-type": "application/json; charset=UTF-8"
+	};
+
+	const data = {
+		"job_id": id,
+		"cover_letter": coverLetterText,
+	};
+
+	const requestOptions = {
+		method: "POST",
+		headers: myHeaders,
+		body: JSON.stringify(data),
+	}
+
+	const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
+	const result = await response.json();
+	console.log(result)
+
+	if (result.status === "Success!") {
+		Swal.fire({
+			icon: 'success',
+			title: 'Success!',
+			text: result.message,
+		});
+		coverLetterModal.style.display = "none";
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: result.status,
+			text: result.message,
+		})
+	};
+};
