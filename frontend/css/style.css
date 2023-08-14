@@ -179,16 +179,17 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    /* margin-top: 0.1rem; */
     gap: 0.5rem;
 }
 
 .sort p {
     font-size: 14px;
+    padding: 0.5rem;
 }
 
 .sort-list select {
     height: 1.5rem;
+    width: fit-content;
     border-radius: 20px;
     border: none;
     margin-top: 0 0.5rem;
@@ -402,6 +403,8 @@ body {
 textarea {
     width: 100%;
     height: 300px;
+    padding: 10px;
+    text-align: justify;
     resize: none;
     margin-bottom: 10px;
 }

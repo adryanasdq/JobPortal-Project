@@ -36,6 +36,7 @@ async function getJobs(e) {
     const url = 'http://127.0.0.1:5000/jobseeker/jobs';
     const username = atob(localStorage.getItem("username"));
     const password = atob(localStorage.getItem("password"));
+	const sortby = document.querySelector(".sort-by").value;
     const token = btoa(username + ":" + password);
     const myHeaders = {
         "Authorization": "Basic" + " " + token,
@@ -52,21 +53,43 @@ async function getJobs(e) {
 
     const response = await fetch(url, requestOptions);
     const result = await response.json();
+	const data = result.data;
 
-    if (result.data && result.data.length > 0) {
-        for (let job of result.data) {
-            // condition for saved jobs
+    if (data && data.length > 0) {
+		if (sortby === "newest") {
+			data.sort((a, b) => {
+				return b.id - a.id
+			});
+		} else if (sortby === "oldest") {
+			data.sort((a, b) => {
+				return a.id - b.id
+			});
+		} else if (sortby === "highpaid") {
+			data.sort((a, b) => {
+				return b.salary - a.salary
+			});
+		} else if (sortby === "lowpaid") {
+			data.sort((a, b) => {
+				return a.salary - b.salary
+			});
+		};
+
+		data.forEach((job) => {
+			// condition for saved jobs
             const jobCard = createJobCard(job);
             jobContainer.appendChild(jobCard)
-        };
+		})
     } else {
-        noFoundMessage = document.createElement('p');
+        const noFoundMessage = document.createElement('p');
         noFoundMessage.innerHTML = jsonResp.message;
         jobContainer.appendChild(noFoundMessage);
     }
 }
 
-document.addEventListener('DOMContentLoaded', getJobs)
+const sorter = document.querySelector(".sort-by");
+
+sorter.addEventListener("change", getJobs);
+document.addEventListener('DOMContentLoaded', getJobs);
 
 
 async function getJobDetails(id) {

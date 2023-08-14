@@ -37,6 +37,7 @@ async function getJobs(e) {
 	const major = document.querySelector(".job-major").value;
 	const salary = document.querySelector(".job-salary").value;
 	const location = document.querySelector(".job-location").value;
+	const sortby = document.querySelector(".sort-by").value;
 
 	let url = "http://127.0.0.1:5000/search/jobs?";
 
@@ -62,22 +63,44 @@ async function getJobs(e) {
 
 	const response = await fetch(url, requestOptions);
 	const result = await response.json();
-	if (result.response && result.response.length > 0) {
-		for (let job of result.response) {
+	const data = result.response;
+	if (data && data.length > 0) {
+		if (sortby === "newest") {
+			data.sort((a, b) => {
+				return b.id - a.id
+			});
+		} else if (sortby === "oldest") {
+			data.sort((a, b) => {
+				return a.id - b.id
+			});
+		} else if (sortby === "highpaid") {
+			data.sort((a, b) => {
+				return b.salary - a.salary
+			});
+		} else if (sortby === "lowpaid") {
+			data.sort((a, b) => {
+				return a.salary - b.salary
+			});
+		};
+
+		data.forEach((job) => {
 			const jobCard = createJobCard(job);
 			jobContainer.appendChild(jobCard)
-		}
+		});
+
 	} else {
-		noFoundMessage = document.createElement("p");
+		const noFoundMessage = document.createElement("p");
 		noFoundMessage.innerHTML = result.message;
 		jobContainer.appendChild(noFoundMessage);
 	};
 };
 
 const filterSearch = document.querySelector("form.search");
+const sorter = document.querySelector(".sort-by");
 
-filterSearch.addEventListener("submit", getJobs)
-document.addEventListener("DOMContentLoaded", getJobs)
+filterSearch.addEventListener("submit", getJobs);
+sorter.addEventListener("change", getJobs);
+document.addEventListener("DOMContentLoaded", getJobs);
 
 
 async function getJobDetails(id) {
