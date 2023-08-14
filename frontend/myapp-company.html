@@ -6,7 +6,6 @@
     <link rel="icon" href="img/logo.png">
     <link rel="stylesheet" href="css/color.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/home-js.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <title>Get a Life! A Portal to Your Future</title>
 </head>
@@ -35,37 +34,44 @@
 
     <!-- Main -->
     <div class="main">
-        <div class="content">
-            <div class="greeting">
-                <h1>Welcome to Get a Life!</h1>
-                <p>Your portal to a brighter future.</p>
+        <div class="sort">
+            <p>Sort</p>
+            <div class="sort-list">
+                <select>
+                    <option value="all">All</option>
+                    <option value="newest">Newest Post</option>
+                    <option value="oldest">Oldest Post</option>
+                    <option value="highpaid">Highest Paid</option>
+                </select>
             </div>
+        </div>
+
+        <div class="wrapper">
+            <!-- content loaded here -->
         </div>
     </div>
 
     <!-- Right section -->
-    <div class="detail">
+    <div class="detail" hidden>
         <ion-icon class="close-detail" name="close-outline"></ion-icon>
         <div class="detail-header">
-            <img src="img/icon.jpg" alt="">
-            <h2>Get a Life!</h2>
-            <p>Your Portal to a Brighter Future</p>
+            <img>
+            <h2></h2>
+            <p></p>
         </div>
         <hr class="divider">
         <div class="detail-desc">
-            <div class="about-page">
-                <h3>About This Page</h3>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                    Nostrum commodi esse ad quos maxime exercitationem alias mollitia vel, vero</p>
+            <div class="about">
+                <h4>HR's Response:</h4>
+                <p></p>
             </div>
-            <div class="additional-content">
-                <h2>Stay Connected</h2>
-                <p>Subscribe to our newsletter to get the latest</p>
-                <button class="btn-subscribe">Subscribe Now</button>
+            <hr class="divider">
+            <div class="description">
+                <h4>Your Cover Letter</h4>
+                <p></p>
             </div>
         </div>
     </div>
-
 
 </body>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -74,6 +80,7 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="js/sidebar.js"></script>
 <script src="js/session.js"></script>
+<script src="js/myapp.js"></script>
 <script src="js/logout.js"></script>
 
 </html>

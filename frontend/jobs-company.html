@@ -1,0 +1,142 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/logo.png">
+    <link rel="stylesheet" href="css/color.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <title>Get a Life! A Portal to Your Future</title>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h1 class="logo">Get a Life!</h1>
+        <!-- <h4 class="sub-logo">A Portal to Your Future</h4> -->
+        <div class="menus">
+            <a href="home-jobseeker.html"><ion-icon name="home-outline"></ion-icon>Home</a>
+            <a href="jobs-jobseeker.html"><ion-icon name="newspaper-outline"></ion-icon>Find Jobs</a>
+            <a href="foryou-jobseeker.html"><ion-icon name="heart-outline"></ion-icon>For You</a>
+            <a href="myapp-jobseeker.html"><ion-icon name="clipboard-outline"></ion-icon>My Applications</a>
+            <a href="profile-jobseeker.html"><ion-icon name="accessibility-outline"></ion-icon>Profile</a>
+            <a href="landing.html" id="logout"><ion-icon name="power-outline"></ion-icon>Logout</a>
+        </div>
+        <div class="profile">
+            <img src="img/user.jpg" alt="" class="profile-img">
+            <div class="profile-name">
+                <h4 id="user"></h4>
+                <p>Jobseeker</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <div class="main-header">
+            <ion-icon class="menu-bar" name="menu-outline"></ion-icon>
+            <form class="search">
+                <input class="job-position" type="text" placeholder="Job Title">
+                <input class="job-major" type="text" placeholder="Major">
+                <input class="job-salary" type="number" placeholder="Min. Salary" min="1000000" step="10000">
+                <select class="job-location" name="location">
+                    <option value="" selected>Location</option>
+                    <option value="Bandung">Bandung</option>
+                    <option value="Surabaya">Surabaya</option>
+                    <option value="Jakarta">Jakarta</option>
+                    <option value="Bekasi">Bekasi</option>
+                    <option value="Banjar">Banjar</option>
+                    <option value="Jogjakarta">Jogjakarta</option>
+                    <option value="Tangerang">Tangerang</option>
+                    <option value="Madura">Madura</option>
+                    <option value="Depok">Depok</option>
+                </select>
+                <button class="btn-search"><ion-icon name="search-outline"></ion-icon></button>
+            </form>
+        </div>
+        
+        <div class="filter-wrapper">
+            <p>Recommendation</p>
+            <div class="filter">
+                <button class="btn-filter">Data Science</button>
+                <button class="btn-filter">Administration</button>
+                <button class="btn-filter">Full-Stack Developer</button>
+                <button class="btn-filter">KOL Specialist</button>
+                <button class="btn-filter">Content Creator</button>
+            </div>
+        </div>
+
+        <div class="sort">
+            <p>Sort</p>
+            <div class="sort-list">
+                <select class="sort-by">
+                    <option value="none">None</option>
+                    <option value="newest">Newest Post</option>
+                    <option value="oldest">Oldest Post</option>
+                    <option value="highpaid">Highest Paid</option>
+                    <option value="lowpaid">Lowest Paid</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <!-- Content loaded here -->
+        </div>
+    </div>
+
+    <!-- Right section -->
+    <div class="detail" hidden>
+        <ion-icon class="close-detail" name="close-outline"></ion-icon>
+        <div class="detail-header">
+            <img>
+            <h2></h2>
+            <p></p>
+        </div>
+        <hr class="divider">
+        <div class="detail-desc">
+            <div class="about">
+                <h4>About Company</h4>
+                <p></p>
+            </div>
+            <hr class="divider">
+            <div class="description">
+                <h4>Job Description</h4>
+                <p></p>
+            </div>
+            <hr class="divider">
+            <div class="qualification">
+                <h4>Qualification</h4>
+                <ul>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="divider">
+        <div class="detail-btn">
+            <button class="btn-apply">Apply Now</button>
+            <button class="btn-save">Save Job</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="coverLetterModal" class="modal">
+        <div class="modal-content">
+            <p id="closeModalBtn" class="close">&times;</p>
+            <p>You will apply to <b id="to-company"></b> as a <b id="to-position"></b></p>
+            <textarea id="coverLetterText" placeholder="Write your cover letter here..." required></textarea>
+            <button id="submitCoverLetterBtn" class="btn-submit">Submit</button>
+        </div>
+    </div>
+
+</body>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/sidebar.js"></script>
+<script src="js/session.js"></script>
+<script src="js/jobs.js"></script>
+<script src="js/logout.js"></script>
+
+</html>
