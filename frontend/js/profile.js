@@ -1,47 +1,29 @@
-function createJobCard(jobData) {
-    const full_name = jobData.first_name + ' ' + jobData.last_name;
-    const words = full_name.split(' ');
-
-    for (let i = 0; i < words.length; i++) {
-        words[i] = words[i][0].toUpperCase() + words[i].substring(1);
-    };
-
-    const capped_name = words.join(' ');
-
-    const card = document.createElement("div");
-    card.className = "user-section";
-    card.innerHTML = `
-        <div class="user-header">
-            <img src="${jobData.url_pict}" alt="Profile Image" class="profile-img">
-            <div class="user-info">
-                <h2 class="user-name">${capped_name}</h2>
-                <p class="user-role">Jobseeker</p>
-            </div>
-        </div>
-        <div class="profile-details">
-            <h3>About</h3>
-            <p><strong>Summary:</strong> ${jobData.summary}</p>
-            <p><strong>Age:</strong> ${jobData.age}</p>
-            <p><strong>Gender:</strong> ${jobData.gender}</p>
-            <p><strong>Education:</strong> ${jobData.education}</p>
-            <p><strong>Major:</strong> ${jobData.major}</p>
-            <p><strong>Contact:</strong> ${jobData.contact}</p>
-            <p><strong>Address:</strong> ${jobData.address}</p>
-        </div>
-    `;
-    return card;
-}
-
 async function getProfile(e) {
     e.preventDefault()
 
-    const user_id = localStorage.getItem("id");
-    const username = atob(localStorage.getItem("username"));
-    const password = atob(localStorage.getItem("password"));
-    const token = btoa(username + ":" + password);
+    const userId = localStorage.getItem("id");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    const userPict = document.querySelector(".user-img");
+    const name = document.querySelector(".user-info > .user-name");
+    const title = document.querySelector(".user-info > .user-title");
+    const address = document.querySelector(".user-info > .user-address");
+    const website = document.querySelector(".user-website");
+    const github = document.querySelector(".user-github");
+    const facebook = document.querySelector(".user-facebook");
+    const twitter = document.querySelector(".user-twitter");
+    const instagram = document.querySelector(".user-instagram");
+    const summary = document.querySelector(".user-summary");
+    const age = document.querySelector(".user-age");
+    const gender = document.querySelector(".user-gender");
+    const education = document.querySelector(".user-education");
+    const major = document.querySelector(".user-major");
+    const contact = document.querySelector(".user-contact");
+
     const myHeaders = {
-        "Authorization": "Basic" + " " + token,
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        "id": userId,
+        "isLoggedIn": isLoggedIn,
     };
 
     const requestOptions = {
@@ -49,14 +31,35 @@ async function getProfile(e) {
         headers: myHeaders,
     };
 
-    const profileContainer = document.querySelector(".user-section");
-    profileContainer.innerHTML = '';
-
-    const response = await fetch(`http://127.0.0.1:5000/jobseeker/${user_id}`, requestOptions);
+    const response = await fetch(`http://127.0.0.1:5000/jobseeker/${userId}`, requestOptions);
     const result = await response.json();
-    const profileCard = createJobCard(result.response);
-    console.log(result.response);
-    profileContainer.appendChild(profileCard);
+    const data = result.response;
+
+    const fullName = data.first_name + " " + data.last_name;
+    const words = fullName.split(' ');
+
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+    };
+
+    const capped_name = words.join(' ');
+
+    userPict.src = 'https://drive.google.com/uc?export=view&id=' + data.url_pict;
+    name.innerHTML = capped_name;
+    title.innerHTML = data.title;
+    address.innerHTML = data.address;
+    website.innerHTML = data.website;
+    github.innerHTML = data.github;
+    facebook.innerHTML = data.facebook;
+    twitter.innerHTML = data.twitter;
+    instagram.innerHTML = data.instagram;
+    summary.innerHTML = data.summary;
+    age.innerHTML = data.age;
+    gender.innerHTML = data.gender;
+    education.innerHTML = data.education;
+    major.innerHTML = data.major;
+    contact.innerHTML = data.contact;
+
 }
 
 document.addEventListener("DOMContentLoaded", getProfile);
