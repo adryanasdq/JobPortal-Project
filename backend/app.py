@@ -8,7 +8,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config[
     "SQLALCHEMY_DATABASE_URI"
-] = "postgresql://postgres:admin@localhost:5433/portproject"
+] = "postgresql://postgres:admin@localhost:5432/postgres"
 db = SQLAlchemy(app)
 CORS(app)
 
@@ -20,7 +20,7 @@ class JobSeeker(db.Model):
 
     id = db.Column(
         db.Integer,
-        db.Sequence("jobseeker_id_seq", start=301, maxvalue=399),
+        db.Sequence("portaljob.jobseeker_id_seq", start=301, maxvalue=399),
         primary_key=True,
     )
     username = db.Column(db.String, unique=True, nullable=False)
@@ -28,6 +28,7 @@ class JobSeeker(db.Model):
     email = db.Column(db.String, nullable=False, unique=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
+    title = db.Column(db.String)
     age = db.Column(db.Integer, db.CheckConstraint("age >= 0"))
     gender = db.Column(db.String, db.CheckConstraint("gender IN ('L', 'P')"))
     education = db.Column(db.String)
@@ -36,6 +37,11 @@ class JobSeeker(db.Model):
     address = db.Column(db.String, nullable=False)
     summary = db.Column(db.Text)
     url_pict = db.Column(db.String)
+    website = db.Column(db.String)
+    github = db.Column(db.String)
+    facebook = db.Column(db.String)
+    twitter = db.Column(db.String)
+    instagram = db.Column(db.String)
     application = db.relationship("Application", backref="jobseeker")
 
     def __repr__(self):
@@ -225,7 +231,11 @@ def register():
 # _________________________________________________Jobseeker Info_________________________________________________
 @app.get("/jobseeker/<int:id>")
 def getJobseekerDetail(id):
-    user = login()
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
     seeker = db.session.query(JobSeeker).filter(JobSeeker.id == id).first()
     company_applied = (
         db.session.query(JobVacancy)
@@ -233,7 +243,7 @@ def getJobseekerDetail(id):
         .filter(Application.jobseeker_id == id)
     )
 
-    if loginFailed:
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -250,6 +260,7 @@ def getJobseekerDetail(id):
             "email": seeker.email,
             "first_name": seeker.first_name,
             "last_name": seeker.last_name,
+            "title": seeker.title,
             "age": seeker.age,
             "gender": seeker.gender,
             "education": seeker.education,
@@ -257,6 +268,11 @@ def getJobseekerDetail(id):
             "contact": seeker.contact,
             "address": seeker.address,
             "summary": seeker.summary,
+            "website": seeker.website,
+            "github": seeker.github,
+            "facebook": seeker.facebook,
+            "twitter": seeker.twitter,
+            "instagram": seeker.instagram,
         }
         return {"message": "success", "response": response}
 
