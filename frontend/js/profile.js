@@ -31,35 +31,47 @@ async function getProfile(e) {
         headers: myHeaders,
     };
 
-    const response = await fetch(`http://127.0.0.1:5000/jobseeker/${userId}`, requestOptions);
-    const result = await response.json();
-    const data = result.response;
+    if (userId == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Please login first",
+            confirmButtonText: "Yes",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "landing.html"
+            }
+        });
+    } else {
+        const response = await fetch(`http://127.0.0.1:5000/jobseeker/${userId}`, requestOptions);
+        const result = await response.json();
+        const data = result.response;
 
-    const fullName = data.first_name + " " + data.last_name;
-    const words = fullName.split(' ');
+        const fullName = data.first_name + " " + data.last_name;
+        const words = fullName.split(' ');
 
-    for (let i = 0; i < words.length; i++) {
-        words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+        for (let i = 0; i < words.length; i++) {
+            words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+        };
+
+        const capped_name = words.join(' ');
+
+        userPict.src = 'https://drive.google.com/uc?export=view&id=' + data.url_pict;
+        name.innerHTML = capped_name;
+        title.innerHTML = data.title;
+        address.innerHTML = data.address;
+        website.innerHTML = data.website;
+        github.innerHTML = data.github;
+        facebook.innerHTML = data.facebook;
+        twitter.innerHTML = data.twitter;
+        instagram.innerHTML = data.instagram;
+        summary.innerHTML = data.summary;
+        age.innerHTML = data.age + " years old";
+        gender.innerHTML = data.gender;
+        education.innerHTML = data.education;
+        major.innerHTML = data.major;
+        contact.innerHTML = data.contact;
     };
-
-    const capped_name = words.join(' ');
-
-    userPict.src = 'https://drive.google.com/uc?export=view&id=' + data.url_pict;
-    name.innerHTML = capped_name;
-    title.innerHTML = data.title;
-    address.innerHTML = data.address;
-    website.innerHTML = data.website;
-    github.innerHTML = data.github;
-    facebook.innerHTML = data.facebook;
-    twitter.innerHTML = data.twitter;
-    instagram.innerHTML = data.instagram;
-    summary.innerHTML = data.summary;
-    age.innerHTML = data.age;
-    gender.innerHTML = data.gender;
-    education.innerHTML = data.education;
-    major.innerHTML = data.major;
-    contact.innerHTML = data.contact;
-
 }
 
 document.addEventListener("DOMContentLoaded", getProfile);

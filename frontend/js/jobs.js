@@ -149,14 +149,15 @@ async function getJobDetails(id) {
 }
 
 async function applyJob(id) {
-	const username = atob(localStorage.getItem("username"));
-	const password = atob(localStorage.getItem("password"));
-	const token = btoa(username + ":" + password);
+    const userId = localStorage.getItem("id");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
 	const coverLetterText = document.getElementById("coverLetterText").value;
 	const coverLetterModal = document.getElementById("coverLetterModal");
 	const myHeaders = {
-		"Authorization": "Basic" + " " + token,
-		"Content-type": "application/json; charset=UTF-8"
+		"Content-type": "application/json; charset=UTF-8",
+		"id": userId,
+        "isLoggedIn": isLoggedIn,
 	};
 
 	const data = {

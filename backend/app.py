@@ -137,9 +137,6 @@ def login():
         .first()
     )
 
-    global loginFailed
-    loginFailed = False
-    
     if jobseeker:
         if jobseeker.password == password:
             return {
@@ -149,7 +146,6 @@ def login():
                 "name": jobseeker.first_name
             }
         else:
-            loginFailed = True
             return {"message": "Password is not matched!"}, 400
 
     elif company:
@@ -161,11 +157,9 @@ def login():
                 "name": company.name
             }
         else:
-            loginFailed = True
             return {"message": "Password is not matched!"}, 400
 
     else:
-        loginFailed = True
         return {"message": "No such account exist!"}, 400
 
 # _________________________________________Jobseeker and Company Register_________________________________________
@@ -291,8 +285,12 @@ def getJobseekerDetail(id):
 
 @app.put("/jobseeker/<int:id>")
 def updateJobseeker(id):
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -339,8 +337,12 @@ def updateJobseeker(id):
 # __________________________________________________Company Info__________________________________________________
 @app.put("/company/<int:id>")
 def updateCompany(id):
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -416,8 +418,12 @@ def getJobDetails(id):
 
 @app.post("/jobs")
 def postJob():
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -464,8 +470,12 @@ def postJob():
 
 @app.get("/company/jobs")
 def getCompanyJobs():
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -495,8 +505,12 @@ def getCompanyJobs():
 
 @app.get("/company/jobs/<int:id>")
 def getCompanyJobDetails(id):
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -538,9 +552,12 @@ def getCompanyJobDetails(id):
 
 @app.put("/company/jobs/<int:id>")
 def updateCompanyJob(id):
-    user = login()
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
 
-    if loginFailed:
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -589,8 +606,12 @@ def updateCompanyJob(id):
 
 @app.get("/jobseeker/jobs")
 def getUnappliedJobs():
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -633,9 +654,13 @@ def getUnappliedJobs():
 # ________________________________________________Application Info________________________________________________
 @app.post("/application")
 def applyJob():
-    user = login()
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
     data = request.get_json()
-    if loginFailed:
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -676,8 +701,12 @@ def applyJob():
 
 @app.put("/application/<int:id>")
 def appResponse(id):
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -709,8 +738,12 @@ def appResponse(id):
 
 @app.get("/application")
 def getApps():
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -767,8 +800,12 @@ def getApps():
 
 @app.get("/application/<int:id>")
 def getAppDetails(id):
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -809,8 +846,12 @@ def getAppDetails(id):
 
 @app.get("/application/jobs/<int:id>")
 def getJobApplicants(id):
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",
@@ -847,8 +888,12 @@ def getJobApplicants(id):
 # ____________________________________________Search Jobseeker and Jobs___________________________________________
 @app.get("/search/jobseeker")
 def searchJobseeker():
-    user = login()
-    if loginFailed:
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
         return {
             "status": "Unauthorized",
             "message": "Please check username and password!",

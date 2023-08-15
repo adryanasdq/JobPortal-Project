@@ -30,12 +30,13 @@ document.addEventListener('DOMContentLoaded', getApps)
 async function getApps(e) {
     e.preventDefault()
 
-    const username = atob(localStorage.getItem("username"));
-    const password = atob(localStorage.getItem("password"));
-    const token = btoa(username + ":" + password);
+    const userId = localStorage.getItem("id");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const sortby = document.querySelector(".sort-by").value;
     const myHeaders = {
-        "Authorization": "Basic" + " " + token,
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        "id": userId,
+        "isLoggedIn": isLoggedIn,
     };
 
     const requestOptions = {
@@ -48,10 +49,36 @@ async function getApps(e) {
 
     const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
     const result = await response.json();
-    for (const app of result.data) {
-        const appCard = createJobCard(app);
-        appContainer.appendChild(appCard);
-    };
+    const data = result.data;
+    if (data && data.length > 0) {
+		if (sortby === "newest") {
+			data.sort((a, b) => {
+				return b.id - a.id
+			});
+		} else if (sortby === "oldest") {
+			data.sort((a, b) => {
+				return a.id - b.id
+			});
+		} else if (sortby === "highpaid") {
+			data.sort((a, b) => {
+				return b.salary - a.salary
+			});
+		} else if (sortby === "lowpaid") {
+			data.sort((a, b) => {
+				return a.salary - b.salary
+			});
+		};
+
+		data.forEach((job) => {
+			const jobCard = createJobCard(job);
+			appContainer.appendChild(jobCard)
+		});
+
+	} else {
+		const noFoundMessage = document.createElement("p");
+		noFoundMessage.innerHTML = "Wow, such empty! are you new? try apply for a job!";
+		appContainer.appendChild(noFoundMessage);
+	};
 };
 
 async function getAppDetails(id) {
@@ -61,13 +88,13 @@ async function getAppDetails(id) {
     const about_company = document.querySelector('.about > p');
     const cover_letter = document.querySelector('.description > p');
 
-    const username = atob(localStorage.getItem("username"));
-    const password = atob(localStorage.getItem("password"));
-    const token = btoa(username + ":" + password);
+    const userId = localStorage.getItem("id");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
     const url = `http://127.0.0.1:5000/application/${id}`;
     const myHeaders = {
-        "Authorization": "Basic" + " " + token,
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        "id": userId,
+        "isLoggedIn": isLoggedIn,
     };
 
     const requestOptions = {
@@ -88,3 +115,6 @@ async function getAppDetails(id) {
     about_company.innerHTML = data.note;
     cover_letter.innerHTML = data.cover_letter;
 }
+
+const sorter = document.querySelector(".sort-by");
+sorter.addEventListener("change", getApps);

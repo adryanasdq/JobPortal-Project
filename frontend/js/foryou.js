@@ -34,13 +34,13 @@ async function getJobs(e) {
     e.preventDefault()
 
     const url = 'http://127.0.0.1:5000/jobseeker/jobs';
-    const username = atob(localStorage.getItem("username"));
-    const password = atob(localStorage.getItem("password"));
+	const userId = localStorage.getItem("id");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
 	const sortby = document.querySelector(".sort-by").value;
-    const token = btoa(username + ":" + password);
     const myHeaders = {
-        "Authorization": "Basic" + " " + token,
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+		"id": userId,
+        "isLoggedIn": isLoggedIn,
     };
 
     const requestOptions = {
@@ -51,39 +51,52 @@ async function getJobs(e) {
     const jobContainer = document.querySelector('.wrapper');
     jobContainer.innerHTML = '';
 
-    const response = await fetch(url, requestOptions);
-    const result = await response.json();
-	const data = result.data;
-
-    if (data && data.length > 0) {
-		if (sortby === "newest") {
-			data.sort((a, b) => {
-				return b.id - a.id
-			});
-		} else if (sortby === "oldest") {
-			data.sort((a, b) => {
-				return a.id - b.id
-			});
-		} else if (sortby === "highpaid") {
-			data.sort((a, b) => {
-				return b.salary - a.salary
-			});
-		} else if (sortby === "lowpaid") {
-			data.sort((a, b) => {
-				return a.salary - b.salary
-			});
-		};
-
-		data.forEach((job) => {
-			// condition for saved jobs
-            const jobCard = createJobCard(job);
-            jobContainer.appendChild(jobCard)
-		})
+	if (userId == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Please login first",
+            confirmButtonText: "Yes",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "landing.html"
+            }
+        });
     } else {
-        const noFoundMessage = document.createElement('p');
-        noFoundMessage.innerHTML = jsonResp.message;
-        jobContainer.appendChild(noFoundMessage);
-    }
+		const response = await fetch(url, requestOptions);
+		const result = await response.json();
+		const data = result.data;
+	
+		if (data && data.length > 0) {
+			if (sortby === "newest") {
+				data.sort((a, b) => {
+					return b.id - a.id
+				});
+			} else if (sortby === "oldest") {
+				data.sort((a, b) => {
+					return a.id - b.id
+				});
+			} else if (sortby === "highpaid") {
+				data.sort((a, b) => {
+					return b.salary - a.salary
+				});
+			} else if (sortby === "lowpaid") {
+				data.sort((a, b) => {
+					return a.salary - b.salary
+				});
+			};
+	
+			data.forEach((job) => {
+				// condition for saved jobs
+				const jobCard = createJobCard(job);
+				jobContainer.appendChild(jobCard)
+			})
+		} else {
+			const noFoundMessage = document.createElement('p');
+			noFoundMessage.innerHTML = "Wow, you are all caught up! Come back next time when new job posted";
+			jobContainer.appendChild(noFoundMessage);
+		}
+	}
 }
 
 const sorter = document.querySelector(".sort-by");
@@ -112,7 +125,9 @@ async function getJobDetails(id) {
 	position.innerHTML = data.position;
 	about_company.innerHTML = data.company_about;
 	job_desc.innerHTML = data.description;
-	qualification.innerHTML = data.requirements;// Modal
+	qualification.innerHTML = data.requirements;
+	
+	// Modal
 	const openModalBtn = document.querySelectorAll(".btn-apply");
 	const closeModalBtn = document.getElementById("closeModalBtn");
 	const coverLetterModal = document.getElementById("coverLetterModal");
@@ -136,14 +151,14 @@ async function getJobDetails(id) {
 }
 
 async function applyJob(id) {
-	const username = atob(localStorage.getItem("username"));
-	const password = atob(localStorage.getItem("password"));
-	const token = btoa(username + ":" + password);
+    const userId = localStorage.getItem("id");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
 	const coverLetterText = document.getElementById("coverLetterText").value;
 	const coverLetterModal = document.getElementById("coverLetterModal");
 	const myHeaders = {
-		"Authorization": "Basic" + " " + token,
-		"Content-type": "application/json; charset=UTF-8"
+		"Content-type": "application/json; charset=UTF-8",
+		"id": userId,
+        "isLoggedIn": isLoggedIn,
 	};
 
 	const data = {
@@ -159,7 +174,6 @@ async function applyJob(id) {
 
 	const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
 	const result = await response.json();
-	console.log(result)
 
 	if (result.status === "Success!") {
 		Swal.fire({

@@ -14,9 +14,7 @@ function logout(e) {
     }).then((result) => {
         if (result.isConfirmed) {
             localStorage.removeItem("isLoggedIn");
-            localStorage.removeItem("username");
             localStorage.removeItem("name");
-            localStorage.removeItem("password");
             localStorage.removeItem("id");
             window.location.href = 'landing.html';
         }
