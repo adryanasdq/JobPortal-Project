@@ -107,7 +107,7 @@ class Application(db.Model):
 )
     job_id = db.Column(db.Integer, db.ForeignKey("portaljob.job_vacancy.id"), primary_key=True)
     jobseeker_id = db.Column(db.Integer, db.ForeignKey("portaljob.job_seeker.id"), primary_key=True)
-    status = db.Column(db.String, db.CheckConstraint("status IN ('applied', 'accepted', 'rejected')"))
+    status = db.Column(db.String, db.CheckConstraint("status IN ('saved', 'applied', 'accepted', 'rejected')"))
     cover_letter = db.Column(db.Text)
     note = db.Column(db.String)
 
@@ -613,7 +613,54 @@ def updateCompanyJob(id):
         }, 401
 
 
-@app.get("/jobseeker/jobs")
+@app.get("/jobseeker/savedjobs")
+def getSavedJobs():
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    if not user:
+        return {
+            "status": "Unauthorized",
+            "message": "Please check username and password!",
+        }, 401
+
+    elif str(user.get("id")).startswith("3"):
+        subquery = (
+            db.session.query(Application)
+            .filter(Application.job_id == JobVacancy.id)
+            .filter(Application.jobseeker_id == user.get("id"))
+            .filter(Application.status == "saved")
+            .exists()
+        )
+        jobs = (
+            db.session.query(JobVacancy)
+            .filter(subquery)
+            .all()
+        )
+        response = [
+            {
+                "id": j.id,
+                "company": j.company.name,
+                "location": j.location,
+                "position": j.position,
+                "salary": j.salary,
+                "posted_on": j.posted_on,
+                "logo_url": j.company.logo_url,
+            }
+            for j in jobs
+        ]
+        return {"count": len(response), "data": response}
+
+    else:
+        return {
+            "status": "Unauthorized",
+            "message": "Please login as jobseeker first",
+        }, 401
+
+
+@app.get("/jobseeker/openjobs")
 def getUnappliedJobs():
     user = {
         "id": int(request.headers.get("id")),
@@ -679,7 +726,7 @@ def applyJob():
         new_app = Application(
             job_id=data.get("job_id"),
             jobseeker_id=user.get("id"),
-            status="applied",
+            status=data.get("status"),
             cover_letter=data.get("cover_letter"),
         )
 
@@ -688,6 +735,7 @@ def applyJob():
             .filter(
                 Application.job_id == new_app.job_id,
                 Application.jobseeker_id == new_app.jobseeker_id,
+                Application.status == new_app.status,
             )
             .first()
         )
@@ -706,6 +754,15 @@ def applyJob():
             "status": "Unauthorized",
             "message": "Please login as jobseeker first",
         }, 401
+
+
+@app.delete("/application/<int:id>")
+def deleteSavedJob(id):
+    application = db.session.query(Application).filter(Application.id == id).first()
+    
+    db.session.delete(application)
+    db.session.commit()
+    return {"message": "Saved job removed!"}, 200
 
 
 @app.put("/application/<int:id>")
@@ -768,6 +825,8 @@ def getApps():
         response = [
             {
                 "id": apps.id,
+                "job_id": apps.job_id,
+                "jobseeker_id": apps.jobseeker_id,
                 "company": apps.jobvacancy.company.name,
                 "location": apps.jobvacancy.location,
                 "position": apps.jobvacancy.position,

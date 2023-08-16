@@ -127,6 +127,7 @@ async function getJobDetails(id) {
 
 	// Modal
 	const openModalBtn = document.querySelectorAll(".btn-apply");
+	const saveBtn = document.querySelector(".btn-save");
 	const closeModalBtn = document.getElementById("closeModalBtn");
 	const coverLetterModal = document.getElementById("coverLetterModal");
 	const submitCoverLetterBtn = document.getElementById("submitCoverLetterBtn");
@@ -146,18 +147,20 @@ async function getJobDetails(id) {
 	});
 
 	submitCoverLetterBtn.onclick = () => applyJob(id);
+	console.log(id)
+	saveBtn.onclick = () => toggleSaveJob(id);
 }
 
 async function applyJob(id) {
-    const userId = localStorage.getItem("id");
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
+	const userId = localStorage.getItem("id");
+	const isLoggedIn = localStorage.getItem("isLoggedIn");
 
 	const coverLetterText = document.getElementById("coverLetterText").value;
 	const coverLetterModal = document.getElementById("coverLetterModal");
 	const myHeaders = {
 		"Content-type": "application/json; charset=UTF-8",
 		"id": userId,
-        "isLoggedIn": isLoggedIn,
+		"isLoggedIn": isLoggedIn,
 	};
 
 	const data = {
@@ -189,4 +192,108 @@ async function applyJob(id) {
 			text: result.message,
 		})
 	};
+};
+
+async function toggleSaveJob(id) {
+	const userId = localStorage.getItem("id");
+	const isLoggedIn = localStorage.getItem("isLoggedIn");
+	const myHeaders = {
+		"Content-type": "application/json; charset=UTF-8",
+		"id": userId,
+		"isLoggedIn": isLoggedIn,
+	};
+
+	const requestOptions = {
+		method: "GET",
+		headers: myHeaders,
+	};
+
+	const response = await fetch(`http://127.0.0.1:5000/application`, requestOptions);
+	const result = await response.json();
+	const isSaved = result.data.find(app => app.job_id == id && app.jobseeker_id == userId && app.status === "saved");
+
+	if (isSaved) {
+		const deleteResponse = await deleteSavedJob(isSaved.id);
+		const deleteResult = await deleteResponse.json();
+
+		const Toast = Swal.mixin({
+			toast: true,
+			position: "top-end",
+			showConfirmButton: false,
+			timer: 2500,
+			timerProgressBar: true,
+			didOpen: (toast) => {
+				toast.addEventListener("mouseenter", Swal.stopTimer)
+				toast.addEventListener("mouseleave", Swal.resumeTimer)
+			}
+		});
+
+		Toast.fire({
+			icon: "success",
+			title: deleteResult.message,
+		});
+
+	} else {
+		saveJob(id);
+
+		const Toast = Swal.mixin({
+			toast: true,
+			position: "top-end",
+			showConfirmButton: false,
+			timer: 3000,
+			timerProgressBar: true,
+			didOpen: (toast) => {
+				toast.addEventListener("mouseenter", Swal.stopTimer)
+				toast.addEventListener("mouseleave", Swal.resumeTimer)
+			}
+		})
+
+		Toast.fire({
+			icon: "success",
+			title: "Job saved!"
+		})
+	}
+
+}
+
+async function saveJob(id) {
+	const userId = localStorage.getItem("id");
+	const isLoggedIn = localStorage.getItem("isLoggedIn");
+	const myHeaders = {
+		"Content-type": "application/json; charset=UTF-8",
+		"id": userId,
+		"isLoggedIn": isLoggedIn,
+	};
+
+	const data = {
+		"job_id": id,
+		"status": "saved"
+	};
+
+	const requestOptions = {
+		method: "POST",
+		headers: myHeaders,
+		body: JSON.stringify(data),
+	}
+
+	const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
+	return response;
+};
+
+async function deleteSavedJob(id) {
+	const userId = localStorage.getItem("id");
+	const isLoggedIn = localStorage.getItem("isLoggedIn");
+	const myHeaders = {
+		"Content-type": "application/json; charset=UTF-8",
+		"id": userId,
+		"isLoggedIn": isLoggedIn,
+	};
+
+	const requestOptions = {
+		method: "DELETE",
+		headers: myHeaders,
+	};
+
+	const response = await fetch(`http://127.0.0.1:5000/application/${id}`, requestOptions);
+	return response;
 };

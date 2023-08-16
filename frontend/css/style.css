@@ -97,6 +97,10 @@ body {
     z-index: 1;
 }
 
+.main h3 {
+    margin-left: 1.5%;
+}
+
 .main-header {
     display: flex;
     align-items: center;
@@ -239,9 +243,13 @@ body {
     gap: 10px;
 }
 
+.card-right {
+    min-width: 25%;
+}
+
 .card-salary p {
     display: flex;
-    flex-direction: row;
+    justify-content: end;
 }
 
 .card-loc {
@@ -291,6 +299,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0.5rem;
 }
 
 .detail-header img {

@@ -33,6 +33,20 @@ async function getApps(e) {
     const userId = localStorage.getItem("id");
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     const sortby = document.querySelector(".sort-by").value;
+
+    if (userId == null) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Please login first",
+            confirmButtonText: "Yes",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "landing.html"
+            }
+        });
+    };
+
     const myHeaders = {
         "Content-type": "application/json; charset=UTF-8",
         "id": userId,
@@ -50,6 +64,7 @@ async function getApps(e) {
     const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
     const result = await response.json();
     const data = result.data;
+
     if (data && data.length > 0) {
 		if (sortby === "newest") {
 			data.sort((a, b) => {
@@ -70,8 +85,10 @@ async function getApps(e) {
 		};
 
 		data.forEach((job) => {
-			const jobCard = createJobCard(job);
-			appContainer.appendChild(jobCard)
+            if (job.status != "saved") {
+                const jobCard = createJobCard(job);
+                appContainer.appendChild(jobCard)
+            }
 		});
 
 	} else {
