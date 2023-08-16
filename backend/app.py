@@ -20,7 +20,7 @@ class JobSeeker(db.Model):
 
     id = db.Column(
         db.Integer,
-        db.Sequence("portaljob.jobseeker_id_seq", start=301, maxvalue=399),
+        db.Sequence("jobseeker_id_seq", start=301, maxvalue=399),
         primary_key=True,
     )
     username = db.Column(db.String, unique=True, nullable=False)
@@ -30,7 +30,7 @@ class JobSeeker(db.Model):
     last_name = db.Column(db.String, nullable=False)
     title = db.Column(db.String)
     age = db.Column(db.Integer, db.CheckConstraint("age >= 0"))
-    gender = db.Column(db.String, db.CheckConstraint("gender IN ('L', 'P')"))
+    gender = db.Column(db.String, db.CheckConstraint("gender IN ('Male', 'Female')"))
     education = db.Column(db.String)
     major = db.Column(db.String)
     contact = db.Column(db.String, nullable=False)
@@ -304,8 +304,9 @@ def updateJobseeker(id):
         seeker.email = data.get("email", seeker.email)
         seeker.first_name = data.get("first_name", seeker.first_name)
         seeker.last_name = data.get("last_name", seeker.last_name)
+        seeker.title = data.get("title", seeker.title)
 
-        dob = data.get("date of birth")
+        dob = data.get("date_of_birth")
         if dob:
             convertedDob = datetime.strptime(dob, "%Y-%m-%d")
             seeker.age = ((datetime.now() - convertedDob).days) // 365
@@ -316,10 +317,18 @@ def updateJobseeker(id):
         seeker.contact = data.get("contact", seeker.contact)
         seeker.address = data.get("address", seeker.address)
         seeker.summary = data.get("summary", seeker.summary)
+        seeker.website = data.get("website", seeker.website)
+        seeker.github = data.get("github", seeker.github)
+        seeker.facebook = data.get("facebook", seeker.facebook)
+        seeker.twitter = data.get("twitter", seeker.twitter)
+        seeker.instagram = data.get("instagram", seeker.instagram)
 
         db.session.add(seeker)
         db.session.commit()
-        return {"message": "Data Successfully Updated!"}, 200
+        return {
+            "status": "Success!",
+            "message": "Data Successfully Updated!"
+        }, 200
 
     elif not seeker:
         return {

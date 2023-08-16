@@ -37,8 +37,8 @@
     <div class="main" style="width: 100%;">
         <div class="user-section">
             <div class="user-col1">
-                <div class="card">
-                    <div class="detail-btn" style="margin: 0;">
+                <div class="card" style="cursor:auto;">
+                    <div id="modal-1" class="detail-btn" style="margin: 0.5rem 0 0 0.5rem;">
                         <ion-icon name="create-outline"></ion-icon>
                     </div>
                     <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
@@ -50,7 +50,36 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+
+                <!-- Modal 1 -->
+                <div id="firstModal" class="modal">
+                    <div>
+                        <div class="input-modal">
+                            <div class="modal-title">
+                                <h3>Edit Profile</h3><span id="closeModal1" class="close">&times;</span>
+                            </div>
+                            <div class="modal-items">
+                                <p>First Name</p>
+                                <input id="user-firstName" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Last Name</p>
+                                <input id="user-lastName" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Title</p>
+                                <input id="user-title" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Address</p>
+                                <input id="user-address" type="text">
+                            </div>
+                            <button id="submitEdit1" class="btn-submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="cursor:auto;">
                     <ul class="user-links">
                         <li>
                             <h4><ion-icon name="globe-outline"></ion-icon>Website</h4>
@@ -82,10 +111,43 @@
                         </div>
                     </ul>
                 </div>
+
+                <!-- Modal 2 -->
+                <div id="secondModal" class="modal">
+                    <div>
+                        <div class="input-modal">
+                            <div class="modal-title">
+                                <h3>Edit Profile</h3><span id="closeModal2" class="close">&times;</span>
+                            </div>
+                            <div class="modal-items">
+                                <p>Website</p>
+                                <input id="user-website" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Github</p>
+                                <input id="user-github" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Facebook</p>
+                                <input id="user-facebook" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Twitter</p>
+                                <input id="user-twitter" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Instagram</p>
+                                <input id="user-instagram" type="text">
+                            </div>
+                            <button id="submitEdit2" class="btn-submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="user-col2">
-                <div class="card">
+                <div class="card" style="cursor:auto; min-height: 104vh;">
                     <ul class="user-about">
                         <li>
                             <h4>About</h4>
@@ -118,14 +180,55 @@
                         </li>
                         <hr class="divider">
                         <div class="detail-btn" style="margin: 0; justify-content: end;">
-                            <button id="link-edit" class="btn-apply" style="border-radius: 10px;">Edit</button>
+                            <button id="about-edit" class="btn-apply" style="border-radius: 10px;">Edit</button>
                         </div>
                     </ul>
                 </div>
+
+                <!-- third modal -->
+                <div id="thirdModal" class="modal">
+                    <div>
+                        <div class="input-modal">
+                            <div class="modal-title">
+                                <h3>Edit Profile</h3><span id="closeModal3" class="close">&times;</span>
+                            </div>
+                            <div class="modal-items">
+                                <p>Tell about yourself</p>
+                                <textarea name="about" id="user-summary" cols="30" rows="10"></textarea>
+                            </div>
+                            <div class="modal-items">
+                                <p>Date of Birth</p>
+                                <input id="user-dob" type="date">
+                            </div>
+                            <div class="modal-items">
+                                <p>Gender</p>
+                                <select id="user-gender" type="text">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div class="modal-items">
+                                <p>Education</p>
+                                <input id="user-education" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Major</p>
+                                <input id="user-major" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Contact</p>
+                                <input id="user-contact" type="text">
+                            </div>
+                            <button id="submitEdit3" class="btn-submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </body>
+
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>

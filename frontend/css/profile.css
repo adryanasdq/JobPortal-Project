@@ -30,7 +30,6 @@
     width: 65%;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
 }
 
 .user-col3 {
@@ -50,6 +49,7 @@
 }
 
 .user-about {
+    min-width: 100%;
     display: flex;
     flex-direction: column;
     list-style-type: none;
@@ -66,7 +66,8 @@
     margin-bottom: 0.5rem;
 }
 
-.user-title, .user-address {
+.user-title,
+.user-address {
     color: #777;
 }
 
@@ -104,7 +105,8 @@
     color: var(--primaryColor)
 }
 
-.user-links p, .user-about p {
+.user-links p,
+.user-about p {
     color: #777;
 }
 
@@ -115,5 +117,68 @@
 }
 
 .user-info {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#user-summary,
+.user-summary {
+    text-align: justify;
+    max-height: 30vh;
+}
+
+#modal-1:hover {
+    cursor: pointer;
+    color: var(--primaryColor);
+}
+
+.input-modal {
+    margin: 10% auto;
+    width: 30%;
+    padding: 20px;
+    border: 1px solid #888;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-items {
+    margin-bottom: 15px;
+}
+
+.modal-items p {
+    font-size: 13px;
+    margin-bottom: 0.5rem;
+}
+
+.modal-items input[type="text"],
+.modal-items input[type="date"],
+.modal-items select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-submit {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
