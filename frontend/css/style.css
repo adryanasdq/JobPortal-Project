@@ -97,6 +97,10 @@ body {
     z-index: 1;
 }
 
+.main h2 {
+    padding-top: 0.5rem;
+}
+
 .main h3 {
     margin-left: 1.5%;
 }
@@ -104,7 +108,8 @@ body {
 .main-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 5rem;
 }
 
 /* This will only show on mobile view, on desktop hidden */
@@ -159,9 +164,16 @@ body {
 
 .filter {
     display: flex;
-    gap: 1rem;
+    align-items: center;
     overflow-x: auto;
     margin: 0.5rem 0;
+}
+
+.filter select {
+    height: 1.5rem;
+    width: fit-content;
+    border: none;
+    border-radius: 20px;
 }
 
 .btn-filter {
@@ -183,12 +195,16 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 0.5rem;
 }
 
 .sort p {
     font-size: 14px;
     padding: 0.5rem;
+}
+
+.sort-list {
+    display: flex;
+    align-items: center;
 }
 
 .sort-list select {
@@ -317,6 +333,10 @@ body {
 
 .detail-desc {
     line-height: 1.5;
+}
+
+.qualification ul {
+    list-style: none;
 }
 
 .about a {

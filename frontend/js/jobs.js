@@ -15,8 +15,8 @@ function createJobCard(jobData) {
             <p class="card-loc"><ion-icon name="location-outline"></ion-icon>${jobData.location}</p>
             <div class="card-sub">
                 <p><ion-icon name="today-outline"></ion-icon>${countDays} day(s) ago</p>
-                <p><ion-icon name="hourglass-outline"></ion-icon>Full Time</p>
-                <p><ion-icon name="people-outline"></ion-icon>200 applicants</p>
+                <p><ion-icon name="hourglass-outline"></ion-icon>${jobData.job_type}</p>
+                <p><ion-icon name="school-outline"></ion-icon>${jobData.major}</p>
             </div>
         </div>
         <div class="card-right">
@@ -37,6 +37,7 @@ async function getJobs(e) {
 	const major = document.querySelector(".job-major").value;
 	const salary = document.querySelector(".job-salary").value;
 	const location = document.querySelector(".job-location").value;
+	const jobType = document.getElementById("job-type").value;
 	const sortby = document.querySelector(".sort-by").value;
 
 	let url = "http://127.0.0.1:5000/search/jobs?";
@@ -44,12 +45,18 @@ async function getJobs(e) {
 	if (position) {
 		url += `position=${position}`
 	};
+	if (major) {
+		url += `&major=${major}`
+	};
 	if (salary) {
 		url += `&salary=${salary}`
 	};
 	if (location) {
 		url += `&location=${location}`
 	};
+	if (jobType) {
+		url += `&job_type=${jobType}`
+	}
 
 	const jobContainer = document.querySelector(".wrapper");
 	jobContainer.innerHTML = "";
@@ -147,7 +154,6 @@ async function getJobDetails(id) {
 	});
 
 	submitCoverLetterBtn.onclick = () => applyJob(id);
-	console.log(id)
 	saveBtn.onclick = () => toggleSaveJob(id);
 }
 
@@ -176,7 +182,6 @@ async function applyJob(id) {
 
 	const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
 	const result = await response.json();
-	console.log(result)
 
 	if (result.status === "Success!") {
 		Swal.fire({

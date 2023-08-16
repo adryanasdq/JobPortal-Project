@@ -87,6 +87,8 @@ class JobVacancy(db.Model):
     location = db.Column(db.String)
     posted_on = db.Column(db.Date, nullable=False)
     expired_on = db.Column(db.Date, nullable=False)
+    job_type = db.Column(db.String)
+    major = db.Column(db.String)
     salary = db.Column(db.Integer)
     description = db.Column(db.Text)
     requirements = db.Column(db.Text)
@@ -413,6 +415,8 @@ def getJobDetails(id):
             "company_name": job.company.name,
             "company_about": job.company.about,
             "position": job.position,
+            "major": job.major,
+            "job_type": job.job_type,
             "location": job.location,
             "posted_on": job.posted_on,
             "expired_on": job.expired_on,
@@ -443,6 +447,8 @@ def postJob():
         new_job = JobVacancy(
             company_id=user.get("id"),
             position=data.get("position"),
+            major=data.get("major"),
+            job_type=data.get("job_type"),
             location=data.get("location"),
             posted_on=datetime.today(),
             expired_on=datetime.today() + timedelta(int(data.get("available_for"))),
@@ -584,6 +590,8 @@ def updateCompanyJob(id):
         if job:
             job.position = data.get("position", job.position)
             job.location = data.get("location", job.location)
+            job.job_type = data.get("job_type", job.job_type)
+            job.major = data.get("major", job.major)
 
             duration = data.get("available_for")
             salary = data.get("salary")
@@ -1025,6 +1033,8 @@ def searchJobs():
         filters["location"] = request.args.get("location")
     if "salary" in request.args:
         filters["salary"] = request.args.get("salary")
+    if "job_type" in request.args:
+        filters["job_type"] = request.args.get("job_type")
 
     query = db.session.query(JobVacancy)
     for field, value in filters.items():
@@ -1039,6 +1049,8 @@ def searchJobs():
         {
             "id": j.id,
             "company": j.company.name,
+            "job_type": j.job_type,
+            "major": j.major,
             "location": j.location,
             "position": j.position,
             "salary": j.salary,

@@ -34,6 +34,7 @@
 
     <!-- Main -->
     <div class="main">
+        <h2 style="text-align: center;">Search your next career opportunity</h2>
         <div class="main-header">
             <ion-icon class="menu-bar" name="menu-outline"></ion-icon>
             <form class="search">
@@ -55,21 +56,19 @@
                 <button class="btn-search"><ion-icon name="search-outline"></ion-icon></button>
             </form>
         </div>
-        
-        <div class="filter-wrapper">
-            <p>Recommendation</p>
-            <div class="filter">
-                <button class="btn-filter">Data Science</button>
-                <button class="btn-filter">Administration</button>
-                <button class="btn-filter">Full-Stack Developer</button>
-                <button class="btn-filter">KOL Specialist</button>
-                <button class="btn-filter">Content Creator</button>
-            </div>
-        </div>
 
-        <div class="sort">
-            <p>Sort</p>
+        <div class="sort" style="justify-content: space-between;">
+            <div class="filter">
+                <p>Job type</p>
+                <select id="job-type">
+                    <option value="" selected>All</option>
+                    <option value="full-time">Full-Time</option>
+                    <option value="part-time">Part-Time</option>
+                    <option value="remote">Remote</option>
+                </select>
+            </div>
             <div class="sort-list">
+                <p>Sort</p>
                 <select class="sort-by">
                     <option value="all">All</option>
                     <option value="newest">Newest Post</option>
