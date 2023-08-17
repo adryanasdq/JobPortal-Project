@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="img/logo.png">
     <link rel="stylesheet" href="css/color.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/style-2.css">
+    <link rel="stylesheet" href="css/profile-2.css">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <title>Get a Life! A Portal to Your Future</title>
 </head>
@@ -17,18 +17,18 @@
         <h1 class="logo">Get a Life!</h1>
         <!-- <h4 class="sub-logo">A Portal to Your Future</h4> -->
         <div class="menus">
-            <a href="home-jobseeker.html"><ion-icon name="home-outline"></ion-icon>Home</a>
+            <a href="home-company.html"><ion-icon name="home-outline"></ion-icon>Home</a>
             <a href="jobs-jobseeker.html"><ion-icon name="newspaper-outline"></ion-icon>Find Jobs</a>
             <a href="foryou-jobseeker.html"><ion-icon name="heart-outline"></ion-icon>For You</a>
             <a href="myapp-jobseeker.html"><ion-icon name="clipboard-outline"></ion-icon>My Applications</a>
-            <a href="profile-jobseeker.html"><ion-icon name="accessibility-outline"></ion-icon>Profile</a>
+            <a href="profile-company.html"><ion-icon name="accessibility-outline"></ion-icon>Profile</a>
             <a href="landing.html" id="logout"><ion-icon name="power-outline"></ion-icon>Logout</a>
         </div>
         <div class="profile">
-            <img src="img/user.jpg" alt="" class="profile-img">
+            <img alt="" class="profile-img">
             <div class="profile-name">
                 <h4 id="user"></h4>
-                <p>Jobseeker</p>
+                <p>Company</p>
             </div>
         </div>
     </div>
@@ -36,17 +36,194 @@
     <!-- Main -->
     <div class="main" style="width: 100%;">
         <div class="user-section">
-            <!-- User profile here -->
+            <div class="user-col1">
+                <div class="card" style="cursor:auto;">
+                    <div id="modal-1" class="detail-btn" style="margin: 0.5rem 0 0 0.5rem;">
+                        <ion-icon name="create-outline"></ion-icon>
+                    </div>
+                    <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                        <img alt="Profile Image" class="user-img">
+                        <div class="user-info" style="text-align: center;">
+                            <h3 class="user-name" style="width: 100%;">unknown</h3>
+                            <p class="user-industry">add industry</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal 1 -->
+                <div id="firstModal" class="modal">
+                    <div>
+                        <div class="input-modal">
+                            <div class="modal-title">
+                                <h3>Edit Profile</h3><span id="closeModal1" class="close">&times;</span>
+                            </div>
+                            <div class="modal-items">
+                                <p>Company Name</p>
+                                <input id="company-name" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Industry</p>
+                                <input id="company-industry" type="text">
+                            </div>
+                            <button id="submitEdit1" class="btn-submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="cursor:auto; min-height: 67vh;">
+                    <ul class="user-links">
+                        <li>
+                            <h4><ion-icon name="globe-outline"></ion-icon>Website</h4>
+                            <p class="user-website"><a href=""><i>add account</i></a></p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4><ion-icon name="logo-github"></ion-icon>Github</h4>
+                            <p class="user-github"><i>add account</i></p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4><ion-icon name="logo-facebook"></ion-icon>Facebook</h4>
+                            <p class="user-facebook"><i>add account</i></p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4><ion-icon name="logo-twitter"></ion-icon>Twitter</h4>
+                            <p class="user-twitter"><i>add account</i></p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4><ion-icon name="logo-instagram"></ion-icon>Instagram</h4>
+                            <p class="user-instagram"><i>add account</i></p>
+                        </li>
+                        <hr class="divider">
+                        <div class="detail-btn" style="margin: 0; justify-content: end;">
+                            <button id="link-edit" class="btn-apply" style="border-radius: 10px;">Edit</button>
+                        </div>
+                    </ul>
+                </div>
+
+                <!-- Modal 2 -->
+                <div id="secondModal" class="modal">
+                    <div>
+                        <div class="input-modal">
+                            <div class="modal-title">
+                                <h3>Edit Profile</h3><span id="closeModal2" class="close">&times;</span>
+                            </div>
+                            <div class="modal-items">
+                                <p>Website</p>
+                                <input id="user-website" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Github</p>
+                                <input id="user-github" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Facebook</p>
+                                <input id="user-facebook" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Twitter</p>
+                                <input id="user-twitter" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Instagram</p>
+                                <input id="user-instagram" type="text">
+                            </div>
+                            <button id="submitEdit2" class="btn-submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="user-col2">
+                <div class="card" style="cursor:auto; min-height: 104vh;">
+                    <ul class="user-about">
+                        <li>
+                            <h4>About</h4>
+                            <p class="user-summary"><i>add company about</i></p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4>Active since</h4>
+                            <p class="user-est"><i>add established date</i></p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4>Industry</h4>
+                            <p id="user-industry"><i>add industry</i></p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4>Address</h4>
+                            <p class="user-address">add address</p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4>Email</h4>
+                            <p class="user-email">add email</p>
+                        </li>
+                        <hr class="divider">
+                        <li>
+                            <h4>Contact</h4>
+                            <p class="user-contact">add contact</p>
+                        </li>
+                        <hr class="divider">
+                        <div class="detail-btn" style="margin: 0; justify-content: end;">
+                            <button id="about-edit" class="btn-apply" style="border-radius: 10px;">Edit</button>
+                        </div>
+                    </ul>
+                </div>
+
+                <!-- third modal -->
+                <div id="thirdModal" class="modal">
+                    <div>
+                        <div class="input-modal">
+                            <div class="modal-title">
+                                <h3>Edit Profile</h3><span id="closeModal3" class="close">&times;</span>
+                            </div>
+                            <div class="modal-items">
+                                <p>Tell about this company</p>
+                                <textarea name="about" id="company-about" cols="30" rows="10"></textarea>
+                            </div>
+                            <div class="modal-items">
+                                <p>Active since</p>
+                                <input id="company-est" type="date">
+                            </div>
+                            <div class="modal-items">
+                                <p>Industry</p>
+                                <input id="company-industry" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Address</p>
+                                <input id="company-address" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Email</p>
+                                <input id="company-email" type="text">
+                            </div>
+                            <div class="modal-items">
+                                <p>Contact</p>
+                                <input id="company-contact" type="text">
+                            </div>
+                            <button id="submitEdit3" class="btn-submit">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </body>
+
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="js/sidebar.js"></script>
-<script src="js/profile.js"></script>
-<script src="js/session.js"></script>
+<script src="js/profile-2.js"></script>
+<script src="js/session-2.js"></script>
 <script src="js/logout.js"></script>
 
 </html>

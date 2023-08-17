@@ -34,10 +34,15 @@
 
     <!-- Main -->
     <div class="main">
+        <h3 hidden>Saved Jobs</h3>
+        <div id="saved-job" class="wrapper">
+            <!-- saved job here -->
+        </div>
+        <hr class="divider" style="height: 1.5px; background-color: var(--darkGreyColor); margin: 0 0 2rem;" hidden>
         <div class="sort">
             <p>Sort</p>
             <div class="sort-list">
-                <select>
+                <select class="sort-by">
                     <option value="all">All</option>
                     <option value="newest">Newest Post</option>
                     <option value="oldest">Oldest Post</option>
@@ -46,8 +51,9 @@
             </div>
         </div>
 
-        <div class="wrapper">
-            <!-- content loaded here -->
+        <h3>Jobs available for you</h3>
+        <div id="unapplied" class="wrapper">
+            <!-- unapplied job here -->
         </div>
     </div>
 
@@ -81,7 +87,7 @@
         <hr class="divider">
         <div class="detail-btn">
             <button class="btn-apply">Apply Now</button>
-            <button class="btn-save">Save Job</button>
+            <button id="save" class="btn-save">Save Job</button>
         </div>
     </div>
 
