@@ -64,9 +64,14 @@ class Company(db.Model):
     industry = db.Column(db.String)
     address = db.Column(db.String, nullable=False)
     website = db.Column(db.String)
+    github = db.Column(db.String)
+    facebook = db.Column(db.String)
+    twitter = db.Column(db.String)
+    instagram = db.Column(db.String)
     contact = db.Column(db.String, nullable=False)
     logo_url = db.Column(db.String)
     about = db.Column(db.Text)
+    est_date = db.Column(db.Date)
     jobvacancy = db.relationship("JobVacancy", backref="company")
 
     def __repr__(self):
@@ -346,6 +351,35 @@ def updateJobseeker(id):
 
 
 # __________________________________________________Company Info__________________________________________________
+@app.get("/company/<int:id>")
+def getCompanyDetail(id):
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    company = db.session.query(Company).filter(Company.id == id).first()
+
+    response = {
+        "id": company.id,
+        "username": company.username,
+        "email": company.email,
+        "name": company.name,
+        "about": company.about,
+        "industry": company.industry,
+        "address": company.address,
+        "website": company.website,
+        "github": company.github,
+        "facebook": company.facebook,
+        "twitter": company.twitter,
+        "instagram": company.instagram,
+        "contact": company.contact,
+        "logo_url": company.logo_url,
+        "est_date": company.est_date,
+    }
+    return {"message": "success", "response": response}, 200
+
+
 @app.put("/company/<int:id>")
 def updateCompany(id):
     user = {
@@ -363,17 +397,25 @@ def updateCompany(id):
     if user.get("id") == id:
         data = request.get_json()
 
-        company.password = data.get("password", company.password)
+        company.about = data.get("about", company.about)
         company.email = data.get("email", company.email)
         company.name = data.get("name", company.name)
         company.industry = data.get("industry", company.industry)
         company.address = data.get("address", company.address)
         company.website = data.get("website", company.website)
+        company.github = data.get("github", company.github)
+        company.facebook = data.get("facebook", company.facebook)
+        company.twitter = data.get("twitter", company.twitter)
+        company.instagram = data.get("instagram", company.instagram)
         company.contact = data.get("contact", company.contact)
+        company.est_date = data.get("est_date", company.est_date)
 
         db.session.add(company)
         db.session.commit()
-        return {"message": "Data Successfully Updated!"}, 200
+        return {
+            "status": "Success!",
+            "message": "Data Successfully Updated!"
+        }, 200
 
     elif not company:
         return {
