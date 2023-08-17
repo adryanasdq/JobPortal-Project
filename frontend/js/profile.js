@@ -246,7 +246,7 @@ async function updateProfile2(id) {
 async function updateProfile3(id) {
     const userId = localStorage.getItem("id");
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    const secondModal = document.getElementById("secondModal");
+    const thirdModal = document.getElementById("thirdModal");
 
     const newSummary = document.getElementById("user-summary").value;
     const newDoB = document.getElementById("user-dob").value;
@@ -293,7 +293,7 @@ async function updateProfile3(id) {
             confirmButtonText: "Yes"
 		}).then((result) => {
             if (result.isConfirmed) {
-                secondModal.style.display = "none";
+                thirdModal.style.display = "none";
                 window.location.href = "profile-jobseeker.html"
             }
         });
