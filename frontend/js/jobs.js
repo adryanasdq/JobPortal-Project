@@ -172,6 +172,7 @@ async function applyJob(id) {
 	const data = {
 		"job_id": id,
 		"cover_letter": coverLetterText,
+		"status": "applied",
 	};
 
 	const requestOptions = {
