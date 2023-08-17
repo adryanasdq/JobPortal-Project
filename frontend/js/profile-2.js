@@ -54,7 +54,7 @@ async function getProfile(e) {
 
         userPict.src = data.logo_url;
         name.innerHTML = data.name;
-        industry1.innerHTML = data.industry;
+        industry1.innerHTML = data.industry + " Company";
         industry2.innerHTML = data.industry;
         website.innerHTML = data.website;
         github.innerHTML = data.github;
