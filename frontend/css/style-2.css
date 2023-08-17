@@ -60,7 +60,7 @@ body {
 }
 
 .btn-subscribe {
-    background-color: var(--primaryColor);
+    background-color: var(--ternaryColor);
     color: var(--whiteColor);
     border: none;
     padding: 10px 20px;
@@ -81,7 +81,7 @@ body {
     align-items: flex-start;
     justify-content: space-between;
     padding: 2rem;
-    background-color: var(--primaryColor);
+    background-color: var(--ternaryColor);
     color: var(--whiteColor);
     position: fixed;
     left: 0;
@@ -204,7 +204,7 @@ body {
     height: 100%;
     padding: 0 5%;
     border: none;
-    background-color: var(--primaryColor);
+    background-color: var(--ternaryColor);
     color: var(--whiteColor);
     font-size: 18px;
     border-radius: 20px;
@@ -246,7 +246,7 @@ body {
 }
 
 .btn-filter:hover {
-    background-color: var(--primaryColor);
+    background-color: var(--ternaryColor);
     color: var(--whiteColor);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
@@ -401,7 +401,7 @@ body {
 
 .about a {
     margin: 0.5rem 0 0 0;
-    color: var(--primaryColor);
+    color: var(--ternaryColor);
     font-size: 14px;
     text-decoration: none;
     font-weight: 600;
@@ -415,7 +415,7 @@ body {
 }
 
 .btn-apply {
-    background-color: var(--primaryColor);
+    background-color: var(--ternaryColor);
     color: var(--whiteColor);
     border: none;
     padding: 10px 20px;
@@ -432,9 +432,9 @@ body {
 }
 
 .btn-apply:hover {
-    border: 1px solid var(--primaryColor);
+    border: 1px solid var(--ternaryColor);
     background-color: transparent;
-    color: var(--primaryColor);
+    color: var(--ternaryColor);
 }
 
 .btn-save:hover {

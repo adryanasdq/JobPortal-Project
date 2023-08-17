@@ -1,0 +1,184 @@
+@import url(color.css);
+
+.main {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+}
+
+.user-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+.info-edit {
+    align-items: end;
+}
+
+.user-col1 {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user-col2 {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-col3 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--whiteColor);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.user-about {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+}
+
+.user-img {
+    padding: 0.5rem;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;
+}
+
+.user-name {
+    margin-bottom: 0.5rem;
+}
+
+.user-title,
+.user-address {
+    color: #777;
+}
+
+.user-links {
+    width: 100%;
+}
+
+.user-links ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+}
+
+.user-links li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.user-links li h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-links a {
+    text-decoration: none;
+    color: #777;
+}
+
+.user-links a:hover {
+    color: var(--primaryColor)
+}
+
+.user-links p,
+.user-about p {
+    color: #777;
+}
+
+#link-edit:hover {
+    color: var(--fontColor);
+    background-color: var(--whiteColor);
+    border-color: var(--secondaryColor);
+}
+
+.user-info {
+    margin-bottom: 0.5rem;
+}
+
+#user-summary,
+.user-summary {
+    text-align: justify;
+    max-height: 30vh;
+}
+
+#modal-1:hover {
+    cursor: pointer;
+    color: var(--primaryColor);
+}
+
+.input-modal {
+    margin: 10% auto;
+    width: 30%;
+    padding: 20px;
+    border: 1px solid #888;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-items {
+    margin-bottom: 15px;
+}
+
+.modal-items p {
+    font-size: 13px;
+    margin-bottom: 0.5rem;
+}
+
+.modal-items input[type="text"],
+.modal-items input[type="date"],
+.modal-items select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-submit {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
