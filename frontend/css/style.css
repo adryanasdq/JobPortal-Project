@@ -161,10 +161,6 @@ body {
     padding-top: 0.5rem;
 }
 
-.main h3 {
-    margin-left: 1.5%;
-}
-
 .main-header {
     display: flex;
     align-items: center;

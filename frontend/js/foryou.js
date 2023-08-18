@@ -70,7 +70,6 @@ async function getSavedJobs(e) {
 		if (data && data.length > 0) {
 			data.forEach((job) => {
 				header.removeAttribute("hidden");
-				divider.removeAttribute("hidden");
 
 				const jobCard = createJobCard(job);
 				jobContainer.appendChild(jobCard)
