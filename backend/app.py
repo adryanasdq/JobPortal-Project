@@ -545,9 +545,15 @@ def getCompanyJobs():
         response = [
             {
                 "id": j.id,
+                "company": j.company.name,
+                "job_type": j.job_type,
+                "location": j.location,
                 "position": j.position,
-                "expired_on": j.expired_on,
+                "major": j.major,
                 "salary": j.salary,
+                "posted_on": j.posted_on,
+                "expired_on": j.expired_on,
+                "logo_url": j.company.logo_url,
             }
             for j in jobs
         ]
@@ -648,7 +654,10 @@ def updateCompanyJob(id):
 
             db.session.add(job)
             db.session.commit()
-            return {"message": "Data Successfully Updated!"}, 200
+            return {
+                "status": "Success!",
+                "message": "Data Successfully Updated!"
+            }, 200
 
         else:
             return {

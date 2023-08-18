@@ -161,10 +161,6 @@ body {
     padding-top: 0.5rem;
 }
 
-.main h3 {
-    margin-left: 1.5%;
-}
-
 .main-header {
     display: flex;
     align-items: center;
@@ -253,7 +249,8 @@ body {
 
 .sort {
     display: flex;
-    justify-content: flex-end;
+    padding: 1.5% 1.5% 0 1.5%;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -414,6 +411,15 @@ body {
     margin: 1rem 0;
 }
 
+.btn-post {
+    background-color: var(--ternaryColor);
+    color: var(--whiteColor);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
 .btn-apply {
     background-color: var(--ternaryColor);
     color: var(--whiteColor);
@@ -431,7 +437,7 @@ body {
     cursor: pointer;
 }
 
-.btn-apply:hover {
+.btn-apply:hover, .btn-post:hover {
     border: 1px solid var(--ternaryColor);
     background-color: transparent;
     color: var(--ternaryColor);
@@ -463,16 +469,15 @@ body {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 30%;
+    width: 50%;
     border-radius: 5px;
 }
 
 .modal-content p {
-    padding: 0.5rem;
-    text-align: center;
+    padding-bottom: 0.5rem;
 }
 
 .close {
@@ -489,6 +494,26 @@ body {
     cursor: pointer;
 }
 
+.col-1 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.col-2 {
+    width: 100%;
+}
+
+.modal-items input[type="text"],
+.modal-items input[type="number"],
+.modal-items select {
+    width: 90%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 textarea {
     width: 100%;
     height: 300px;
@@ -496,6 +521,14 @@ textarea {
     text-align: justify;
     resize: none;
     margin-bottom: 10px;
+}
+
+.col-2 textarea {
+    width: 95%;
+    height: 150px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .modal-content button {
@@ -507,8 +540,26 @@ textarea {
     cursor: pointer;
 }
 
+.modal-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
 .modal-content button:hover {
     background-color: #0056b3;
+}
+
+.item-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-form {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1rem;
 }
 
 
