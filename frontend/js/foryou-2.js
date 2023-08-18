@@ -235,14 +235,14 @@ async function editJob(id) {
 	const userId = localStorage.getItem("id");
 	const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-	const position = document.getElementById("job-position").value;
-	const location = document.getElementById("job-location").value;
-	const jobType = document.getElementById("job-type").value;
-	const major = document.getElementById("job-major").value;
-	const duration = document.getElementById("job-duration").value;
-	const salary = document.getElementById("job-salary").value;
-	const description = document.getElementById("job-description").value;
-	const requirements = document.getElementById("job-requirements").value;
+	const position = document.getElementById("job-position2").value;
+	const location = document.getElementById("job-location2").value;
+	const jobType = document.getElementById("job-type2").value;
+	const major = document.getElementById("job-major2").value;
+	const duration = document.getElementById("job-duration2").value;
+	const salary = document.getElementById("job-salary2").value;
+	const description = document.getElementById("job-description2").value;
+	const requirements = document.getElementById("job-requirements2").value;
 
 	const editJobModal = document.getElementById("editJobModal");
 
@@ -268,6 +268,8 @@ async function editJob(id) {
 			delete data[key];
 		}
 	});
+
+	console.log(data)
 
 	const requestOptions = {
 		method: "PUT",
