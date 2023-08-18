@@ -916,7 +916,11 @@ def getApps():
             {
                 "id": apps.id,
                 "position": apps.jobvacancy.position,
-                "applicant": apps.jobseeker.first_name,
+                "job_type": apps.jobvacancy.job_type,
+                "location": apps.jobvacancy.location,
+                "salary": apps.jobvacancy.salary,
+                "applicant_name": apps.jobseeker.first_name + " " + apps.jobseeker.last_name,
+                "applicant_pict": apps.jobseeker.url_pict,
                 "status": apps.status,
                 "note": apps.note,
             }
@@ -947,11 +951,12 @@ def getAppDetails(id):
         response = {
             "id": application.id,
             "logo_url": application.jobvacancy.company.logo_url,
+            "applicant_name": application.jobseeker.first_name + " " + application.jobseeker.last_name,
+            "applicant_pict": application.jobseeker.url_pict,
             "company_name": application.jobvacancy.company.name,
             "salary": application.jobvacancy.salary,
             "job_id": application.job_id,
             "job_position": application.jobvacancy.position,
-            "job_applicant": application.jobseeker.first_name,
             "status": application.status,
             "cover_letter": application.cover_letter,
             "note": application.note,

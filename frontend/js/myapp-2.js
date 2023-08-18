@@ -3,14 +3,14 @@ function createJobCard(jobData) {
     card.className = "card";
     card.innerHTML = `
         <div class="card-left">
-            <img src="${jobData.logo_url}" alt="">
+            <img src="${'https://drive.google.com/uc?export=view&id=' + jobData.applicant_pict}" alt="">
         </div>
         <div class="card-center">
-            <h3>${jobData.company}</h3>
+            <h3>${jobData.applicant_name}</h3>
             <p class="card-detail">${jobData.position}</p>
             <p class="card-loc"><ion-icon name="location-outline"></ion-icon>${jobData.location}</p>
             <div class="card-sub">
-                <p><ion-icon name="hourglass-outline"></ion-icon>Full Time</p>
+                <p><ion-icon name="hourglass-outline"></ion-icon>${jobData.job_type}</p>
                 <p><ion-icon name="cash-outline"></ion-icon>Rp. ${jobData.salary.toLocaleString('id')} /month</p>
             </div>
         </div>
@@ -93,7 +93,7 @@ async function getApps(e) {
 
 	} else {
 		const noFoundMessage = document.createElement("p");
-		noFoundMessage.innerHTML = "Wow, such empty! are you new? try apply for a job!";
+		noFoundMessage.innerHTML = "No application received yet";
 		appContainer.appendChild(noFoundMessage);
 	};
 };
@@ -126,8 +126,8 @@ async function getAppDetails(id) {
     const detail = document.querySelector('.detail');
     detail.removeAttribute('hidden')
 
-    logo.src = data.logo_url;
-    company.innerHTML = data.company_name;
+    logo.src = 'https://drive.google.com/uc?export=view&id=' + data.applicant_pict;
+    company.innerHTML = data.applicant_name;
     position.innerHTML = data.job_position;
     about_company.innerHTML = data.note;
     cover_letter.innerHTML = data.cover_letter;
