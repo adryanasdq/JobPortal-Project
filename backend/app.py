@@ -794,7 +794,7 @@ def applyJob():
             .filter(
                 Application.job_id == new_app.job_id,
                 Application.jobseeker_id == new_app.jobseeker_id,
-                Application.status == new_app.status,
+                Application.status != "saved",
             )
             .first()
         )
@@ -802,6 +802,53 @@ def applyJob():
             return {
                 "status": "Apply failed!",
                 "message": "You have applied this job before!",
+            }, 400
+
+        db.session.add(new_app)
+        db.session.commit()
+        return {"status": "Success!", "message": "Job applied!"}, 201
+
+    else:
+        return {
+            "status": "Unauthorized",
+            "message": "Please login as jobseeker first",
+        }, 401
+
+@app.post("/savedjob")
+def saveJob():
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
+    data = request.get_json()
+    if not user:
+        return {
+            "status": "Unauthorized",
+            "message": "Please check username and password!",
+        }, 401
+
+    elif str(user.get("id")).startswith("3"):
+        new_app = Application(
+            job_id=data.get("job_id"),
+            jobseeker_id=user.get("id"),
+            status=data.get("status"),
+            cover_letter=data.get("cover_letter"),
+        )
+
+        existing_application = (
+            db.session.query(Application)
+            .filter(
+                Application.job_id == new_app.job_id,
+                Application.jobseeker_id == new_app.jobseeker_id,
+                Application.status == "saved",
+            )
+            .first()
+        )
+        if existing_application:
+            return {
+                "status": "Save failed!",
+                "message": "You have saved this job before!",
             }, 400
 
         db.session.add(new_app)

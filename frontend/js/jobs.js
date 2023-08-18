@@ -282,7 +282,7 @@ async function saveJob(id) {
 		body: JSON.stringify(data),
 	}
 
-	const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
+	const response = await fetch("http://127.0.0.1:5000/savedjob", requestOptions);
 	return response;
 };
 
