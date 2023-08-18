@@ -15,8 +15,8 @@ function createJobCard(jobData) {
             <p class="card-loc"><ion-icon name="location-outline"></ion-icon>${jobData.location}</p>
             <div class="card-sub">
                 <p><ion-icon name="today-outline"></ion-icon>${countDays} day(s) ago</p>
-                <p><ion-icon name="hourglass-outline"></ion-icon>Full Time</p>
-                <p><ion-icon name="people-outline"></ion-icon>200 applicants</p>
+                <p><ion-icon name="hourglass-outline"></ion-icon>${jobData.job_type}</p>
+                <p><ion-icon name="school-outline"></ion-icon>${jobData.major}</p>
             </div>
         </div>
         <div class="card-right">
@@ -47,7 +47,6 @@ async function getSavedJobs(e) {
 	};
 
 	const header = document.querySelector(".main > h3");
-	const divider = document.querySelector(".main > hr");
 	const jobContainer = document.getElementById("saved-job");
 	jobContainer.innerHTML = "";
 
