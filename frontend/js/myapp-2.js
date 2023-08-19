@@ -66,41 +66,41 @@ async function getApps(e) {
     const data = result.data;
 
     if (data && data.length > 0) {
-		if (sortby === "newest") {
-			data.sort((a, b) => {
-				return b.id - a.id
-			});
-		} else if (sortby === "oldest") {
-			data.sort((a, b) => {
-				return a.id - b.id
-			});
-		} else if (sortby === "highpaid") {
-			data.sort((a, b) => {
-				return b.salary - a.salary
-			});
-		} else if (sortby === "lowpaid") {
-			data.sort((a, b) => {
-				return a.salary - b.salary
-			});
-		};
+        if (sortby === "newest") {
+            data.sort((a, b) => {
+                return b.id - a.id
+            });
+        } else if (sortby === "oldest") {
+            data.sort((a, b) => {
+                return a.id - b.id
+            });
+        } else if (sortby === "highpaid") {
+            data.sort((a, b) => {
+                return b.salary - a.salary
+            });
+        } else if (sortby === "lowpaid") {
+            data.sort((a, b) => {
+                return a.salary - b.salary
+            });
+        };
 
-		data.forEach((job) => {
+        data.forEach((job) => {
             if (job.status != "saved") {
                 const jobCard = createJobCard(job);
                 appContainer.appendChild(jobCard)
             }
-		});
+        });
 
-	} else {
-		const noFoundMessage = document.createElement("p");
-		noFoundMessage.innerHTML = "No application received yet";
-		appContainer.appendChild(noFoundMessage);
-	};
+    } else {
+        const noFoundMessage = document.createElement("p");
+        noFoundMessage.innerHTML = "No application received yet";
+        appContainer.appendChild(noFoundMessage);
+    };
 };
 
 async function getAppDetails(id) {
     const logo = document.querySelector('.detail-header > img');
-    const company = document.querySelector('.detail-header > h2');
+    const user = document.querySelector('.detail-header > h2');
     const position = document.querySelector('.detail-header > p');
     const about_company = document.querySelector('.about > p');
     const cover_letter = document.querySelector('.description > p');
@@ -127,11 +127,89 @@ async function getAppDetails(id) {
     detail.removeAttribute('hidden')
 
     logo.src = 'https://drive.google.com/uc?export=view&id=' + data.applicant_pict;
-    company.innerHTML = data.applicant_name;
+    user.innerHTML = data.applicant_name;
     position.innerHTML = data.job_position;
     about_company.innerHTML = data.note;
     cover_letter.innerHTML = data.cover_letter;
+
+    // Modal
+    const respondBtn = document.querySelector(".detail-btn")
+    const openModalBtn = document.querySelectorAll(".btn-apply");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const respondModal = document.getElementById("respondModal");
+    const submitRespond = document.getElementById("submitRespondBtn")
+    const toUser = document.getElementById("to-user");
+    const toPosition = document.getElementById("to-position");
+
+    if (data.status != "applied") {
+        respondBtn.style.display = "none"
+    } else {
+        respondBtn.style.display = "flex"
+    };
+
+    openModalBtn.forEach(button => {
+        button.addEventListener("click", () => {
+            respondModal.style.display = "block";
+            toUser.innerHTML = data.applicant_name;
+            toPosition.innerHTML = data.job_position;
+        });
+    });
+
+    closeModalBtn.addEventListener("click", () => {
+        respondModal.style.display = "none";
+    });
+
+    submitRespond.onclick = () => appResponse(id);
+};
+
+async function appResponse(id) {
+    const userId = localStorage.getItem("id");
+	const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+	const decision = document.getElementById("decision").value;
+	const note = document.getElementById("respondNote").value;
+
+	const respondModal = document.getElementById("respondModal");
+	const myHeaders = {
+		"Content-type": "application/json; charset=UTF-8",
+		"id": userId,
+		"isLoggedIn": isLoggedIn,
+	};
+
+	const data = {
+		"status": decision,
+		"note": note,
+	};
+
+	const requestOptions = {
+		method: "PUT",
+		headers: myHeaders,
+		body: JSON.stringify(data),
+	}
+
+	const response = await fetch(`http://127.0.0.1:5000/application/${id}`, requestOptions);
+	const result = await response.json();
+
+	if (result.status === "Success!") {
+		Swal.fire({
+			icon: "success",
+			title: "Success!",
+			text: result.message,
+		}).then((result) => {
+			if (result.isConfirmed) {
+				window.location.href = "myapp-company.html"
+				respondModal.style.display = "none";
+			};
+		});
+	} else {
+		Swal.fire({
+			icon: "error",
+			title: result.status,
+			text: result.message,
+		})
+	};
 }
+
 
 const sorter = document.querySelector(".sort-by");
 sorter.addEventListener("change", getApps);

@@ -407,6 +407,7 @@ body {
 
 .detail-btn {
     display: flex;
+    justify-content: center;
     gap: 1rem;
     margin: 1rem 0;
 }
@@ -508,6 +509,20 @@ body {
 .modal-items input[type="text"],
 .modal-items input[type="number"],
 .modal-items select {
+    width: 90%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.decision {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0 1rem;
+}
+
+.decision select {
     width: 90%;
     padding: 6px;
     border: 1px solid #ccc;

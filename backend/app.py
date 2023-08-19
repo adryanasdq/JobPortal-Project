@@ -903,7 +903,10 @@ def appResponse(id):
 
         db.session.add(application)
         db.session.commit()
-        return {"message": "Response has been added to application!"}, 200
+        return {
+            "status": "Success!",
+            "message": "Response has been added to application!"
+        }, 200
 
     else:
         return {

@@ -72,6 +72,28 @@
                 <p></p>
             </div>
         </div>
+        <hr class="divider">
+        <div class="detail-btn">
+            <button class="btn-apply">Respond Application</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="respondModal" class="modal">
+        <div class="modal-content">
+            <p id="closeModalBtn" class="close">&times;</p>
+            <p style="padding: 0.5rem 0.5rem 1rem 0.5rem; text-align: center; font-size: 20px;">Respond to <b id="to-user"></b> for <b id="to-position"></b></p>
+            <div class="decision">
+                <label for="decision">Status</label>
+                <select name="decision" id="decision" style="width: 30%;">
+                    <option value="">Select option</option>
+                    <option value="accepted">Accept</option>
+                    <option value="rejected">Reject</option>
+                </select>
+            </div>
+            <textarea id="respondNote" placeholder="Write a respond note for applicant..." required></textarea>
+            <button id="submitRespondBtn" class="btn-submit">Submit</button>
+        </div>
     </div>
 
 </body>
