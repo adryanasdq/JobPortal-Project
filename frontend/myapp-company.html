@@ -34,21 +34,26 @@
 
     <!-- Main -->
     <div class="main">
-        <div class="sort">
+        <div class="sort" style="justify-content: flex-end;">
             <div class="sort-list">
                 <p>Sort</p>
                 <select class="sort-by">
-                    <option value="">All</option>
-                    <option value="newest">Newest Post</option>
-                    <option value="oldest">Oldest Post</option>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
                     <option value="highpaid">Highest Paid</option>
                     <option value="lowpaid">Lowest Paid</option>
                 </select>
             </div>
         </div>
 
-        <div class="wrapper">
-            <!-- content loaded here -->
+        <h3 class="app-header">Received</h3>
+        <div id="app" class="wrapper">
+            <!-- received app here -->
+        </div>
+
+        <h3 class="app-header">Responded</h3>
+        <div id="resp" class="wrapper">
+            <!-- responded app here -->
         </div>
     </div>
 

@@ -3,7 +3,7 @@ function createJobCard(jobData) {
     card.className = "card";
     card.innerHTML = `
         <div class="card-left">
-            <img src="${'https://drive.google.com/uc?export=view&id=' + jobData.applicant_pict}" alt="">
+            <img src="${jobData.applicant_pict}" alt="">
         </div>
         <div class="card-center">
             <h3>${jobData.applicant_name}</h3>
@@ -58,12 +58,14 @@ async function getApps(e) {
         headers: myHeaders,
     };
 
-    const appContainer = document.querySelector('.wrapper');
-    appContainer.innerHTML = '';
+    const appContainer = document.getElementById("app");
+    const respContainer = document.getElementById("resp")
+    appContainer.innerHTML = "";
+    respContainer.innerHTML = "";
 
     const response = await fetch("http://127.0.0.1:5000/application", requestOptions);
     const result = await response.json();
-    const data = result.data;
+    const data = result.data.filter(app => app.status != "saved");
 
     if (data && data.length > 0) {
         if (sortby === "newest") {
@@ -85,10 +87,12 @@ async function getApps(e) {
         };
 
         data.forEach((job) => {
-            if (job.status != "saved") {
-                const jobCard = createJobCard(job);
+            const jobCard = createJobCard(job);
+            if (job.status === "applied") {
                 appContainer.appendChild(jobCard)
-            }
+            } else {
+                respContainer.appendChild(jobCard)
+            };
         });
 
     } else {
@@ -126,7 +130,7 @@ async function getAppDetails(id) {
     const detail = document.querySelector('.detail');
     detail.removeAttribute('hidden')
 
-    logo.src = 'https://drive.google.com/uc?export=view&id=' + data.applicant_pict;
+    logo.src = data.applicant_pict;
     user.innerHTML = data.applicant_name;
     position.innerHTML = data.job_position;
     about_company.innerHTML = data.note;

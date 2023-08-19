@@ -272,6 +272,10 @@ body {
     margin-top: 0 0.5rem;
 }
 
+.app-header {
+    margin: 2rem 0 0 1.5%;
+}
+
 .wrapper {
     width: 100%;
     display: flex;
