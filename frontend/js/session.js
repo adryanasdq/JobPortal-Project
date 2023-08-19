@@ -23,7 +23,7 @@ async function getProfilePict(e) {
     const result = await response.json();
     const data = result.response;
     
-    pict.src = 'https://drive.google.com/uc?export=view&id=' + data.url_pict;
+    pict.src = data.url_pict;
     user.innerHTML = active_user[0].toUpperCase() + active_user.substring(1);
 }
 

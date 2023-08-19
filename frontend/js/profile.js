@@ -58,7 +58,7 @@ async function getProfile(e) {
 
         const capped_name = words.join(' ');
 
-        userPict.src = 'https://drive.google.com/uc?export=view&id=' + data.url_pict;
+        userPict.src = data.url_pict;
         name.innerHTML = capped_name;
         title.innerHTML = data.title;
         address.innerHTML = data.address;
