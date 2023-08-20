@@ -164,7 +164,7 @@ body {
 .main-header {
     display: flex;
     align-items: center;
-    padding-top: 1rem;
+    padding-top: 1.5rem;
     padding-bottom: 5rem;
 }
 
@@ -249,8 +249,8 @@ body {
 
 .sort {
     display: flex;
-    padding: 1.5% 1.5% 0 1.5%;
-    justify-content: space-between;
+    padding-right: 1.5%;
+    justify-content: flex-end;
     align-items: center;
 }
 
