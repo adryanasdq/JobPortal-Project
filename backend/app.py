@@ -973,6 +973,7 @@ def getApps():
                 "job_type": apps.jobvacancy.job_type,
                 "location": apps.jobvacancy.location,
                 "salary": apps.jobvacancy.salary,
+                "applicant_id": apps.jobseeker.id,
                 "applicant_name": apps.jobseeker.first_name + " " + apps.jobseeker.last_name,
                 "applicant_pict": apps.jobseeker.url_pict,
                 "status": apps.status,
@@ -1094,12 +1095,8 @@ def searchJobseeker():
             filters["last_name"] = request.args.get("last_name")
         if "age" in request.args:
             filters["age"] = request.args.get("age")
-        if "gender" in request.args:
-            filters["gender"] = request.args.get("gender")
         if "education" in request.args:
             filters["education"] = request.args.get("education")
-        if "major" in request.args:
-            filters["major"] = request.args.get("major")
 
         query = db.session.query(JobSeeker)
         for field, value in filters.items():
@@ -1113,9 +1110,13 @@ def searchJobseeker():
         result = [
             {
                 "id": js.id,
+                "url_pict": js.url_pict,
+                "title": js.title,
                 "first_name": js.first_name,
                 "last_name": js.last_name,
-                "gender": js.gender,
+                "age": js.age,
+                "education": js.education,
+                "address": js.address,
             }
             for js in jobseekers
         ]
