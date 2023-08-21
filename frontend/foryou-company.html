@@ -13,15 +13,23 @@
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <h1 class="logo">Get a Life!</h1>
-        <!-- <h4 class="sub-logo">A Portal to Your Future</h4> -->
-        <div class="menus">
-            <a href="home-company.html"><ion-icon name="home-outline"></ion-icon>Home</a>
-            <a href="jobs-company.html"><ion-icon name="newspaper-outline"></ion-icon>All Jobs</a>
-            <a href="foryou-company.html"><ion-icon name="clipboard-outline"></ion-icon>Job Manager</a>
-            <a href="myapp-company.html"><ion-icon name="enter-outline"></ion-icon>Applications</a>
-            <a href="profile-company.html"><ion-icon name="accessibility-outline"></ion-icon>Profile</a>
-            <a href="landing.html" id="logout"><ion-icon name="power-outline"></ion-icon>Logout</a>
+        <div class="logo">
+            <h1 style="margin-bottom: 0.25rem;">Get a Life!</h1>
+            <h4>A Portal to Your Brighter Future</h4>
+        </div>
+        <div class="sidebar-body">
+            <div class="menus">
+                <a href="home-company.html"><ion-icon name="home-outline"></ion-icon>Home</a>
+                <a id="dropdown" href="#"><ion-icon name="search-outline"></ion-icon>Find <ion-icon name="caret-down" style="margin-left: 4.5rem;"></ion-icon></a>
+                <div class="menus dropdown-menu" style="display: none;">
+                    <a href="jobs-company.html"><ion-icon name="newspaper-outline"></ion-icon>Jobs</a>
+                    <a href="jobseeker-company.html"><ion-icon name="person-outline"></ion-icon>Jobseeker</a>
+                </div>
+                <a href="foryou-company.html"><ion-icon name="clipboard-outline"></ion-icon>Job Manager</a>
+                <a href="myapp-company.html"><ion-icon name="enter-outline"></ion-icon>Applications</a>
+                <a href="profile-company.html"><ion-icon name="accessibility-outline"></ion-icon>Profile</a>
+                <a href="landing.html" id="logout"><ion-icon name="power-outline"></ion-icon>Logout</a>
+            </div>
         </div>
         <div class="profile">
             <img src="img/user.jpg" alt="" class="profile-img">
