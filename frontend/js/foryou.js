@@ -195,7 +195,26 @@ async function getJobDetails(id) {
 		coverLetterModal.style.display = "none";
 	});
 
-	submitCoverLetterBtn.onclick = () => applyJob(id);
+	submitCoverLetterBtn.onclick = () => {
+		const swalWithBootstrapButtons = Swal.mixin({
+			customClass: {
+				confirmButton: 'btn btn-success',
+				cancelButton: 'btn btn-danger'
+			},
+		});
+
+		swalWithBootstrapButtons.fire({
+			title: 'Apply this job?',
+			icon: 'question',
+			showCancelButton: true,
+			confirmButtonText: 'Send!',
+			cancelButtonText: 'Wait...',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				applyJob(id)
+			}
+		})
+	};
 	saveBtn.onclick = () => toggleSaveJob(id);
 };
 

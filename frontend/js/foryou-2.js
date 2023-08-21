@@ -120,7 +120,26 @@ async function getCompanyJobs(e) {
 		postJobModal.style.display = "none";
 	});
 
-	submitPost.onclick = () => postJob();
+	submitPost.onclick = () => {
+		const swalWithBootstrapButtons = Swal.mixin({
+			customClass: {
+				confirmButton: 'btn btn-success',
+				cancelButton: 'btn btn-danger'
+			},
+		});
+
+		swalWithBootstrapButtons.fire({
+			title: 'Post this job?',
+			icon: 'question',
+			showCancelButton: true,
+			confirmButtonText: 'Post!',
+			cancelButtonText: 'Wait...',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				postJob()
+			};
+		})
+	};
 };
 
 const sorter = document.querySelector(".sort-by");
@@ -167,7 +186,26 @@ async function getJobDetails(id) {
 		editJobModal.style.display = "none";
 	});
 
-	submitEdit.onclick = () => editJob(id);
+	submitEdit.onclick = () => {
+		const swalWithBootstrapButtons = Swal.mixin({
+			customClass: {
+				confirmButton: 'btn btn-success',
+				cancelButton: 'btn btn-danger'
+			},
+		});
+
+		swalWithBootstrapButtons.fire({
+			title: 'Update the existing data?',
+			icon: 'question',
+			showCancelButton: true,
+			confirmButtonText: 'Post!',
+			cancelButtonText: 'Wait...',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				editJob(id)
+			};
+		})
+	};
 };
 
 async function postJob() {
@@ -206,27 +244,35 @@ async function postJob() {
 		method: "POST",
 		headers: myHeaders,
 		body: JSON.stringify(data),
-	}
+	};
 
-	const response = await fetch(`http://127.0.0.1:5000/jobs`, requestOptions);
-	const result = await response.json();
-
-	if (result.status === "Success!") {
-		Swal.fire({
-			icon: "success",
-			title: "Success!",
-			text: result.message,
-		}).then((result) => {
-			if (result.isConfirmed) {
-				window.location.href = "foryou-company.html"
-				editJobModal.style.display = "none";
-			};
-		});
-	} else {
+	try {
+		const response = await fetch(`http://127.0.0.1:5000/jobs`, requestOptions);
+		const result = await response.json();
+	
+		if (result.status === "Success!") {
+			Swal.fire({
+				icon: "success",
+				title: "Success!",
+				text: result.message,
+			}).then((result) => {
+				if (result.isConfirmed) {
+					window.location.href = "foryou-company.html"
+					editJobModal.style.display = "none";
+				};
+			});
+		} else {
+			Swal.fire({
+				icon: "error",
+				title: result.status,
+				text: result.message,
+			})
+		};
+	} catch {
 		Swal.fire({
 			icon: "error",
-			title: result.status,
-			text: result.message,
+			title: "Post Failed!",
+			text: "Please fill all the fields!",
 		})
 	};
 };
@@ -266,16 +312,14 @@ async function editJob(id) {
 	Object.keys(data).forEach(key => {
 		if (!data[key]) {
 			delete data[key];
-		}
+		};
 	});
-
-	console.log(data)
 
 	const requestOptions = {
 		method: "PUT",
 		headers: myHeaders,
 		body: JSON.stringify(data),
-	}
+	};
 
 	const response = await fetch(`http://127.0.0.1:5000/company/jobs/${id}`, requestOptions);
 	const result = await response.json();

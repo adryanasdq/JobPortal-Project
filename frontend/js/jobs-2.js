@@ -131,4 +131,4 @@ async function getJobDetails(id) {
 	about_company.innerHTML = data.company_about;
 	job_desc.innerHTML = data.description;
 	qualification.innerHTML = data.requirements;
-}
+};
