@@ -116,6 +116,10 @@ body {
     color: var(--secondaryColor);
 }
 
+.dropdown-menu {
+    margin-right: 0.5rem;
+}
+
 .profile {
     display: flex;
     flex-direction: row;
@@ -290,7 +294,7 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: center;
     padding: 3%;
     margin: 0 1%;
     background-color: var(--whiteColor);

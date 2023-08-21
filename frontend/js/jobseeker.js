@@ -64,7 +64,20 @@ async function getJobs(e) {
     const requestOptions = {
         method: "GET",
         headers: myHeaders,
-    }
+    };
+
+    if (userId == null) {
+		Swal.fire({
+			icon: "error",
+			title: "Oops...",
+			text: "Please login first",
+			confirmButtonText: "Yes",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				window.location.href = "landing.html"
+			}
+		});
+    };
 
     const response = await fetch(url, requestOptions);
     const result = await response.json();
@@ -131,28 +144,41 @@ async function getJobseekerDetails(id) {
     const requestOptions = {
         method: "GET",
         headers: myHeaders,
-    }
+    };
 
-    const pict = document.querySelector(".detail-header > img");
-    const name = document.querySelector(".detail-header > h2");
-    const title = document.querySelector(".detail-header > p");
-    const summary = document.querySelector(".about > p");
-    const gendAge = document.querySelector(".description > p");
-    const qualification = document.querySelector(".qualification > p");
-    const contact = document.querySelector(".contact > p");
-
+    const detail = document.querySelector(".detail");
+    const detailContent = document.querySelector(".detail-content");
+    const unauthContent = document.querySelector(".unauth-content");
+    const unauth = document.querySelector("unauth-content > p");
+    
     const response = await fetch(`http://127.0.0.1:5000/jobseeker/${id}`, requestOptions);
     const result = await response.json();
     const data = result.response;
 
-    const detail = document.querySelector(".detail");
     detail.removeAttribute("hidden")
+    
+    if (result.status === "Unauthorized") {
+        unauthContent.hidden = false
+        detailContent.hidden = true
 
-    pict.src = data.url_pict;
-    name.innerHTML = data.first_name + " " + data.last_name;
-    title.innerHTML = data.title;
-    summary.innerHTML = data.summary;
-    gendAge.innerHTML = data.gender + ", " + data.age + " years old";
-    qualification.innerHTML = data.education + " in " + data.major;
-    contact.innerHTML = data.contact + " (" + data.email + ")";
+    } else {
+        unauthContent.hidden = true
+        detailContent.hidden = false
+
+        const pict = document.querySelector(".detail-header > img");
+        const name = document.querySelector(".detail-header > h2");
+        const title = document.querySelector(".detail-header > p");
+        const summary = document.querySelector(".about > p");
+        const gendAge = document.querySelector(".description > p");
+        const qualification = document.querySelector(".qualification > p");
+        const contact = document.querySelector(".contact > p");
+
+        pict.src = data.url_pict;
+        name.innerHTML = data.first_name + " " + data.last_name;
+        title.innerHTML = data.title;
+        summary.innerHTML = data.summary;
+        gendAge.innerHTML = data.gender + ", " + data.age + " years old";
+        qualification.innerHTML = data.education + " in " + data.major;
+        contact.innerHTML = data.contact + " (" + data.email + ")";
+    };
 };

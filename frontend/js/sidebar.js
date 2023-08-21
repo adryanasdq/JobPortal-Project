@@ -13,3 +13,15 @@ $(".menu-bar").on("click", function() {
 $(".logo").on("click", function() {
     $(".sidebar").removeClass("active")
 })
+
+$("#dropdown").on("click", function(e) {
+    e.preventDefault()
+
+    const dropdownContent = $(".dropdown-menu");
+    
+    if (dropdownContent.css("display") === "none") {
+        dropdownContent.css("display", "flex");
+    } else {
+        dropdownContent.css("display", "none");
+    }
+});
