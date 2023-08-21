@@ -13,7 +13,7 @@ body {
     height: 100%;
     width: 100%;
     place-items: center;
-    background: var(--primaryColor);
+    background: url(/frontend/img/download.jpg);
 }
 
 ::selection {
