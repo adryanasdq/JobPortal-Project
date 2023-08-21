@@ -119,6 +119,11 @@ async function getJobs(e) {
 
     } else {
         const noFoundMessage = document.createElement("p");
+        const appHead = document.getElementById("app-head");
+        const otherHead = document.getElementById("other-head");
+
+        appHead.style.display = "none";
+        otherHead.style.display = "none";
         noFoundMessage.innerHTML = result.message;
         appContainer.appendChild(noFoundMessage);
     };

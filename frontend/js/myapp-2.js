@@ -163,55 +163,82 @@ async function getAppDetails(id) {
         respondModal.style.display = "none";
     });
 
-    submitRespond.onclick = () => appResponse(id);
+    submitRespond.onclick = () => {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: 'Send respond?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Send!',
+            cancelButtonText: 'Wait...',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                appResponse(id)
+            };
+        })
+    };
 };
 
 async function appResponse(id) {
     const userId = localStorage.getItem("id");
-	const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-	const decision = document.getElementById("decision").value;
-	const note = document.getElementById("respondNote").value;
+    const decision = document.getElementById("decision").value;
+    const note = document.getElementById("respondNote").value;
 
-	const respondModal = document.getElementById("respondModal");
-	const myHeaders = {
-		"Content-type": "application/json; charset=UTF-8",
-		"id": userId,
-		"isLoggedIn": isLoggedIn,
-	};
+    const respondModal = document.getElementById("respondModal");
+    const myHeaders = {
+        "Content-type": "application/json; charset=UTF-8",
+        "id": userId,
+        "isLoggedIn": isLoggedIn,
+    };
 
-	const data = {
-		"status": decision,
-		"note": note,
-	};
+    const data = {
+        "status": decision,
+        "note": note,
+    };
 
-	const requestOptions = {
-		method: "PUT",
-		headers: myHeaders,
-		body: JSON.stringify(data),
-	}
+    const requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    }
 
-	const response = await fetch(`http://127.0.0.1:5000/application/${id}`, requestOptions);
-	const result = await response.json();
-
-	if (result.status === "Success!") {
-		Swal.fire({
-			icon: "success",
-			title: "Success!",
-			text: result.message,
-		}).then((result) => {
-			if (result.isConfirmed) {
-				window.location.href = "myapp-company.html"
-				respondModal.style.display = "none";
-			};
-		});
-	} else {
-		Swal.fire({
+    try {
+        const response = await fetch(`http://127.0.0.1:5000/application/${id}`, requestOptions);
+        const result = await response.json();
+    
+        if (result.status === "Success!") {
+            Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: result.message,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "myapp-company.html"
+                    respondModal.style.display = "none";
+                };
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: result.status,
+                text: result.message,
+            })
+        };
+    } catch {
+        Swal.fire({
 			icon: "error",
-			title: result.status,
-			text: result.message,
+			title: "Send Failed!",
+			text: "Please select the status!",
 		})
-	};
+    }
 }
 
 
