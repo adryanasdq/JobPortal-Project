@@ -22,20 +22,42 @@ body {
     width: 650px;
 }
 
-.greeting {
-    text-align: center;
-    padding: 2rem;
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
 }
 
-.greeting h1 {
-    font-size: 36px;
+.caption {
+    text-align: center;
     margin-bottom: 1rem;
 }
 
-.greeting p {
-    font-size: 18px;
-    line-height: 1.5;
-    color: var(--darkGreyColor);
+.user-flow {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border: solid 1px var(--whiteColor);
+    background-color: var(--whiteColor);
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px rgba(107,121,124,0.2);
+}
+
+.flow-cap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.flow-cap h4 {
+    text-transform: uppercase;
+}
+
+.flow-cap p {
+    text-align: justify;
 }
 
 .additional-content {
