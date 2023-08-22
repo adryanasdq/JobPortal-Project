@@ -486,18 +486,24 @@ def postJob():
 
     elif str(user.get("id")).startswith("1"):
         data = request.get_json()
-        new_job = JobVacancy(
-            company_id=user.get("id"),
-            position=data.get("position"),
-            major=data.get("major"),
-            job_type=data.get("job_type"),
-            location=data.get("location"),
-            posted_on=datetime.today(),
-            expired_on=datetime.today() + timedelta(int(data.get("available_for"))),
-            salary=int(data.get("salary")),
-            description=data.get("description"),
-            requirements=data.get("requirements"),
-        )
+        try:
+            new_job = JobVacancy(
+                company_id=user.get("id"),
+                position=data.get("position"),
+                major=data.get("major"),
+                job_type=data.get("job_type"),
+                location=data.get("location"),
+                posted_on=datetime.today(),
+                expired_on=datetime.today() + timedelta(int(data.get("available_for"))),
+                salary=int(data.get("salary")),
+                description=data.get("description"),
+                requirements=data.get("requirements"),
+            )
+        except:
+            return {
+                "status": "Posting job failed!",
+                "message": "Please complete all the fields!"
+            }, 400
 
         conditions = db.and_(
             JobVacancy.company_id == new_job.company_id,
@@ -510,7 +516,7 @@ def postJob():
 
         if existing_job:
             return {
-                "status": "Posting Job failed!",
+                "status": "Posting job failed!",
                 "message": "Seems like the job you try to post is identical with existing job vacancy.",
             }, 400
 
@@ -818,6 +824,7 @@ def applyJob():
             "message": "Please login as jobseeker first",
         }, 401
 
+
 @app.post("/savedjob")
 def saveJob():
     user = {
@@ -898,8 +905,14 @@ def appResponse(id):
         }, 404
 
     elif application.jobvacancy.company_id == user.get("id"):
-        application.status = response.get("status", application.status)
-        application.note = response.get("note", application.note)
+        try:
+            application.status = response.get("status", application.status)
+            application.note = response.get("note", application.note)
+        except:
+            return {
+                "status": "Failed!",
+                "message": "Please choose the status!"
+            }, 400
 
         db.session.add(application)
         db.session.commit()
