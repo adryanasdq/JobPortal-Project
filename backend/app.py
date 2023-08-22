@@ -896,36 +896,37 @@ def appResponse(id):
         }, 401
 
     application = db.session.query(Application).filter(Application.id == id).first()
-    response = request.get_json()
+    
+    try:   
+        response = request.get_json()
 
-    if not application:
-        return {
-            "status": "Not Found",
-            "message": "No application found with this id",
-        }, 404
+        if not application:
+            return {
+                "status": "Not Found",
+                "message": "No application found with this id",
+            }, 404
 
-    elif application.jobvacancy.company_id == user.get("id"):
-        try:
+        elif application.jobvacancy.company_id == user.get("id"):
             application.status = response.get("status", application.status)
             application.note = response.get("note", application.note)
-        except:
+
+            db.session.add(application)
+            db.session.commit()
             return {
+                "status": "Success!",
+                "message": "Respond has been added to application!"
+            }, 200
+
+        else:
+            return {
+                "status": "Unauthorized",
+                "message": "You are not allowed to response this application",
+            }, 401
+    except:
+        return {
                 "status": "Failed!",
                 "message": "Please choose the status!"
             }, 400
-
-        db.session.add(application)
-        db.session.commit()
-        return {
-            "status": "Success!",
-            "message": "Respond has been added to application!"
-        }, 200
-
-    else:
-        return {
-            "status": "Unauthorized",
-            "message": "You are not allowed to response this application",
-        }, 401
 
 
 @app.get("/application")
