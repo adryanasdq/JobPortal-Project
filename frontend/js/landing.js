@@ -70,8 +70,7 @@ async function signup(e) {
     const email = signupForm.querySelector(".email").value;
     const username = signupForm.querySelector(".username").value;
     const password = signupForm.querySelector(".password").value;
-    const address = signupForm.querySelector(".address").value;
-    const contact = signupForm.querySelector(".contact").value;
+    const confirmPassword = signupForm.querySelector(".confirm-password").value;
     
     const newUser = {
         "role": role,
@@ -79,9 +78,7 @@ async function signup(e) {
         "email": email,
         "username": username,
         "password": password,
-        "address": address,
-        "contact": contact,
-    }
+    };
 
     const requestOptions = {
         method: "POST",
@@ -89,25 +86,34 @@ async function signup(e) {
             "Content-type": "application/json; charset=UTF-8"
         },
         body: JSON.stringify(newUser),
-    }
-    
-    const response = await fetch("http://127.0.0.1:5000/register", requestOptions);
-    const result = await response.json();
+    };
 
-    if (result.status === "Success!") {
-        signupForm.reset();
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: result.message,
-          });
+    if (password === confirmPassword) {
+        const response = await fetch("http://127.0.0.1:5000/register", requestOptions);
+        const result = await response.json();
+    
+        if (result.status === "Success!") {
+            signupForm.reset();
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: result.message,
+              });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: result.status,
+                text: result.message,
+              })
+        }; 
     } else {
         Swal.fire({
-            icon: 'error',
-            title: result.status,
-            text: result.message,
-          })
-    } 
+            icon: "error",
+            title: "Password is not matched!",
+            text: "Confirmation password does not match the original password",
+        })
+    };
+    
 }
 
 loginForm.addEventListener("submit", login);

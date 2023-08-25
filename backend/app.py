@@ -181,8 +181,6 @@ def register():
             email=data.get("email"),
             first_name=splitted_name[0],
             last_name=" ".join(splitted_name[1:]),
-            contact=data.get("contact"),
-            address=data.get("address"),
         )
 
     elif data.get("role") == "company":
@@ -191,8 +189,6 @@ def register():
             password=data.get("password"),
             email=data.get("email"),
             name=data.get("name"),
-            address=data.get("address"),
-            contact=data.get("contact"),
         )
 
     else:
@@ -201,29 +197,46 @@ def register():
             "details": "Please input a valid role",
         }, 400
 
-    conditions = db.or_(
+    condition_1 = db.or_(
         JobSeeker.username == new_account.username,
-        JobSeeker.email == new_account.email,
         Company.username == new_account.username,
+    )
+
+    condition_2 = db.or_(
+        JobSeeker.email == new_account.email,
         Company.email == new_account.email,
     )
 
-    # nomor telp juga
-    existing_user = (
+    existing_username = (
         db.session.query(
-            JobSeeker.username, JobSeeker.email, Company.username, Company.email
+            JobSeeker.username, Company.username
         )
-        .join(Company, conditions)
-        .filter(conditions)
+        .join(Company, condition_1)
+        .filter(condition_1)
         .first()
     )
 
-    if existing_user:
+    existing_email = (
+        db.session.query(
+            JobSeeker.email, Company.email
+        )
+        .join(Company, condition_2)
+        .filter(condition_2)
+        .first()
+    )
+
+    if existing_email:
         return {
             "status": "Registration failed!",
-            "message": "Username or email already exists",
+            "message": "Email already exists",
         }, 400
 
+    if existing_username:
+        return {
+            "status": "Registration failed!",
+            "message": "Username already exists",
+        }, 400
+    
     db.session.add(new_account)
     db.session.commit()
     return {"status": "Success!", "message": "Please login to proceed"}, 201
