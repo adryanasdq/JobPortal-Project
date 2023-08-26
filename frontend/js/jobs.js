@@ -33,6 +33,9 @@ function createJobCard(jobData) {
 async function getJobs(e) {
 	e.preventDefault()
 
+	const userId = localStorage.getItem("id");
+	const isLoggedIn = localStorage.getItem("isLoggedIn");
+
 	const position = document.querySelector(".job-position").value;
 	const major = document.querySelector(".job-major").value;
 	const salary = document.querySelector(".job-salary").value;
@@ -56,7 +59,7 @@ async function getJobs(e) {
 	};
 	if (jobType) {
 		url += `&job_type=${jobType}`
-	}
+	};
 
 	const jobContainer = document.querySelector(".wrapper");
 	jobContainer.innerHTML = "";
@@ -64,7 +67,9 @@ async function getJobs(e) {
 	const requestOptions = {
 		method: "GET",
 		headers: {
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
+			"id": userId,
+			"isLoggedIn": isLoggedIn,
 		}
 	}
 
@@ -89,7 +94,10 @@ async function getJobs(e) {
 				return a.salary - b.salary
 			});
 		};
-
+		
+		// Show detail first vacancy
+		getJobDetails(data[0].id)
+		
 		data.forEach((job) => {
 			const jobCard = createJobCard(job);
 			jobContainer.appendChild(jobCard)
@@ -99,6 +107,9 @@ async function getJobs(e) {
 		const noFoundMessage = document.createElement("p");
 		noFoundMessage.innerHTML = result.message;
 		jobContainer.appendChild(noFoundMessage);
+
+		const rightSect = document.querySelector(".detail");
+		rightSect.innerHTML = "No preview available";
 	};
 };
 
@@ -121,9 +132,6 @@ async function getJobDetails(id) {
 	const response = await fetch(`http://127.0.0.1:5000/jobs/${id}`);
 	const result = await response.json();
 	const data = result.data;
-
-	const detail = document.querySelector(".detail");
-	detail.removeAttribute("hidden")
 
 	logo.src = data.company_logo;
 	company.innerHTML = data.company_name;

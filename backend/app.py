@@ -1161,6 +1161,11 @@ def searchJobseeker():
 
 @app.get("/search/jobs")
 def searchJobs():
+    user = {
+        "id": int(request.headers.get("id")),
+        "isLoggedIn": bool(request.headers.get("isLoggedIn")),
+    }
+
     filters = {}
 
     if "position" in request.args:
@@ -1174,14 +1179,25 @@ def searchJobs():
     if "job_type" in request.args:
         filters["job_type"] = request.args.get("job_type")
 
-    query = db.session.query(JobVacancy)
+    subquery = (
+        db.session.query(Application)
+        .filter(Application.job_id == JobVacancy.id)
+        .filter(Application.jobseeker_id == user.get("id"))
+        .exists()
+    )
+
+    jobs = (
+        db.session.query(JobVacancy)
+        .filter(~subquery)
+        .filter(JobVacancy.expired_on >= datetime.now())
+    )
+
+
     for field, value in filters.items():
         if field == "salary":
-            query = query.filter(JobVacancy.salary >= value)
+            jobs = jobs.filter(JobVacancy.salary >= value)
         else:
-            query = query.filter(getattr(JobVacancy, field).ilike(f"%{value}%"))
-
-    jobs = query.all()
+            jobs = jobs.filter(getattr(JobVacancy, field).ilike(f"%{value}%"))
 
     result = [
         {
@@ -1197,15 +1213,27 @@ def searchJobs():
         }
         for j in jobs
     ]
-    if len(result) > 0:
-        return {
-            "message": f"There are {len(result)} job(s) matched",
-            "response": result,
-        }, 200
+
+    if filters:
+        if len(result) > 0:
+            return {
+                "message": f"There are {len(result)} job(s) matched",
+                "response": result,
+            }, 200
+        else:
+            return {
+                "message": "No jobs matched on the giving criteria"
+            }
     else:
-        return {
-            "message": "No jobs matched on the giving criteria"
-        }
+        if len(result) > 0:
+            return {
+                "message": f"There are {len(result)} job(s) matched",
+                "response": result,
+            }, 200
+        else:
+            return {
+                "message": "Wow! You are all caught up. Come back next time!"
+            }
 
 
 if __name__ == "__main__":
