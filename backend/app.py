@@ -27,6 +27,7 @@ class JobSeeker(db.Model):
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
     title = db.Column(db.String)
+    dob = db.Column(db.Date)
     age = db.Column(db.Integer, db.CheckConstraint("age >= 0"))
     gender = db.Column(db.String, db.CheckConstraint("gender IN ('Male', 'Female')"))
     education = db.Column(db.String)
@@ -272,6 +273,7 @@ def getJobseekerDetail(id):
             "first_name": seeker.first_name,
             "last_name": seeker.last_name,
             "title": seeker.title,
+            "dob": seeker.dob,
             "age": seeker.age,
             "gender": seeker.gender,
             "education": seeker.education,
@@ -326,6 +328,7 @@ def updateJobseeker(id):
         dob = data.get("date_of_birth")
         if dob:
             convertedDob = datetime.strptime(dob, "%Y-%m-%d")
+            seeker.dob = convertedDob
             seeker.age = ((datetime.now() - convertedDob).days) // 365
 
         seeker.gender = data.get("gender", seeker.gender)

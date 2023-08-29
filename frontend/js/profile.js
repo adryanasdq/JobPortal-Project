@@ -14,7 +14,7 @@ async function getProfile(e) {
     const twitter = document.querySelector(".user-twitter");
     const instagram = document.querySelector(".user-instagram");
     const summary = document.querySelector(".user-summary");
-    const age = document.querySelector(".user-age");
+    const dob = document.querySelector(".user-dob");
     const gender = document.querySelector(".user-gender");
     const education = document.querySelector(".user-education");
     const major = document.querySelector(".user-major");
@@ -47,19 +47,14 @@ async function getProfile(e) {
         const result = await response.json();
         const data = result.response;
 
-        const fullName = data.first_name + " " + data.last_name;
-        const words = fullName.split(' ');
+        const dateString = data.dob;
+        const date = new Date(dateString);
 
-        for (let i = 0; i < words.length; i++) {
-            if (words[i]) {
-                words[i] = words[i][0].toUpperCase() + words[i].substring(1);
-            }
-        };
-
-        const capped_name = words.join(' ');
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-US', options);
 
         userPict.src = data.url_pict;
-        name.innerHTML = capped_name;
+        name.innerHTML = data.first_name + " " + data.last_name;
         title.innerHTML = data.title;
         address.innerHTML = data.address;
         website.innerHTML = data.website;
@@ -68,59 +63,95 @@ async function getProfile(e) {
         twitter.innerHTML = data.twitter;
         instagram.innerHTML = data.instagram;
         summary.innerHTML = data.summary;
-        age.innerHTML = data.age + " years old";
+        dob.innerHTML = formattedDate + " (" + data.age + " years old)";
         gender.innerHTML = data.gender;
         education.innerHTML = data.education;
         major.innerHTML = data.major;
         contact.innerHTML = data.contact;
+
+        // Modal 1
+        const openModal1 = document.querySelector("#modal-1 ion-icon");
+        const closeModal1 = document.getElementById("closeModal1");
+        const modal1 = document.getElementById("firstModal");
+        const submitEdit1 = document.getElementById("submitEdit1");
+    
+        const userFirstName = document.getElementById("user-firstName");
+        const userLastName = document.getElementById("user-lastName");
+        const userTitle = document.getElementById("user-title");
+        const userAddress = document.getElementById("user-address");
+    
+        userFirstName.value = data.first_name;
+        userLastName.value = data.last_name;
+        userTitle.value = data.title;
+        userAddress.value = data.address;
+    
+        // Modal 2
+        const openModal2 = document.getElementById("link-edit");
+        const closeModal2 = document.getElementById("closeModal2");
+        const modal2 = document.getElementById("secondModal");
+        const submitEdit2 = document.getElementById("submitEdit2");
+
+        const userWebsite = document.getElementById("user-website");
+        const userGithub = document.getElementById("user-github");
+        const userFacebook = document.getElementById("user-facebook");
+        const userTwitter = document.getElementById("user-twitter");
+        const userInstagram = document.getElementById("user-instagram");
+
+        userWebsite.value = data.website;
+        userGithub.value = data.github;
+        userFacebook.value = data.facebook;
+        userTwitter.value = data.twitter;
+        userInstagram.value = data.instagram;
+    
+        // Modal 3
+        const openModal3 = document.getElementById("about-edit");
+        const closeModal3 = document.getElementById("closeModal3");
+        const modal3 = document.getElementById("thirdModal");
+        const submitEdit3 = document.getElementById("submitEdit3");
+
+        const userSummary = document.getElementById("user-summary");
+        const userDoB = document.getElementById("user-dob");
+        const userGender = document.getElementById("user-gender");
+        const userEducation = document.getElementById("user-education");
+        const userMajor = document.getElementById("user-major");
+        const userContact = document.getElementById("user-contact");
+
+        userSummary.value = data.summary;
+        userDoB.value = new Date(data.dob).toISOString().substring(0, 10);
+        userGender.value = data.gender;
+        userEducation.value = data.education;
+        userMajor.value = data.major;
+        userContact.value = data.contact;
+    
+        openModal1.addEventListener("click", () => {
+            modal1.style.display = "block";
+        });
+    
+        closeModal1.addEventListener("click", () => {
+            modal1.style.display = "none";
+        });
+    
+        openModal2.addEventListener("click", () => {
+            modal2.style.display = "block";
+        });
+    
+        closeModal2.addEventListener("click", () => {
+            modal2.style.display = "none";
+        });
+    
+        openModal3.addEventListener("click", () => {
+            modal3.style.display = "block";
+        });
+    
+        closeModal3.addEventListener("click", () => {
+            modal3.style.display = "none";
+        });
+    
+    
+        submitEdit1.onclick = () => updateProfile1(userId);
+        submitEdit2.onclick = () => updateProfile2(userId);
+        submitEdit3.onclick = () => updateProfile3(userId);
     };
-
-    // Modal 1
-    const openModal1 = document.querySelector("#modal-1 ion-icon");
-    const closeModal1 = document.getElementById("closeModal1");
-    const modal1 = document.getElementById("firstModal");
-    const submitEdit1 = document.getElementById("submitEdit1");
-
-    // Modal 2
-    const openModal2 = document.getElementById("link-edit");
-    const closeModal2 = document.getElementById("closeModal2");
-    const modal2 = document.getElementById("secondModal");
-    const submitEdit2 = document.getElementById("submitEdit2");
-
-    // Modal 3
-    const openModal3 = document.getElementById("about-edit");
-    const closeModal3 = document.getElementById("closeModal3");
-    const modal3 = document.getElementById("thirdModal");
-    const submitEdit3 = document.getElementById("submitEdit3");
-
-    openModal1.addEventListener("click", () => {
-        modal1.style.display = "block";
-    });
-
-    closeModal1.addEventListener("click", () => {
-        modal1.style.display = "none";
-    });
-
-    openModal2.addEventListener("click", () => {
-        modal2.style.display = "block";
-    });
-
-    closeModal2.addEventListener("click", () => {
-        modal2.style.display = "none";
-    });
-
-    openModal3.addEventListener("click", () => {
-        modal3.style.display = "block";
-    });
-
-    closeModal3.addEventListener("click", () => {
-        modal3.style.display = "none";
-    });
-
-    submitEdit1.onclick = () => updateProfile1(userId);
-    submitEdit2.onclick = () => updateProfile2(userId);
-    submitEdit3.onclick = () => updateProfile3(userId);
-
 }
 
 async function updateProfile1(id) {
@@ -145,12 +176,6 @@ async function updateProfile1(id) {
         "title": newTitle,
         "address": newAddress,
 	};
-
-    Object.keys(data).forEach(key => {
-        if (!data[key]) {
-            delete data[key];
-        }
-    });
 
 	const requestOptions = {
 		method: "PUT",
@@ -206,12 +231,6 @@ async function updateProfile2(id) {
         "twitter": newTwitter,
         "instagram": newInstagram
 	};
-
-    Object.keys(data).forEach(key => {
-        if (!data[key]) {
-            delete data[key];
-        }
-    });
 
 	const requestOptions = {
 		method: "PUT",
@@ -269,12 +288,6 @@ async function updateProfile3(id) {
         "major": newMajor,
         "contact": newContact,
 	};
-
-    Object.keys(data).forEach(key => {
-        if (!data[key]) {
-            delete data[key];
-        }
-    });
 
 	const requestOptions = {
 		method: "PUT",
