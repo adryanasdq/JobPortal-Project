@@ -1,14 +1,12 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 from flask_cors import CORS
 
 
 # Initiation
 app = Flask(__name__)
-app.config[
-    "SQLALCHEMY_DATABASE_URI"
-] = "postgresql://postgres:admin@localhost:5432/postgres"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:admin@localhost:5432/postgres"
 db = SQLAlchemy(app)
 CORS(app)
 
@@ -149,7 +147,6 @@ def login():
             return {
                 "id": jobseeker.id,
                 "username": jobseeker.username,
-                "password": jobseeker.password,
                 "name": jobseeker.first_name
             }
         else:
@@ -160,7 +157,6 @@ def login():
             return {
                 "id": company.id,
                 "username": company.username,
-                "password": company.password,
                 "name": company.name
             }
         else:
@@ -168,6 +164,7 @@ def login():
 
     else:
         return {"message": "No such account exist!"}, 400
+
 
 # _________________________________________Jobseeker and Company Register_________________________________________
 @app.post("/register")
@@ -741,7 +738,7 @@ def getSavedJobs():
 
 
 @app.get("/jobseeker/openjobs")
-def getUnappliedJobs():
+def getRecommendedJobs():
     user = {
         "id": int(request.headers.get("id")),
         "isLoggedIn": bool(request.headers.get("isLoggedIn")),
@@ -1183,6 +1180,7 @@ def searchJobs():
         db.session.query(Application)
         .filter(Application.job_id == JobVacancy.id)
         .filter(Application.jobseeker_id == user.get("id"))
+        .filter(Application.status != "saved")
         .exists()
     )
 
@@ -1223,7 +1221,7 @@ def searchJobs():
         else:
             return {
                 "message": "No jobs matched on the giving criteria"
-            }
+            }, 200
     else:
         if len(result) > 0:
             return {
@@ -1232,8 +1230,9 @@ def searchJobs():
             }, 200
         else:
             return {
-                "message": "Wow! You are all caught up. Come back next time!"
-            }
+                "message": """Wow! You are all caught up.
+                Check back later for new job opportunities, or feel free to contact us for more information."""
+            }, 200
 
 
 if __name__ == "__main__":

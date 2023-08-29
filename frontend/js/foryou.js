@@ -29,58 +29,9 @@ function createJobCard(jobData) {
 	return card;
 };
 
-async function getSavedJobs(e) {
-	e.preventDefault()
+async function getSavedAndRecommendedJobs(e) {
+	e.preventDefault();
 
-	const url = "http://127.0.0.1:5000/jobseeker/savedjobs";
-	const userId = localStorage.getItem("id");
-	const isLoggedIn = localStorage.getItem("isLoggedIn");
-	const myHeaders = {
-		"Content-type": "application/json; charset=UTF-8",
-		"id": userId,
-		"isLoggedIn": isLoggedIn,
-	};
-
-	const requestOptions = {
-		method: "GET",
-		headers: myHeaders,
-	};
-
-	const header = document.querySelector(".main > h3");
-	const jobContainer = document.getElementById("saved-job");
-	jobContainer.innerHTML = "";
-
-	if (userId == null) {
-		Swal.fire({
-			icon: "error",
-			title: "Oops...",
-			text: "Please login first",
-			confirmButtonText: "Yes",
-		}).then((result) => {
-			if (result.isConfirmed) {
-				window.location.href = "landing.html"
-			}
-		});
-	} else {
-		const response = await fetch(url, requestOptions);
-		const result = await response.json();
-		const data = result.data;
-
-		if (data && data.length > 0) {
-			data.forEach((job) => {
-				header.removeAttribute("hidden");
-
-				const jobCard = createJobCard(job);
-				jobContainer.appendChild(jobCard)
-			})
-		}
-	}
-};
-
-async function getUnappliedJobs(e) {
-	e.preventDefault()
-
-	const url = "http://127.0.0.1:5000/jobseeker/openjobs";
 	const userId = localStorage.getItem("id");
 	const isLoggedIn = localStorage.getItem("isLoggedIn");
 	const sortby = document.querySelector(".sort-by").value;
@@ -95,8 +46,11 @@ async function getUnappliedJobs(e) {
 		headers: myHeaders,
 	};
 
-	const jobContainer = document.getElementById("unapplied");
-	jobContainer.innerHTML = "";
+	const header = document.querySelector(".main > h3");
+	const savedJobContainer = document.getElementById("saved-job");
+	savedJobContainer.innerHTML = "";
+	const recommendedJobContainer = document.getElementById("unapplied");
+	recommendedJobContainer.innerHTML = "";
 
 	if (userId == null) {
 		Swal.fire({
@@ -106,50 +60,82 @@ async function getUnappliedJobs(e) {
 			confirmButtonText: "Yes",
 		}).then((result) => {
 			if (result.isConfirmed) {
-				window.location.href = "landing.html"
+				window.location.href = "landing.html";
 			}
 		});
 	} else {
-		const response = await fetch(url, requestOptions);
-		const result = await response.json();
-		const data = result.data;
+		// Get saved jobs
+		const savedResponse = await fetch("http://127.0.0.1:5000/jobseeker/savedjobs", requestOptions);
+		const savedResult = await savedResponse.json();
+		const savedData = savedResult.data;
 
-		if (data && data.length > 0) {
-			if (sortby === "newest") {
-				data.sort((a, b) => {
-					return b.id - a.id
-				});
-			} else if (sortby === "oldest") {
-				data.sort((a, b) => {
-					return a.id - b.id
-				});
-			} else if (sortby === "highpaid") {
-				data.sort((a, b) => {
-					return b.salary - a.salary
-				});
-			} else if (sortby === "lowpaid") {
-				data.sort((a, b) => {
-					return a.salary - b.salary
-				});
-			};
+		if (savedData.length > 0) {
+			savedData.forEach((job) => {
+				header.removeAttribute("hidden");
 
-			data.forEach((job) => {
 				const jobCard = createJobCard(job);
-				jobContainer.appendChild(jobCard)
-			})
+				savedJobContainer.appendChild(jobCard);
+			});
+			getJobDetails(savedData[0].id)
+		}
+
+		// Get recommended jobs
+		const recommendedResponse = await fetch("http://127.0.0.1:5000/jobseeker/openjobs", requestOptions);
+		const recommendedResult = await recommendedResponse.json();
+		const recommendedData = recommendedResult.data;
+
+		const user = await fetch(`http://127.0.0.1:5000/jobseeker/${userId}`, requestOptions);
+		const userResp = await user.json();
+		const userMajor = userResp.response.major;
+
+		const filteredData = recommendedData.filter(item => item.major === userMajor || item.major === "Any");
+
+		if (filteredData.length > 0) {
+			if (sortby === "relevancy") {
+				filteredData.sort((a, b) => a.major === userMajor && b.major !== userMajor? -1 : 0);
+			} else if (sortby === "newest") {
+				filteredData.sort((a, b) => b.id - a.id);
+			} else if (sortby === "oldest") {
+				filteredData.sort((a, b) => a.id - b.id);
+			} else if (sortby === "highpaid") {
+				filteredData.sort((a, b) => b.salary - a.salary);
+			} else if (sortby === "lowpaid") {
+				filteredData.sort((a, b) => a.salary - b.salary);
+			}
+
+			filteredData.forEach((job) => {
+				const jobCard = createJobCard(job);
+				recommendedJobContainer.appendChild(jobCard);
+			});
+
+			if (savedData.length === 0) {
+				getJobDetails(filteredData[0].id)
+			}
+
 		} else {
 			const noFoundMessage = document.createElement("p");
-			noFoundMessage.innerHTML = "Wow, you are all caught up! Come back next time when new job posted";
-			jobContainer.appendChild(noFoundMessage);
+			noFoundMessage.innerHTML = "Wow, you are all caught up! You've applied to all the available recommended jobs at the moment. Come back later!";
+			noFoundMessage.style.marginLeft = "1.5%";
+			recommendedJobContainer.appendChild(noFoundMessage);
+		}
+		
+		if (savedData.length === 0 && filteredData.length === 0) {
+			const rightSect = document.querySelector(".detail");
+			rightSect.innerHTML = `
+				<div>
+					<h4 style="margin-bottom: 1rem;">No Recommended Jobs for You, for Now!</h4>
+					<p>You've applied to all the available recommended jobs at the moment. Come back later!</p>
+				</div>
+			`;
 		}
 	}
+
 };
 
 const sorter = document.querySelector(".sort-by");
 
-sorter.addEventListener("change", getUnappliedJobs);
-document.addEventListener("DOMContentLoaded", getSavedJobs);
-document.addEventListener("DOMContentLoaded", getUnappliedJobs);
+sorter.addEventListener("change", getSavedAndRecommendedJobs);
+document.addEventListener("DOMContentLoaded", getSavedAndRecommendedJobs);
 
 
 async function getJobDetails(id) {
@@ -323,7 +309,7 @@ async function toggleSaveJob(id) {
 	setTimeout(() => {
 		window.location.href = "foryou-jobseeker.html";
 	}, 2000);
-}
+};
 
 async function saveJob(id) {
 	const userId = localStorage.getItem("id");
