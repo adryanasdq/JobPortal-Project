@@ -1179,20 +1179,23 @@ def searchJobs():
     if "job_type" in request.args:
         filters["job_type"] = request.args.get("job_type")
 
-    subquery = (
-        db.session.query(Application)
-        .filter(Application.job_id == JobVacancy.id)
-        .filter(Application.jobseeker_id == user.get("id"))
-        .filter(Application.status != "saved")
-        .exists()
-    )
+    if str(user.get("id")).startswith("1"):
+        jobs = db.session.query(JobVacancy)
 
-    jobs = (
-        db.session.query(JobVacancy)
-        .filter(~subquery)
-        .filter(JobVacancy.expired_on >= datetime.now())
-    )
+    elif str(user.get("id")).startswith("3"):
+        subquery = (
+            db.session.query(Application)
+            .filter(Application.job_id == JobVacancy.id)
+            .filter(Application.jobseeker_id == user.get("id"))
+            .filter(Application.status != "saved")
+            .exists()
+        )
 
+        jobs = (
+            db.session.query(JobVacancy)
+            .filter(~subquery)
+            .filter(JobVacancy.expired_on >= datetime.now())
+        )
 
     for field, value in filters.items():
         if field == "salary":

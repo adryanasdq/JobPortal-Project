@@ -33,6 +33,9 @@ function createJobCard(jobData) {
 async function getJobs(e) {
 	e.preventDefault()
 
+	const userId = localStorage.getItem("id");
+	const isLoggedIn = localStorage.getItem("isLoggedIn");
+
 	const position = document.querySelector(".job-position").value;
 	const major = document.querySelector(".job-major").value;
 	const salary = document.querySelector(".job-salary").value;
@@ -61,16 +64,21 @@ async function getJobs(e) {
 	const jobContainer = document.querySelector(".wrapper");
 	jobContainer.innerHTML = "";
 
+	const myHeaders = {
+		"Content-type": "application/json; charset=UTF-8",
+		"id": userId,
+		"isLoggedIn": isLoggedIn,
+	};
+
 	const requestOptions = {
 		method: "GET",
-		headers: {
-			"Content-Type": "application/json"
-		}
-	}
+		headers: myHeaders,
+	};
 
 	const response = await fetch(url, requestOptions);
 	const result = await response.json();
 	const data = result.response;
+
 	if (data && data.length > 0) {
 		if (sortby === "newest") {
 			data.sort((a, b) => {
@@ -89,6 +97,8 @@ async function getJobs(e) {
 				return a.salary - b.salary
 			});
 		};
+
+		getJobDetails(data[0].id)
 
 		data.forEach((job) => {
 			const jobCard = createJobCard(job);
