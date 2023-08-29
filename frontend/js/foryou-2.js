@@ -68,6 +68,8 @@ async function getCompanyJobs(e) {
 		const result = await response.json();
 		const data = result.data;
 
+		getJobDetails(data[0].id)
+
 		data.forEach((job) => {
 			if (new Date(job.expired_on) < new Date()) {
 				job.position += " (Expired)"
@@ -175,6 +177,30 @@ async function getJobDetails(id) {
 	const closeModalBtn = document.getElementById("closeModal2");
 	const editJobModal = document.getElementById("editJobModal");
 	const submitEdit = document.getElementById("submitEdit");
+
+	const jobPosition = document.getElementById("job-position2");
+	const jobLocation = document.getElementById("job-location2");
+	const jobType = document.getElementById("job-type2");
+	const jobMajor = document.getElementById("job-major2");
+	const jobDuration = document.getElementById("job-duration2");
+	const jobSalary = document.getElementById("job-salary2");
+	const jobDescription = document.getElementById("job-description2");
+	const jobRequirements = document.getElementById("job-requirements2");
+
+	const posted_on = new Date(data.posted_on);
+	const expired_on = new Date(data.expired_on);
+
+	const timeDif = Math.abs(expired_on - posted_on);
+	const days = Math.floor(timeDif / (1000 * 60 * 60 * 24))
+
+	jobPosition.value = data.position;
+	jobLocation.value = data.location;
+	jobType.value = data.job_type;
+	jobMajor.value = data.major;
+	jobDuration.value = days;
+	jobSalary.value = data.salary;
+	jobDescription.value = data.description;
+	jobRequirements.value = data.requirements;
 
 	openModalBtn.forEach(button => {
 		button.addEventListener("click", () => {
@@ -308,12 +334,6 @@ async function editJob(id) {
 		"description": description,
 		"requirements": requirements,
 	};
-
-	Object.keys(data).forEach(key => {
-		if (!data[key]) {
-			delete data[key];
-		};
-	});
 
 	const requestOptions = {
 		method: "PUT",
