@@ -66,36 +66,50 @@ async function getApps(e) {
     const data = result.data;
 
     if (data && data.length > 0) {
-		if (sortby === "newest") {
-			data.sort((a, b) => {
-				return b.id - a.id
-			});
-		} else if (sortby === "oldest") {
-			data.sort((a, b) => {
-				return a.id - b.id
-			});
-		} else if (sortby === "highpaid") {
-			data.sort((a, b) => {
-				return b.salary - a.salary
-			});
-		} else if (sortby === "lowpaid") {
-			data.sort((a, b) => {
-				return a.salary - b.salary
-			});
-		};
+        if (sortby === "newest") {
+            data.sort((a, b) => {
+                return b.id - a.id
+            });
+        } else if (sortby === "oldest") {
+            data.sort((a, b) => {
+                return a.id - b.id
+            });
+        } else if (sortby === "highpaid") {
+            data.sort((a, b) => {
+                return b.salary - a.salary
+            });
+        } else if (sortby === "lowpaid") {
+            data.sort((a, b) => {
+                return a.salary - b.salary
+            });
+        };
 
-		data.forEach((job) => {
+        data.forEach((job) => {
             if (job.status != "saved") {
                 const jobCard = createJobCard(job);
                 appContainer.appendChild(jobCard)
             }
-		});
+        });
 
-	} else {
-		const noFoundMessage = document.createElement("p");
-		noFoundMessage.innerHTML = "Wow, such empty! are you new? try apply for a job!";
-		appContainer.appendChild(noFoundMessage);
-	};
+        getAppDetails(data[0].id)
+
+    } else {
+        const noFoundMessage = document.createElement("p");
+        noFoundMessage.innerHTML = `Wow, such empty! are you new? try apply for a job! <br>
+        It is recommended to apply to the recommended job on
+        <strong><a href="foryou-jobseeker.html" style="color: var(--primaryColor)">For You</a></strong> page.`;
+        
+        noFoundMessage.style.marginLeft = "1.5%"
+        appContainer.appendChild(noFoundMessage);
+
+        const rightSect = document.querySelector(".detail");
+        rightSect.innerHTML = `
+            <div>
+                <h4 style="margin-bottom: 1rem;">Try apply for a job!</h4>
+                <p>Your application will be later can be seen here</p>
+            </div>
+        `;
+    };
 };
 
 async function getAppDetails(id) {
