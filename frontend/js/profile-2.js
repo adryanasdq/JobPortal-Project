@@ -66,53 +66,85 @@ async function getProfile(e) {
         address.innerHTML = data.address;
         email.innerHTML = data.email;
         contact.innerHTML = data.contact;
+
+        // Modal 1
+        const openModal1 = document.querySelector("#modal-1 ion-icon");
+        const closeModal1 = document.getElementById("closeModal1");
+        const modal1 = document.getElementById("firstModal");
+        const submitEdit1 = document.getElementById("submitEdit1");
+    
+        const userCompanyName = document.getElementById("company-name");
+        const userIndustry = document.getElementById("company-industry");
+    
+        userCompanyName.value = data.name;
+        userIndustry.value = data.industry;
+    
+        // Modal 2
+        const openModal2 = document.getElementById("link-edit");
+        const closeModal2 = document.getElementById("closeModal2");
+        const modal2 = document.getElementById("secondModal");
+        const submitEdit2 = document.getElementById("submitEdit2");
+    
+        const userWebsite = document.getElementById("user-website");
+        const userGithub = document.getElementById("user-github");
+        const userFacebook = document.getElementById("user-facebook");
+        const userTwitter = document.getElementById("user-twitter");
+        const userInstagram = document.getElementById("user-instagram");
+
+        userWebsite.value = data.website;
+        userGithub.value = data.github;
+        userFacebook.value = data.facebook;
+        userTwitter.value = data.twitter;
+        userInstagram.value = data.instagram;
+    
+        // Modal 3
+        const openModal3 = document.getElementById("about-edit");
+        const closeModal3 = document.getElementById("closeModal3");
+        const modal3 = document.getElementById("thirdModal");
+        const submitEdit3 = document.getElementById("submitEdit3");
+    
+        const userAbout = document.getElementById("company-about");
+        const userEstDate = document.getElementById("company-est");
+        const newIndustry = document.getElementById("company-industry");
+        const userAddress = document.getElementById("company-address");
+        const userEmail = document.getElementById("company-email");
+        const userContact = document.getElementById("company-contact");
+
+        userAbout.value = data.about;
+        userEstDate.value = new Date(data.est_date).toISOString().substring(0, 10);
+        newIndustry.value = data.industry;
+        userAddress.value = data.address;
+        userEmail.value = data.email;
+        userContact.value = data.contact;
+    
+        openModal1.addEventListener("click", () => {
+            modal1.style.display = "block";
+        });
+    
+        closeModal1.addEventListener("click", () => {
+            modal1.style.display = "none";
+        });
+    
+        openModal2.addEventListener("click", () => {
+            modal2.style.display = "block";
+        });
+    
+        closeModal2.addEventListener("click", () => {
+            modal2.style.display = "none";
+        });
+    
+        openModal3.addEventListener("click", () => {
+            modal3.style.display = "block";
+        });
+    
+        closeModal3.addEventListener("click", () => {
+            modal3.style.display = "none";
+        });
+    
+        submitEdit1.onclick = () => updateProfile1(userId);
+        submitEdit2.onclick = () => updateProfile2(userId);
+        submitEdit3.onclick = () => updateProfile3(userId);
     };
-
-    // Modal 1
-    const openModal1 = document.querySelector("#modal-1 ion-icon");
-    const closeModal1 = document.getElementById("closeModal1");
-    const modal1 = document.getElementById("firstModal");
-    const submitEdit1 = document.getElementById("submitEdit1");
-
-    // Modal 2
-    const openModal2 = document.getElementById("link-edit");
-    const closeModal2 = document.getElementById("closeModal2");
-    const modal2 = document.getElementById("secondModal");
-    const submitEdit2 = document.getElementById("submitEdit2");
-
-    // Modal 3
-    const openModal3 = document.getElementById("about-edit");
-    const closeModal3 = document.getElementById("closeModal3");
-    const modal3 = document.getElementById("thirdModal");
-    const submitEdit3 = document.getElementById("submitEdit3");
-
-    openModal1.addEventListener("click", () => {
-        modal1.style.display = "block";
-    });
-
-    closeModal1.addEventListener("click", () => {
-        modal1.style.display = "none";
-    });
-
-    openModal2.addEventListener("click", () => {
-        modal2.style.display = "block";
-    });
-
-    closeModal2.addEventListener("click", () => {
-        modal2.style.display = "none";
-    });
-
-    openModal3.addEventListener("click", () => {
-        modal3.style.display = "block";
-    });
-
-    closeModal3.addEventListener("click", () => {
-        modal3.style.display = "none";
-    });
-
-    submitEdit1.onclick = () => updateProfile1(userId);
-    submitEdit2.onclick = () => updateProfile2(userId);
-    submitEdit3.onclick = () => updateProfile3(userId);
 
 }
 
@@ -134,12 +166,6 @@ async function updateProfile1(id) {
         "name": newCompanyName,
         "industry": newIndustry,
     };
-
-    Object.keys(data).forEach(key => {
-        if (!data[key]) {
-            delete data[key];
-        }
-    });
 
     const requestOptions = {
         method: "PUT",
