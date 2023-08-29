@@ -71,7 +71,7 @@ async function getJobs(e) {
 			"id": userId,
 			"isLoggedIn": isLoggedIn,
 		}
-	}
+	};
 
 	const response = await fetch(url, requestOptions);
 	const result = await response.json();
@@ -106,10 +106,16 @@ async function getJobs(e) {
 	} else {
 		const noFoundMessage = document.createElement("p");
 		noFoundMessage.innerHTML = result.message;
+		noFoundMessage.style.marginLeft = "1.5%";
 		jobContainer.appendChild(noFoundMessage);
 
 		const rightSect = document.querySelector(".detail");
-		rightSect.innerHTML = "No preview available";
+		rightSect.innerHTML = `
+			<div>
+				<h4 style="margin-bottom: 1rem;">No Available Jobs</h4>
+            	<p>You've applied to all the available jobs at the moment. Thank you for your interest!</p>
+			</div>
+		`;
 	};
 };
 
