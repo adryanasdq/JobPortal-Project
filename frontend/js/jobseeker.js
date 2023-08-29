@@ -24,7 +24,7 @@ function createJobCard(jobData) {
 }
 
 
-async function getJobs(e) {
+async function getJobSeeker(e) {
     e.preventDefault()
 
     const userId = localStorage.getItem("id");
@@ -103,6 +103,9 @@ async function getJobs(e) {
                 const appsCard = createJobCard(apps);
                 appContainer.appendChild(appsCard)
             });
+
+            getJobseekerDetails(applicants[0].id)
+
         } else {
             appHead.style.display = "none";
         };
@@ -113,9 +116,19 @@ async function getJobs(e) {
                 const otherCard = createJobCard(other);
                 otherContainer.appendChild(otherCard)
             });
+
+            if (applicants.length === 0) {
+                getJobseekerDetails(others[0].id)
+            }
+
         } else {
             otherHead.style.display = "none";
         };
+
+        if (applicants.length === 0 && others.length === 0) {
+            
+        }
+
 
     } else {
         const noFoundMessage = document.createElement("p");
@@ -132,8 +145,8 @@ async function getJobs(e) {
 const filterSearch = document.querySelector("form.search");
 const sorter = document.querySelector(".sort-by");
 
-filterSearch.addEventListener("submit", getJobs);
-document.addEventListener("DOMContentLoaded", getJobs);
+filterSearch.addEventListener("submit", getJobSeeker);
+document.addEventListener("DOMContentLoaded", getJobSeeker);
 
 
 async function getJobseekerDetails(id) {
@@ -160,8 +173,6 @@ async function getJobseekerDetails(id) {
     const result = await response.json();
     const data = result.response;
 
-    detail.removeAttribute("hidden")
-    
     if (result.status === "Unauthorized") {
         unauthContent.hidden = false
         detailContent.hidden = true
