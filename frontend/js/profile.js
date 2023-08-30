@@ -47,11 +47,16 @@ async function getProfile(e) {
         const result = await response.json();
         const data = result.response;
 
-        const dateString = data.dob;
-        const date = new Date(dateString);
-
-        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        const formattedDate = date.toLocaleDateString('en-US', options);
+        let userDate;
+        if (data.dob) {
+            const dateString = data.dob;
+            const date = new Date(dateString);
+    
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            userDate = date.toLocaleDateString('en-US', options);
+        } else {
+            userDate = null;
+        }
 
         userPict.src = data.url_pict;
         name.innerHTML = data.first_name + " " + data.last_name;
@@ -63,7 +68,7 @@ async function getProfile(e) {
         twitter.innerHTML = data.twitter;
         instagram.innerHTML = data.instagram;
         summary.innerHTML = data.summary;
-        dob.innerHTML = formattedDate + " (" + data.age + " years old)";
+        dob.innerHTML = userDate + " (" + data.age + " years old)";
         gender.innerHTML = data.gender;
         education.innerHTML = data.education;
         major.innerHTML = data.major;

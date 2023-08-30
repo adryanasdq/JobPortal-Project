@@ -105,7 +105,7 @@ async function getProfile(e) {
     
         const userAbout = document.getElementById("company-about");
         const userEstDate = document.getElementById("company-est");
-        const newIndustry = document.getElementById("company-industry");
+        const newIndustry = modal3.querySelector("#company-industry");
         const userAddress = document.getElementById("company-address");
         const userEmail = document.getElementById("company-email");
         const userContact = document.getElementById("company-contact");
