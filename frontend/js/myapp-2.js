@@ -133,8 +133,6 @@ async function getCompanyJobDetails(id) {
 	const result = await response.json();
 	const data = result.data;
 
-    console.log(data)
-
 	const detail = document.querySelector(".detail");
 	detail.removeAttribute("hidden")
 
@@ -238,7 +236,12 @@ async function getAppDetails(id) {
     const toPosition = document.getElementById("to-position");
 
     if (data.status != "applied") {
-        respondBtn.style.display = "none"
+        respondBtn.innerHTML = data.status
+        if (data.status === "accepted") {
+            respondBtn.className = "accepted" 
+        } else {
+            respondBtn.className = "rejected"
+        }
     } else {
         respondBtn.style.display = "flex"
     };

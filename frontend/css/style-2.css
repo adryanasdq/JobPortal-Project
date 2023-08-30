@@ -637,7 +637,7 @@ textarea {
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    padding: 20px;
+    padding: 1rem 1.25%;
 }
 
 .job {
@@ -737,6 +737,24 @@ textarea {
 
 .styled-button:active {
     transform: scale(0.95);
+}
+
+.accepted {
+    text-align: center;
+    border: 1px solid green;
+    background-color: green;
+    color: white;
+    padding: 0.5rem 0;
+    border-radius: 5px;
+}
+
+.rejected {
+    text-align: center;
+    border: 1px solid darkred;
+    background-color: darkred;
+    color: white;
+    padding: 0.5rem 0;
+    border-radius: 5px;
 }
 
 
