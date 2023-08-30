@@ -659,15 +659,8 @@ def updateCompanyJob(id):
             job.location = data.get("location", job.location)
             job.job_type = data.get("job_type", job.job_type)
             job.major = data.get("major", job.major)
-
-            duration = data.get("available_for")
-            salary = data.get("salary")
-            if duration:
-                job.expired_on = datetime.today() + timedelta(int(duration))
-
-            if salary:
-                job.salary = (int(data.get("salary")), job.salary)
-
+            job.expired_on = datetime.today() + timedelta(int(data.get("available_for")))
+            job.salary = int(data.get("salary", job.salary))
             job.description = data.get("description", job.description)
             job.requirements = data.get("requirements", job.requirements)
 
@@ -1078,8 +1071,11 @@ def getJobApplicants(id):
             "job_position": applications[0].jobvacancy.position,
             "list_applicants": [
                 {
-                    "applicant": application.jobseeker.first_name,
+                    "app_id": application.id,
+                    "applicant_pict": application.jobseeker.url_pict,
+                    "applicant_name": application.jobseeker.first_name + " " + application.jobseeker.last_name,
                     "status": application.status,
+                    "note": application.note,
                 }
                 for application in applications
             ],

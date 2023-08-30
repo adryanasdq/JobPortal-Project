@@ -43,7 +43,7 @@ body {
     border: solid 1px var(--whiteColor);
     background-color: var(--whiteColor);
     border-radius: 5px;
-    box-shadow: 0px 0px 20px 0px rgba(107,121,124,0.2);
+    box-shadow: 0px 0px 20px 0px rgba(107, 121, 124, 0.2);
 }
 
 .flow-cap {
@@ -235,7 +235,8 @@ body {
     background-color: var(--whiteColor);
 }
 
-.search input, select {
+.search input,
+select {
     width: 90%;
     border: none;
 }
@@ -383,7 +384,7 @@ body {
     padding-bottom: 3px;
 }
 
-.card-loc ion-icon{
+.card-loc ion-icon {
     margin-right: 0.2rem;
 }
 
@@ -394,7 +395,7 @@ body {
     justify-content: space-between;
 }
 
-.card-sub ion-icon{
+.card-sub ion-icon {
     margin-right: 0.3rem;
 }
 
@@ -421,6 +422,7 @@ body {
 
 .detail-header {
     display: flex;
+    text-align: center;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
@@ -489,7 +491,8 @@ body {
     cursor: pointer;
 }
 
-.btn-apply:hover, .btn-post:hover {
+.btn-apply:hover,
+.btn-post:hover {
     border: 1px solid var(--ternaryColor);
     background-color: transparent;
     color: var(--ternaryColor);
@@ -562,9 +565,10 @@ body {
 .modal-items select {
     width: 90%;
     padding: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--greyColor);
     border-radius: 4px;
 }
+
 
 .decision {
     display: flex;
@@ -576,7 +580,7 @@ body {
 .decision select {
     width: 90%;
     padding: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--greyColor);
     border-radius: 4px;
 }
 
@@ -593,7 +597,7 @@ textarea {
     width: 95%;
     height: 150px;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--greyColor);
     border-radius: 4px;
 }
 
@@ -626,6 +630,113 @@ textarea {
     display: flex;
     justify-content: flex-end;
     padding-right: 1rem;
+}
+
+.jobs-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.job {
+    border: 1px solid var(--greyColor);
+    background-color: var(--whiteColor);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    line-height: 1.5;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: calc(50% - 10px);
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.app-container {
+    border: solid 2px var(--greyColor);
+    border-radius: 5px;
+}
+
+.app-cordion {
+    text-align: center;
+    padding: 3%;
+    background-color: var(--whiteColor);
+    line-height: 1.5;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.active,
+.app-cordion:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: var(--greyColor);
+}
+
+.app-cordion.active+.panel {
+    max-height: 1000px;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: var(--whiteColor);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.accordion-content {
+    padding: 10px;
+    border-bottom: 1px solid var(--greyColor);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.accordion-content img {
+    max-width: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.accordion-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.app-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-info p {
+    color: var(--darkGreyColor);
+}
+
+.styled-button {
+    display: inline-block;
+    padding: 7px 12px;
+    background-color: var(--ternaryColor);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.styled-button:hover {
+    border: 1px solid var(--ternaryColor);
+    background-color: transparent;
+    color: var(--ternaryColor);
+}
+
+.styled-button:active {
+    transform: scale(0.95);
 }
 
 
@@ -674,7 +785,10 @@ textarea {
 }
 
 @media screen and (max-width: 480px) {
-    .card-loc, .card-sub, .card-tag {
+
+    .card-loc,
+    .card-sub,
+    .card-tag {
         display: none;
     }
 }
