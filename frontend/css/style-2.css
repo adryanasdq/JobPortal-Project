@@ -212,7 +212,7 @@ body {
     display: flex;
     align-items: center;
     padding-top: 1.5rem;
-    padding-bottom: 5rem;
+    padding-bottom: 1rem;
 }
 
 /* This will only show on mobile view, on desktop hidden */

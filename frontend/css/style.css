@@ -26,8 +26,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    padding: 1.5rem;
-    margin-top: 1.5rem;
+    padding: 0 1.5rem;
 }
 
 .caption {
