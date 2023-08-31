@@ -655,21 +655,27 @@ def updateCompanyJob(id):
         data = request.get_json()
 
         if job:
-            job.position = data.get("position", job.position)
-            job.location = data.get("location", job.location)
-            job.job_type = data.get("job_type", job.job_type)
-            job.major = data.get("major", job.major)
-            job.expired_on = datetime.today() + timedelta(int(data.get("available_for")))
-            job.salary = int(data.get("salary", job.salary))
-            job.description = data.get("description", job.description)
-            job.requirements = data.get("requirements", job.requirements)
+            try:
+                job.position = data.get("position", job.position)
+                job.location = data.get("location", job.location)
+                job.job_type = data.get("job_type", job.job_type)
+                job.major = data.get("major", job.major)
+                job.expired_on = datetime.today() + timedelta(int(data.get("available_for")))
+                job.salary = int(data.get("salary", job.salary))
+                job.description = data.get("description", job.description)
+                job.requirements = data.get("requirements", job.requirements)
 
-            db.session.add(job)
-            db.session.commit()
-            return {
-                "status": "Success!",
-                "message": "Data Successfully Updated!"
-            }, 200
+                db.session.add(job)
+                db.session.commit()
+                return {
+                    "status": "Success!",
+                    "message": "Data Successfully Updated!"
+                }, 200
+            except:
+                return {
+                    "status": "Update job failed!",
+                    "message": "Please complete all the fields!"
+                }, 400
 
         else:
             return {
