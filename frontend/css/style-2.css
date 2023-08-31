@@ -379,6 +379,7 @@ select {
 
 .card-loc {
     display: flex;
+    align-items: center;
     font-size: 13px;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -641,6 +642,9 @@ textarea {
 }
 
 .job {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
     border: 1px solid var(--greyColor);
     background-color: var(--whiteColor);
     border-radius: 8px;
@@ -651,6 +655,16 @@ textarea {
     width: calc(50% - 10px);
     box-sizing: border-box;
     cursor: pointer;
+}
+
+.job h3 {
+    text-align: center;
+    padding-bottom: 0.5rem;
+}
+
+.job > .salary {
+    padding-top: 1rem;
+    text-align: end;
 }
 
 .app-container {

@@ -4,26 +4,16 @@ function createJobCard(jobData) {
 	const countDays = Math.round((new Date().getTime() - postedDate.getTime()) / oneDay);
 
 	const card = document.createElement("div");
-	card.className = "card";
+	card.className = "job";
 	card.innerHTML = `
-        <div class="card-left">
-            <img src="${jobData.logo_url}" alt="">
-        </div>
-        <div class="card-center">
-            <h3>${jobData.company}</h3>
-            <p class="card-detail">${jobData.position}</p>
-            <p class="card-loc"><ion-icon name="location-outline"></ion-icon>${jobData.location}</p>
-            <div class="card-sub">
-                <p><ion-icon name="today-outline"></ion-icon>${countDays} day(s) ago</p>
-                <p><ion-icon name="hourglass-outline"></ion-icon>${jobData.job_type}</p>
-                <p><ion-icon name="school-outline"></ion-icon>${jobData.major}</p>
-            </div>
-        </div>
-        <div class="card-right">
-            <div class="card-salary">
-                <p><b>Rp. ${jobData.salary.toLocaleString("id")}</b> <span>/ month</span></p>
-            </div>
-        </div>
+		<h3>${jobData.position}</h3>
+		<p><ion-icon name="location-outline"></ion-icon>${jobData.location}</p>
+		<div class="card-sub">
+			<p><ion-icon name="today-outline"></ion-icon>${countDays} day(s) ago</p>
+			<p><ion-icon name="hourglass-outline"></ion-icon>${jobData.job_type}</p>
+			<p><ion-icon name="school-outline"></ion-icon>${jobData.major}</p>
+		</div>
+		<p class="salary"><b>Rp. ${jobData.salary.toLocaleString("id")}</b> <span>/ month</span></p>
     `;
 	card.onclick = () => getJobDetails(jobData.id);
 	return card;
@@ -224,7 +214,7 @@ async function getJobDetails(id) {
 			title: 'Update the existing data?',
 			icon: 'question',
 			showCancelButton: true,
-			confirmButtonText: 'Post!',
+			confirmButtonText: 'Update!',
 			cancelButtonText: 'Wait...',
 		}).then((result) => {
 			if (result.isConfirmed) {
